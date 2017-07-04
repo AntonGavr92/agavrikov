@@ -1,15 +1,15 @@
 package ru.job4j;
 
 /**
- * Class Класс для вывода строки "Hello, world!!!" в консоли  
+ * Class Класс для вывода строки "Hello, world!!!" в консоли.
  * @author agavrikov
- * @since 03.07.2017 
+ * @since 03.07.2017
  * @version 1
 */
 public class Calculate {
-	
+
 	/**
-	 * Статический метод, вызываемый при запуске программы
+	 * Статический метод, вызываемый при запуске программы.
 	 * @param args - массив с данными указанными при запуске программы
 	*/
 	public static void main(String[] args) {
