@@ -36,4 +36,16 @@ public class MaxTest {
         int expected = 15;
         assertThat(result, is(expected));
 	}
+
+	/**
+	 * Test 3 numbers method.
+	*/
+
+	@Test
+	public void whenThreeNumbersThenMaxNumber() {
+		Max maxObj = new Max();
+        int result = maxObj.max(5, 0, 9);
+        int expected = 9;
+        assertThat(result, is(expected));
+	}
 }
