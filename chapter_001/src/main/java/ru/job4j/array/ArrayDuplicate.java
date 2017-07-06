@@ -28,7 +28,6 @@ public class ArrayDuplicate {
 				}
 			}
 		}
-		System.out.println("success");
 		return Arrays.copyOf(array, array.length - countDoubles);
 	}
 
