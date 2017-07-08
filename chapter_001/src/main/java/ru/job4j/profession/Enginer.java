@@ -38,11 +38,20 @@ public class Enginer extends Profession {
 
     /**
      * Метод реализующий работу над построением графика.
-     *
-     * @return строка о результате лечения
+     * @param name - наименование графика
+     * @param description - описание графика
+     * @return - график
      */
-    public String createChart() {
-        //реализация
-        return "Chart ready";
+    public Chart createChart(String name, String description) {
+        return new Chart(this, name, description);
+    }
+
+    /**
+     * Метод, осуществляющий реализацию чертежа.
+     * @param chart - чертеж
+     * @return строка об успешной реализации
+     */
+    public String realizeChart(Chart chart) {
+        return "Chart " + chart.getName() + " is realized";
     }
 }

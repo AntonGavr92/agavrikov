@@ -30,8 +30,9 @@ public class TeacherTest {
     @Test
     public void teach() {
         Teacher teacher = new Teacher(10, true, "biology");
-        String result = teacher.teach(12);
-        String expected = "Schoolboy with id " + 12 + " trained.";
+        Human human = new Human("John", 10, "male");
+        String result = teacher.teach(human);
+        String expected = "Schoolboy John trained.";
         assertThat(result, is(expected));
     }
 

@@ -30,8 +30,9 @@ public class DoctorTest {
     @Test
     public void heal() {
         Doctor doctor = new Doctor(32, true, "therapist");
-        String result = doctor.heal(1);
-        String expected = "Patient with id " + 1 + " healthy.";
+        Human human = new Human("John", 20, "male");
+        String result = doctor.heal(human);
+        String expected = "Patient John healthy.";
         assertThat(result, is(expected));
     }
 

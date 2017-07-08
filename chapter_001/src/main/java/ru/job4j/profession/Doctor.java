@@ -39,11 +39,11 @@ public class Doctor extends Profession {
     /**
      * Метод реализующий лечение пациента (позитивный).
      *
-     * @param patient - идентификатор пациента
+     * @param human - человек
      * @return строка о результате лечения
      */
-    public String heal(int patient) {
+    public String heal(Human human) {
         //реализация
-        return "Patient with id " + patient + " healthy.";
+        return "Patient " + human.getName() + " healthy.";
     }
 }

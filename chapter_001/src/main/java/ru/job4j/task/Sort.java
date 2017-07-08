@@ -63,29 +63,6 @@ public class Sort {
                 curIndexArray1++;
             }
         }
-
-            /* первоначальный вариант, не взлете на массивах 6, 7 и 8, 9, тк как был предусмотрен лишь последний элемент
-            if (i == resultArray.length - 1) { //Предусматриваем последний элемент
-                if (array1[curIndexArray1] < array2[curIndexArray2]) {
-                    resultArray[i] = array2[curIndexArray2];
-                } else {
-                    resultArray[i] = array1[curIndexArray1];
-                }
-            } else if (array1[curIndexArray1] < array2[curIndexArray2]) { //Сравниваем
-                resultArray[i] = array1[curIndexArray1];
-                if (curIndexArray1 + 1 != array1.length) { //контроль инкремента
-                    curIndexArray1++;
-                }
-
-            } else if (array1[curIndexArray1] > array2[curIndexArray2]) {
-                resultArray[i] = array2[curIndexArray2];
-                if (curIndexArray2 + 1 != array2.length) {
-                    curIndexArray2++;
-                }
-            }
-        }
-        */
-
         return resultArray;
     }
 }

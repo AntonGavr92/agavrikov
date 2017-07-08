@@ -38,11 +38,11 @@ public class Teacher extends Profession {
 
     /**
      * Метод реализующий работу над построением графика.
-     * @param schoolboyId - идентификатор ученика
+     * @param human - человек
      * @return строка о результате лечения
      */
-    public String teach(int schoolboyId) {
+    public String teach(Human human) {
         //реализация
-        return "Schoolboy with id " + schoolboyId + " trained.";
+        return "Schoolboy " + human.getName() + " trained.";
     }
 }
