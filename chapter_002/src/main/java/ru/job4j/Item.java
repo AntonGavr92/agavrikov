@@ -49,6 +49,20 @@ public class Item {
     }
 
     /**
+     * Конструктор.
+     * @param id - Уникальный идентификатор заявки
+     * @param name - Название заявки
+     * @param desc - Описание заявки
+     * @param created - Дата и время создания заявки в милисекундах
+     */
+    public Item(String id, String name, String desc, long created) {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.created = created;
+    }
+
+    /**
      * Геттер идентификатора заявки.
      * @return - идентификатор заявки
      */
@@ -63,4 +77,30 @@ public class Item {
     public String getName() {
         return this.name;
     }
+
+    /**
+     * Геттер описания заявки.
+     * @return - описание заявки
+     */
+    public String getDesc() {
+        return this.desc;
+    }
+
+    /**
+     * Геттер даты создания заявки заявки.
+     * @return - дата заявки
+     */
+    public long getCreated() {
+        return this.created;
+    }
+
+    /**
+     * Геттер комментариев заявки.
+     * @return - наимаенование заявки
+     */
+    public String[] getComments() {
+        return this.comments;
+    }
+
+
 }
