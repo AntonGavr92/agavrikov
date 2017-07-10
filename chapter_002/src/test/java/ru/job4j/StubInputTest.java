@@ -54,7 +54,7 @@ public class StubInputTest {
     }
 
     /**
-     * Тестирование пользовательского ввода для получения заявки по id;
+     * Тестирование пользовательского ввода для получения заявки по id.
      */
     @Test
     public void whenTrackerHasItemId1AndUserSearchItemWithId1ThenTrackerHasItemWithId1() {
@@ -77,7 +77,7 @@ public class StubInputTest {
     }
 
     /**
-     * Тестирование пользовательского ввода для получения заявки по имени;
+     * Тестирование пользовательского ввода для получения заявки по имени.
      */
     @Test
     public void whenTrackerHasItemWithNameAndUserSearchItemWithSameNameThenTrackerHasItemWithSameName() {
@@ -100,7 +100,7 @@ public class StubInputTest {
     }
 
     /**
-     * Тестирование пользовательского ввода удаления заявки по id;
+     * Тестирование пользовательского ввода удаления заявки по id.
      */
     @Test
     public void whenTrackerHasItemId1AndUserDeleteItemWithId1ThenTrackerHasNotItemWithId1() {
@@ -123,7 +123,7 @@ public class StubInputTest {
     }
 
     /**
-     * Тестирование пользовательского ввода изменения заявки по id;
+     * Тестирование пользовательского ввода изменения заявки по id.
      */
     @Test
     public void whenTrackerHasItemId1AndUserUpdateItemWithId1ThenTrackerUpdatedItemWithId1() {

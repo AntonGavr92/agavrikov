@@ -13,11 +13,15 @@ public class StartUI {
      */
     private Input input;
 
+    /**
+     * Поле для хранения объекта трекера.
+     */
     private Tracker tracker;
 
     /**
      * Конструктор.
      * @param input - объект ввода/вывода
+     * @param tracker - объект трекер
      */
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
