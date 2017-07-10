@@ -14,7 +14,7 @@ public class ActionFindItemById implements Action {
      * @param input - ввод данных
      */
     @Override
-    public void execute(Tracker tracker, ConsoleInput input) {
+    public void execute(Tracker tracker, Input input) {
         String id = input.ask("Enter id: ");
         Item item = tracker.findById(id);
         if (item != null) {

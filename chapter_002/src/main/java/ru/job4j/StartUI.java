@@ -7,13 +7,28 @@ package ru.job4j;
  * @version 1
  */
 public class StartUI {
+
+    /**
+     * Поле для хранения объекта, отвечающего за ввод/вывод.
+     */
+    private Input input;
+
+    private Tracker tracker;
+
+    /**
+     * Конструктор.
+     * @param input - объект ввода/вывода
+     */
+    public StartUI(Input input, Tracker tracker) {
+        this.input = input;
+        this.tracker = tracker;
+    }
+
     /**
      * Метод, инициализирующий работу программы.
      */
     public void init() {
         boolean exit = false;
-        ConsoleInput input = new ConsoleInput();
-        Tracker tracker = new Tracker();
 
         String[] menuItems = {"0. Add new Item",
                 "1. Show all items",
@@ -52,6 +67,6 @@ public class StartUI {
      * @param args - аргументы задаваемые при запуске программы
      */
     public static void main(String[] args) {
-        new StartUI().init();
+        new StartUI(new ConsoleInput(), new Tracker()).init();
     }
 }

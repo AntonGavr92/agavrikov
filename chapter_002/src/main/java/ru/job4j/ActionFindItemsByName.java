@@ -14,7 +14,7 @@ public class ActionFindItemsByName implements Action {
      * @param input - ввод данных
      */
     @Override
-    public void execute(Tracker tracker, ConsoleInput input) {
+    public void execute(Tracker tracker, Input input) {
         String name = input.ask("Enter name: ");
         Item[] items = tracker.findByName(name);
         if (items.length > 0) {

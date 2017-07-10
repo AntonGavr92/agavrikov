@@ -13,7 +13,7 @@ public class ActionEditItem implements Action {
      * @param input - ввод данных
      */
     @Override
-    public void execute(Tracker tracker, ConsoleInput input) {
+    public void execute(Tracker tracker, Input input) {
         input.print("1. Search task by id.");
         input.print("2. Search task by name.");
         input.print("3. Show all tasks.");
@@ -52,7 +52,7 @@ public class ActionEditItem implements Action {
      * @param input объект для работы с вводом на консоль
      * @param item - заявка
      */
-    public void constructEditMenu(Tracker tracker, ConsoleInput input, Item item) {
+    public void constructEditMenu(Tracker tracker, Input input, Item item) {
         input.print("1. Edit name");
         input.print("2. Edit description");
         input.print("3. Add comment");

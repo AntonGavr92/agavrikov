@@ -13,7 +13,7 @@ public class ActionShowAll implements Action {
      * @param input - ввод данных
      */
     @Override
-    public void execute(Tracker tracker, ConsoleInput input) {
+    public void execute(Tracker tracker, Input input) {
         for (Item item : tracker.findAll()) {
             input.print("Task " +  item.getId() + " name " + item.getName());
         }

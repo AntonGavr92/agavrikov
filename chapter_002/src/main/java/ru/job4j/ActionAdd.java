@@ -15,7 +15,7 @@ public class ActionAdd implements Action {
      * @param input - ввод данных
      */
     @Override
-    public void execute(Tracker tracker, ConsoleInput input) {
+    public void execute(Tracker tracker, Input input) {
         Date date = new Date();
         String name = input.ask("Enter the task's name: ");
         String description = input.ask("Enter the task's description: ");

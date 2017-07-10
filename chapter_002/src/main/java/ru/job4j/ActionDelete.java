@@ -14,7 +14,7 @@ public class ActionDelete implements Action {
      * @param input - ввод данных
      */
     @Override
-    public void execute(Tracker tracker, ConsoleInput input) {
+    public void execute(Tracker tracker, Input input) {
         input.print("1. Search task by id.");
         input.print("2. Search task by name.");
         input.print("3. Show all tasks.");

@@ -12,5 +12,5 @@ public interface Action {
      * @param tracker - трекер
      * @param input - ввод данных
      */
-    void execute(Tracker tracker, ConsoleInput input);
+    void execute(Tracker tracker, Input input);
 }
