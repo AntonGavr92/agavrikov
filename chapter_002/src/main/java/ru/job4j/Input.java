@@ -15,6 +15,14 @@ public interface Input {
     String ask(String question);
 
     /**
+     * Перегрузка метода для обратки ввода для массива.
+     * @param question - вопрос пользователю
+     * @param range - длинна массива
+     * @return считанную строку ответа пользователя
+     */
+    int ask(String question, int[] range);
+
+    /**
      * Метод для вывода данных в консоль.
      * @param data - строка, которую необходимо вывести
      */

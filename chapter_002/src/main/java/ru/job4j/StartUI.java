@@ -19,6 +19,11 @@ public class StartUI {
     private Tracker tracker;
 
     /**
+     * Поле для хранения индекса пункта меню с выходом из программы.
+     */
+    private static final int EXIT = 6;
+
+    /**
      * Конструктор.
      * @param input - объект ввода/вывода
      * @param tracker - объект трекер
@@ -37,11 +42,15 @@ public class StartUI {
         MenuTracker menu = new MenuTracker();
 
         while (!exit) {
+            int[] range = new int[menu.getActions().length];
+            int counter = 0;
+
             for (UserAction menuItem : menu.getActions()) {
                 input.print(menuItem.info());
+                range[counter++] = menuItem.key();
             }
-            int indexAction = Integer.parseInt(input.ask("Select: "));
-            if (indexAction == 6) {
+            int indexAction = input.ask("Select: ", range);
+            if (indexAction == EXIT) {
                 exit = true;
             } else {
                 menu.select(indexAction).execute(tracker, input);
@@ -54,6 +63,6 @@ public class StartUI {
      * @param args - аргументы задаваемые при запуске программы
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }

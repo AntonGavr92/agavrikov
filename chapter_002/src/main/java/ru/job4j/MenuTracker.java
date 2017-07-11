@@ -100,6 +100,7 @@ public class MenuTracker {
      * @version 1
      */
     public static class UserActionDelete implements UserAction {
+
         /**
          * Метод, добавляющий новую задачу в трекер.
          * @param tracker - трекер
@@ -111,7 +112,7 @@ public class MenuTracker {
             input.print("2. Search task by name.");
             input.print("3. Show all tasks.");
             //input.print("4. Back to main menu.");
-            int menuItem = Integer.parseInt(input.ask("Select: "));
+            int menuItem = input.ask("Select: ", new int[]{1, 2, 3});
             if (menuItem == 1) {
                 String id = input.ask("Enter id: ");
                 Item item = tracker.findById(id);
@@ -125,7 +126,7 @@ public class MenuTracker {
                 Item[] items = tracker.findByName(name);
                 if (items.length > 0) {
                     for (int i = 0; i < items.length; i++) {
-                        input.print(i + 1 + ". Task " + items[i].getId() + " " + items[i].getName());
+                        input.print(i + ". Task " + items[i].getId() + " " + items[i].getName());
                     }
                 } else {
                     input.print("Tasks with name " + name + " not found;");
@@ -133,10 +134,14 @@ public class MenuTracker {
                 tracker.delete(items[Integer.parseInt(input.ask("Select: "))]);
             } else if (menuItem == 3) {
                 Item[] items = tracker.findAll();
+                int[] itemsRange = new int[items.length];
                 for (int i = 0; i < items.length; i++) {
-                    input.print(i + 1 + ". Task " + items[i].getId() + " " + items[i].getName());
+                    input.print(i + ". Task " + items[i].getId() + " " + items[i].getName());
+                    itemsRange[i] = i;
                 }
-                tracker.delete(items[Integer.parseInt(input.ask("Select: ")) - 1]);
+                if (items.length > 0) {
+                    tracker.delete(items[input.ask("Select: ", itemsRange)]);
+                }
             }
         }
 
@@ -215,7 +220,7 @@ class UserActionEditItem implements UserAction {
         input.print("1. Search task by id.");
         input.print("2. Search task by name.");
         input.print("3. Show all tasks.");
-        int menuItem = Integer.parseInt(input.ask("Select: "));
+        int menuItem = input.ask("Select: ", new int[]{1, 2, 3});
         if (menuItem == 1) {
             String id = input.ask("Enter id: ");
             Item item = tracker.findById(id);
@@ -229,7 +234,7 @@ class UserActionEditItem implements UserAction {
             Item[] items = tracker.findByName(name);
             if (items.length > 0) {
                 for (int i = 0; i < items.length; i++) {
-                    input.print(i + 1 + ". Task " + items[i].getId() + " " + items[i].getName());
+                    input.print(i + ". Task " + items[i].getId() + " " + items[i].getName());
                 }
                 constructEditMenu(tracker, input, items[Integer.parseInt(input.ask("Select: "))]);
             } else {
@@ -237,10 +242,14 @@ class UserActionEditItem implements UserAction {
             }
         } else if (menuItem == 3) {
             Item[] items = tracker.findAll();
+            int[] itemsRange = new int[items.length];
             for (int i = 0; i < items.length; i++) {
-                input.print(i + 1 + ". Task " + items[i].getId() + " " + items[i].getName());
+                input.print(i + ". Task " + items[i].getId() + " " + items[i].getName());
+                itemsRange[i] = i;
             }
-            constructEditMenu(tracker, input, items[Integer.parseInt(input.ask("Select: ")) - 1]);
+            if (items.length > 0) {
+                constructEditMenu(tracker, input, items[input.ask("Select: ", itemsRange)]);
+            }
         }
     }
 
@@ -254,7 +263,7 @@ class UserActionEditItem implements UserAction {
         input.print("1. Edit name");
         input.print("2. Edit description");
         input.print("3. Add comment");
-        int menuEdit = Integer.parseInt(input.ask("Select: "));
+        int menuEdit = input.ask("Select: ", new int[]{1, 2, 3});
         if (menuEdit == 1) {
             tracker.update(new Item(item.getId(), input.ask("Enter new name: "),  item.getDesc(), item.getCreated(), item.getComments()));
         } else if (menuEdit == 2) {

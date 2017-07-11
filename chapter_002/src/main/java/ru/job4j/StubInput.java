@@ -42,4 +42,26 @@ public class StubInput implements Input {
     public void print(String data) {
         System.out.println(data);
     }
+
+    /**
+     * Метод для обратки ввода для массива.
+     * @param question - вопрос пользователю
+     * @param range - длинна массива
+     * @return - возвращает индекс в массиве меню
+     */
+    public int ask(String question, int[] range) {
+        int key = Integer.parseInt(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Out of menu range.");
+        }
+    }
 }
