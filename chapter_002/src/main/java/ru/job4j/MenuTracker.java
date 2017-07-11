@@ -20,13 +20,13 @@ public class MenuTracker {
      */
     public MenuTracker() {
         this.actions = new UserAction[]{
-                new UserActionAdd(),
-                new UserActionShowAll(),
-                new UserActionEditItem(),
-                new UserActionDelete(),
-                new UserActionFindItemById(),
-                new UserActionFindItemsByName(),
-                new UserActionExit()};
+                new UserActionAdd("Add task", 0),
+                new UserActionShowAll("Show all tasks", 1),
+                new UserActionEditItem("Edit task", 2),
+                new UserActionDelete("Delete task", 3),
+                new UserActionFindItemById("Find task by id", 4),
+                new UserActionFindItemsByName("Find task by name", 5),
+                new UserActionExit("Exit", 6)};
     }
 
     /**
@@ -52,7 +52,17 @@ public class MenuTracker {
      * @since 09.07.2017
      * @version 1
      */
-    public class UserActionAdd implements UserAction {
+    public class UserActionAdd extends BaseAction {
+
+        /**
+         * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+         * @param name - наименование пункта меню
+         * @param key - индекс пункта меню
+         */
+        public UserActionAdd(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * Метод, добавляющий новую задачу в трекер.
          * @param tracker - трекер
@@ -73,24 +83,6 @@ public class MenuTracker {
             Item resultItem = tracker.add(new Item(id.toString(), name, description, date.getTime()));
             input.print("Task " + resultItem.getName() + " with id " + resultItem.getId() + " was created.");
         }
-
-        /**
-         * Метод, возвращающий индекс действия.
-         * @return индекс действия
-         */
-        @Override
-        public int key() {
-            return 0;
-        }
-
-        /**
-         * Метод для получении информативной строки о действии для меню.
-         * @return строку о действии для меню
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add new task");
-        }
     }
 
     /**
@@ -99,7 +91,16 @@ public class MenuTracker {
      * @since 09.07.2017
      * @version 1
      */
-    public static class UserActionDelete implements UserAction {
+    public static class UserActionDelete extends BaseAction {
+
+        /**
+         * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+         * @param name - наименование пункта меню
+         * @param key - индекс пункта меню
+         */
+        public UserActionDelete(String name, int key) {
+            super(name, key);
+        }
 
         /**
          * Метод, добавляющий новую задачу в трекер.
@@ -144,24 +145,6 @@ public class MenuTracker {
                 }
             }
         }
-
-        /**
-         * Метод, возвращающий индекс действия.
-         * @return индекс действия
-         */
-        @Override
-        public int key() {
-            return 3;
-        }
-
-        /**
-         * Метод для получении информативной строки о действии для меню.
-         * @return строку о действии для меню
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete task");
-        }
     }
 }
 
@@ -171,7 +154,17 @@ public class MenuTracker {
  * @since 09.07.2017
  * @version 1
  */
-class UserActionShowAll implements UserAction {
+class UserActionShowAll extends BaseAction {
+
+    /**
+     * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+     * @param name - наименование пункта меню
+     * @param key - индекс пункта меню
+     */
+    public UserActionShowAll(String name, int key) {
+        super(name, key);
+    }
+
     /**
      * Метод, выводящий все заявки трекера.
      * @param tracker - трекер
@@ -183,24 +176,6 @@ class UserActionShowAll implements UserAction {
             input.print("Task " +  item.getId() + " name " + item.getName());
         }
     }
-
-    /**
-     * Метод, возвращающий индекс действия.
-     * @return индекс действия
-     */
-    @Override
-    public int key() {
-        return 1;
-    }
-
-    /**
-     * Метод для получении информативной строки о действии для меню.
-     * @return строку о действии для меню
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Show all tasks");
-    }
 }
 
 /**
@@ -209,7 +184,17 @@ class UserActionShowAll implements UserAction {
  * @since 09.07.2017
  * @version 1
  */
-class UserActionEditItem implements UserAction {
+class UserActionEditItem extends BaseAction {
+
+    /**
+     * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+     * @param name - наименование пункта меню
+     * @param key - индекс пункта меню
+     */
+    public UserActionEditItem(String name, int key) {
+        super(name, key);
+    }
+
     /**
      * метод изменяющий выбранную заявку.
      * @param tracker - трекер
@@ -274,24 +259,6 @@ class UserActionEditItem implements UserAction {
             tracker.update(new Item(item.getId(), item.getName(),  item.getDesc(), item.getCreated(), comments));
         }
     }
-
-    /**
-     * Метод, возвращающий индекс действия.
-     * @return индекс действия
-     */
-    @Override
-    public int key() {
-        return 2;
-    }
-
-    /**
-     * Метод для получении информативной строки о действии для меню.
-     * @return строку о действии для меню
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Edit task");
-    }
 }
 
 
@@ -301,7 +268,16 @@ class UserActionEditItem implements UserAction {
  * @since 09.07.2017
  * @version 1
  */
-class UserActionFindItemById implements UserAction {
+class UserActionFindItemById extends BaseAction {
+
+    /**
+     * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+     * @param name - наименование пункта меню
+     * @param key - индекс пункта меню
+     */
+    public UserActionFindItemById(String name, int key) {
+        super(name, key);
+    }
 
     /**
      * Метод, для поиска заявки по id и вывода данных по ней пользователю.
@@ -318,24 +294,6 @@ class UserActionFindItemById implements UserAction {
             input.print("Item with id " + id + " not found.");
         }
     }
-
-    /**
-     * Метод, возвращающий индекс действия.
-     * @return индекс действия
-     */
-    @Override
-    public int key() {
-        return 4;
-    }
-
-    /**
-     * Метод для получении информативной строки о действии для меню.
-     * @return строку о действии для меню
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Find task by id");
-    }
 }
 
 /**
@@ -344,7 +302,16 @@ class UserActionFindItemById implements UserAction {
  * @since 09.07.2017
  * @version 1
  */
-class UserActionFindItemsByName implements UserAction {
+class UserActionFindItemsByName extends BaseAction {
+
+    /**
+     * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+     * @param name - наименование пункта меню
+     * @param key - индекс пункта меню
+     */
+    public UserActionFindItemsByName(String name, int key) {
+        super(name, key);
+    }
 
     /**
      * Метод, для поиска заявки по id и вывода данных по ней пользователю.
@@ -363,23 +330,6 @@ class UserActionFindItemsByName implements UserAction {
             input.print("Item with name - " + name + " not found");
         }
     }
-    /**
-     * Метод, возвращающий индекс действия.
-     * @return индекс действия
-     */
-    @Override
-    public int key() {
-        return 5;
-    }
-
-    /**
-     * Метод для получении информативной строки о действии для меню.
-     * @return строку о действии для меню
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Find tasks by name");
-    }
 }
 
 /**
@@ -388,7 +338,16 @@ class UserActionFindItemsByName implements UserAction {
  * @since 09.07.2017
  * @version 1
  */
-class UserActionExit implements UserAction {
+class UserActionExit extends BaseAction {
+
+    /**
+     * Конструктор для инициализации родительского конструктора и полей с ключем и наименование пункта меню.
+     * @param name - наименование пункта меню
+     * @param key - индекс пункта меню
+     */
+    public UserActionExit(String name, int key) {
+        super(name, key);
+    }
 
     /**
      * Метод, заглушка.
@@ -398,22 +357,5 @@ class UserActionExit implements UserAction {
     @Override
     public void execute(Tracker tracker, Input input) {
 
-    }
-    /**
-     * Метод, возвращающий индекс действия.
-     * @return индекс действия
-     */
-    @Override
-    public int key() {
-        return 6;
-    }
-
-    /**
-     * Метод для получении информативной строки о действии для меню.
-     * @return строку о действии для меню
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Exit");
     }
 }
