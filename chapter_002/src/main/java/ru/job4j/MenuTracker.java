@@ -161,7 +161,7 @@ class UserActionShowAll extends BaseAction {
      * @param name - наименование пункта меню
      * @param key - индекс пункта меню
      */
-    public UserActionShowAll(String name, int key) {
+    UserActionShowAll(String name, int key) {
         super(name, key);
     }
 
@@ -191,7 +191,7 @@ class UserActionEditItem extends BaseAction {
      * @param name - наименование пункта меню
      * @param key - индекс пункта меню
      */
-    public UserActionEditItem(String name, int key) {
+    UserActionEditItem(String name, int key) {
         super(name, key);
     }
 
@@ -275,7 +275,7 @@ class UserActionFindItemById extends BaseAction {
      * @param name - наименование пункта меню
      * @param key - индекс пункта меню
      */
-    public UserActionFindItemById(String name, int key) {
+    UserActionFindItemById(String name, int key) {
         super(name, key);
     }
 
@@ -309,7 +309,7 @@ class UserActionFindItemsByName extends BaseAction {
      * @param name - наименование пункта меню
      * @param key - индекс пункта меню
      */
-    public UserActionFindItemsByName(String name, int key) {
+    UserActionFindItemsByName(String name, int key) {
         super(name, key);
     }
 
@@ -345,7 +345,7 @@ class UserActionExit extends BaseAction {
      * @param name - наименование пункта меню
      * @param key - индекс пункта меню
      */
-    public UserActionExit(String name, int key) {
+    UserActionExit(String name, int key) {
         super(name, key);
     }
 

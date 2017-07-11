@@ -6,7 +6,7 @@ package ru.job4j;
  * @since 09.07.2017
  * @version 1
  */
-public abstract class BaseAction implements UserAction{
+public abstract class BaseAction implements UserAction {
     /**
      * Поле для хранения индекса действия.
      */
@@ -31,12 +31,12 @@ public abstract class BaseAction implements UserAction{
      * Метод, возврающий готовую строку для меню.
      * @return полная строка меню
      */
-    public String info(){
+    public String info() {
         return String.format("%s. %s", this.key(), this.name);
     }
 
     /**
-     * Метод, возвращающий индекс пункта меню
+     * Метод, возвращающий индекс пункта меню.
      * @return индекс пункта меню
      */
     public int key() {
