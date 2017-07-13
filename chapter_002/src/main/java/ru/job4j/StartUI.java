@@ -19,11 +19,6 @@ public class StartUI {
     private Tracker tracker;
 
     /**
-     * Поле для хранения индекса пункта меню с выходом из программы.
-     */
-    private static final int EXIT = 6;
-
-    /**
      * Конструктор.
      * @param input - объект ввода/вывода
      * @param tracker - объект трекер
