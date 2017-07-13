@@ -12,8 +12,9 @@ public interface UserAction {
      * Метод, с помощью которого происходит выполнение действия в трекере.
      * @param tracker - трекер
      * @param input - ввод данных
+     * @return булево, нужно ли выходить из программы
      */
-    void execute(Tracker tracker, Input input);
+    boolean execute(Tracker tracker, Input input);
 
     /**
      * Метод, для возврата индекса действия.

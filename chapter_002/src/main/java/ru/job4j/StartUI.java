@@ -50,11 +50,8 @@ public class StartUI {
                 range[counter++] = menuItem.key();
             }
             int indexAction = input.ask("Select: ", range);
-            if (indexAction == EXIT) {
-                exit = true;
-            } else {
-                menu.select(indexAction).execute(tracker, input);
-            }
+            exit = menu.select(indexAction).execute(tracker, input);
+
         }
     }
 

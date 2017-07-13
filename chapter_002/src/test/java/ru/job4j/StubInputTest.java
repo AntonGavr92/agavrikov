@@ -113,7 +113,7 @@ public class StubInputTest {
         Item item2 = new Item("2", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"3", "1", "1", "6"};
+        String[] input = {"3", "0", "6"};
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
@@ -136,7 +136,7 @@ public class StubInputTest {
         Item item2 = new Item("1", "Test2", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"2", "1", "0", "1", "Test update", "6"};
+        String[] input = {"2", "0", "Test update", "Test desc", "test comment", "6"};
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
