@@ -1,8 +1,6 @@
 package ru.job4j;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Класс для сортировки пользователей.
@@ -23,5 +21,51 @@ public class SortUser {
             result.add(user);
         }
         return result;
+    }
+
+    /**
+     * Сортировка списка по длинне имени.
+     * @param list список, который необходимо отсортировать
+     * @return отсортированный список
+     */
+    public List<User> sortNameLength(List<User> list) {
+        Collections.sort(list, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                if (o1.getName().length() > o2.getName().length()) {
+                    return 1;
+                } else if (o1.getName().length() < o2.getName().length()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        return list;
+    }
+
+    /**
+     * Сортировка списка имени и возрасту.
+     * @param list список, который необходимо отсортировать
+     * @return отсортированный список
+     */
+    public List<User> sortByAllFields(List<User> list) {
+        Collections.sort(list, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                if (o1.getName().compareTo(o2.getName()) > 0) {
+                    return 1;
+                } else if (o1.getName().compareTo(o2.getName()) < 0) {
+                    return -1;
+                } else {
+                    if (o1.getAge() > o2.getAge()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        });
+        return list;
     }
 }
