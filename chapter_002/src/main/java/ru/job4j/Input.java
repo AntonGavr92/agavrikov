@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import java.util.ArrayList;
+
 /** Интерфейс, определяющий консольный ввод.
  * @author agavrikov
  * @since 09.07.2017
@@ -20,7 +22,7 @@ public interface Input {
      * @param range - длинна массива
      * @return считанную строку ответа пользователя
      */
-    int ask(String question, int[] range);
+    int ask(String question, ArrayList<Integer> range);
 
     /**
      * Метод для вывода данных в консоль.

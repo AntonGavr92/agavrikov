@@ -1,6 +1,8 @@
 package ru.job4j;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 
 /**
@@ -14,12 +16,8 @@ public class Tracker {
     /**
      * Заявки трекера.
      */
-    private Item[] items = new Item[100];
+    private ArrayList<Item> items = new ArrayList<Item>();
 
-    /**
-     * Индекс для добавления в массив. Инкрементируется при добавлении элемента и декрементируется - при удалении.
-     */
-    private int itemIndex = 0;
 
     /**
      * Метод для добавления заявки в трекер.
@@ -27,10 +25,7 @@ public class Tracker {
      * @return - добавленная заявка
      */
     public Item add(Item item) {
-        if (itemIndex < this.items.length) {
-            this.items[itemIndex] = item;
-            itemIndex++;
-        }
+        this.items.add(item);
         return item;
     }
 
@@ -39,9 +34,10 @@ public class Tracker {
      * @param item заявка, которую нужно обновить
      */
     public void update(Item item) {
-        int index = getIndexItemByItem(item);
-        if (index >= 0) {
-            this.items[index] = item;
+        for (int i = 0; i < this.items.size(); i++) {
+            if (this.items.get(i).getId().equals(item.getId())) {
+                this.items.set(i, item);
+            }
         }
     }
 
@@ -50,36 +46,16 @@ public class Tracker {
      * @param item - заявка, которую нужно удалить
      */
     public void delete(Item item) {
-        int index = getIndexItemByItem(item);
-        if (index >= 0) {
-            this.items[index] = null;
-            System.arraycopy(this.items, index + 1, this.items, index, this.items.length - 1 - index);
-            itemIndex--;
-        }
+        this.items.remove(item);
     }
 
-    /**
-     * Метод для получения индекса заявки в массиве items.
-     * @param item - заявка
-     * @return мндекс элемента в массиве items
-     */
-    private int getIndexItemByItem(Item item) {
-        int indexItem = -1;
-        for (int i = 0; i < itemIndex; i++) {
-            if (this.items[i].getId().equals(item.getId())) {
-                indexItem = i;
-                break;
-            }
-        }
-        return indexItem;
-    }
 
     /**
      * Метод для поиска и отображения всех текущих заявок.
      * @return массив всех заявок
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(this.items, itemIndex);
+    public ArrayList<Item> findAll() {
+        return this.items;
     }
 
     /**
@@ -87,16 +63,15 @@ public class Tracker {
      * @param key - имя для поиска
      * @return массив заявок с именем в переменной key
      */
-    public Item[] findByName(String key) {
-        Item[] foundItems = new Item[this.items.length];
+    public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> foundItems = new ArrayList<Item>();
         int currentIndex = 0;
-        for (int i = 0; i < itemIndex; i++) {
-           if (this.items[i].getName().equals(key)) {
-               foundItems[currentIndex] = this.items[i];
-               currentIndex++;
+        for (Item item : this.items) {
+           if (item.getName().equals(key)) {
+               foundItems.add(item);
            }
         }
-        return Arrays.copyOf(foundItems, currentIndex);
+        return foundItems;
     }
 
     /**
@@ -106,9 +81,9 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item foundElement = null;
-        for (int i = 0; i < itemIndex; i++) {
-            if (this.items[i].getId().equals(id)) {
-                foundElement = this.items[i];
+        for (Item item : this.items) {
+            if (item.getId().equals(id)) {
+                foundElement = item;
             }
         }
         return foundElement;

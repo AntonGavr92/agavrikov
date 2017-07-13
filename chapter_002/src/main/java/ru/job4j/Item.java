@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import java.util.ArrayList;
+
 /**
  * Class реализующий заявку трекера.
  * @author agavrikov
@@ -30,7 +32,7 @@ public class Item {
     /**
      * Комментарии к заявке.
      */
-    private String[] comments;
+    private ArrayList<String> comments;
 
     /**
      * Конструктор.
@@ -40,7 +42,7 @@ public class Item {
      * @param created - Дата и время создания заявки в милисекундах
      * @param comments - Комментарии к заявке
      */
-    public Item(String id, String name, String desc, long created, String[] comments) {
+    public Item(String id, String name, String desc, long created, ArrayList<String> comments) {
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -98,7 +100,7 @@ public class Item {
      * Геттер комментариев заявки.
      * @return - наимаенование заявки
      */
-    public String[] getComments() {
+    public ArrayList<String> getComments() {
         return this.comments;
     }
 

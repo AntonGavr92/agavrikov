@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import java.util.ArrayList;
+
 /**
  * Class отвечающий за валидацию данных, введенных пользователем.
  * @author agavrikov
@@ -15,7 +17,7 @@ public class ValidateInput extends ConsoleInput {
      * @return
      */
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, ArrayList<Integer> range) {
         int value = -1;
         boolean invalid = true;
         while (invalid) {

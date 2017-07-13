@@ -1,6 +1,8 @@
 package ru.job4j;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
 import java.util.Date;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -15,30 +17,13 @@ import static org.junit.Assert.assertThat;
 public class TrackerTest {
 
     /**
-     * Тестирование метода add.
-     */
-    @Test
-    public void whenAdd200ItemsThenMaxItemsCount100() {
-        Date date = new Date();
-        String[] comments = {"Test comment"};
-        Tracker tracker = new Tracker();
-        for (int i = 0; i < 200; i++) {
-            Item item = new Item(String.valueOf(i), "Test", "Test desc", date.getTime(), comments);
-            tracker.add(item);
-        }
-
-        Item result = tracker.findById("100");
-        Item expected = null;
-        assertThat(result, is(expected));
-    }
-
-    /**
      * Тестирование метода update.
      */
     @Test
     public void whenUpdateNameItemId1ThenChangeNameItemId1() {
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Tracker tracker = new Tracker();
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
@@ -57,7 +42,8 @@ public class TrackerTest {
     @Test
     public void whenDeleteItemWithId1ThenTrackerFindById1IsNull() {
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Tracker tracker = new Tracker();
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         Item itemResult = tracker.add(item);
@@ -75,7 +61,8 @@ public class TrackerTest {
     @Test
     public void whenDeleteItemWithId1ThenTrackerFindById2IsNotNull() {
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Tracker tracker = new Tracker();
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
@@ -96,7 +83,8 @@ public class TrackerTest {
     @Test
     public void whenAdd3ItemsAndDelete1ItemAndFindAllThen2Items() {
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Tracker tracker = new Tracker();
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
@@ -109,8 +97,10 @@ public class TrackerTest {
 
         tracker.delete(item);
 
-        Item[] result = tracker.findAll();
-        Item[] expected = {item2, item3};
+        ArrayList<Item> result = tracker.findAll();
+        ArrayList<Item> expected = new ArrayList<Item>();
+        expected.add(item2);
+        expected.add(item3);
         assertThat(result, is(expected));
     }
 
@@ -120,7 +110,8 @@ public class TrackerTest {
     @Test
     public void whenAdd2ItemAndFindByNameTest2ThenSecondItem() {
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Tracker tracker = new Tracker();
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
@@ -128,7 +119,7 @@ public class TrackerTest {
         Item item2 = new Item("2", "Test2", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String result = tracker.findByName("Test2")[0].getId();
+        String result = tracker.findByName("Test2").get(0).getId();
         String expected = "2";
         assertThat(result, is(expected));
     }
@@ -139,7 +130,8 @@ public class TrackerTest {
     @Test
     public void whenAdd2ItemAndFindById1ThenFirstItem() {
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Tracker tracker = new Tracker();
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);

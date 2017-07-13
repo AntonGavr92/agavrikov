@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import java.util.ArrayList;
+
 /**
  * Class отвечающий за начало работы модуля.
  * @author agavrikov
@@ -37,12 +39,11 @@ public class StartUI {
         MenuTracker menu = new MenuTracker();
 
         while (!exit) {
-            int[] range = new int[menu.getActions().length];
-            int counter = 0;
+            ArrayList<Integer> range = new ArrayList<Integer>();
 
             for (UserAction menuItem : menu.getActions()) {
                 input.print(menuItem.info());
-                range[counter++] = menuItem.key();
+                range.add(menuItem.key());
             }
             int indexAction = input.ask("Select: ", range);
             exit = menu.select(indexAction).execute(tracker, input);

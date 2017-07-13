@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import java.util.ArrayList;
+
 /** Класс описывающий добавление задачи в трекер.
  * @author agavrikov
  * @since 09.07.2017
@@ -10,7 +12,7 @@ public class StubInput implements Input {
     /**
      * Поле для хранения ответов(имитация пользовательского ввода).
      */
-    private String[] answers;
+    private ArrayList<String> answers;
 
     /**
      * Поле для хранения индекса ответа.
@@ -21,7 +23,7 @@ public class StubInput implements Input {
      * Конструктор.
      * @param answers - массив ответов(имитация пользовательского ввода).
      */
-    public StubInput(String[] answers) {
+    public StubInput(ArrayList<String> answers) {
         this.answers = answers;
     }
     /**
@@ -31,7 +33,7 @@ public class StubInput implements Input {
      */
     @Override
     public String ask(String question) {
-        return answers[position++];
+        return answers.get(position++);
     }
 
     /**
@@ -49,7 +51,7 @@ public class StubInput implements Input {
      * @param range - длинна массива
      * @return - возвращает индекс в массиве меню
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, ArrayList<Integer> range) {
         int key = Integer.parseInt(this.ask(question));
         boolean exist = false;
         for (int value : range) {

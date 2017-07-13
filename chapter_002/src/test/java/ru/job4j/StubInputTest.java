@@ -2,6 +2,7 @@ package ru.job4j;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
@@ -21,11 +22,15 @@ public class StubInputTest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
-        String[] input = {"0", "Test", "Test description", "6"};
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("0");
+        input.add("Test");
+        input.add("Test description");
+        input.add("6");
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
-        String result = tracker.findByName("Test")[0].getName();
+        String result = tracker.findByName("Test").get(0).getName();
         String expected = "Test";
         assertThat(result, is(expected));
     }
@@ -38,17 +43,20 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
 
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
         Item item2 = new Item("2", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"1", "6"};
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("1");
+        input.add("6");
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
-        int result = tracker.findByName("Test").length;
+        int result = tracker.findByName("Test").size();
         int expected = 2;
         assertThat(result, is(expected));
     }
@@ -61,13 +69,17 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
 
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
         Item item2 = new Item("2", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"4", "1", "6"};
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("4");
+        input.add("1");
+        input.add("6");
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
@@ -84,17 +96,21 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
 
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Item item = new Item("0", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
         Item item2 = new Item("1", "Test2", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"5", "Test", "6"};
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("5");
+        input.add("Test");
+        input.add("6");
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
-        Item result = tracker.findByName("Test2")[0];
+        Item result = tracker.findByName("Test2").get(0);
         Item expected = item2;
         assertThat(result, is(expected));
     }
@@ -107,13 +123,17 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
 
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Item item = new Item("1", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
         Item item2 = new Item("2", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"3", "0", "6"};
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("3");
+        input.add("0");
+        input.add("6");
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
@@ -130,17 +150,24 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
 
         Date date = new Date();
-        String[] comments = {"Test comment"};
+        ArrayList<String> comments = new ArrayList<String>();
+        comments.add("Test comment");
         Item item = new Item("0", "Test", "Test desc", date.getTime(), comments);
         tracker.add(item);
         Item item2 = new Item("1", "Test2", "Test desc", date.getTime(), comments);
         tracker.add(item2);
 
-        String[] input = {"2", "0", "Test update", "Test desc", "test comment", "6"};
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("2");
+        input.add("0");
+        input.add("Test update");
+        input.add("Test desc");
+        input.add("test comment");
+        input.add("6");
         StubInput inputObj = new StubInput(input);
         StartUI program = new StartUI(inputObj, tracker);
         program.init();
-        String result = tracker.findByName("Test update")[0].getId();
+        String result = tracker.findByName("Test update").get(0).getId();
         String expected = "0";
         assertThat(result, is(expected));
     }

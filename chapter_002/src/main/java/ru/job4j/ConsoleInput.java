@@ -1,5 +1,6 @@
 package ru.job4j;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -38,7 +39,7 @@ public class ConsoleInput implements Input {
      * @param range - длинна массива
      * @return - возвращает индекс в массиве меню
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, ArrayList<Integer> range) {
         int key = Integer.parseInt(this.ask(question));
         boolean exist = false;
         for (int value : range) {

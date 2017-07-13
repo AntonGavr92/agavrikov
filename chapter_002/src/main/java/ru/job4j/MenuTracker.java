@@ -1,6 +1,8 @@
 package ru.job4j;
 
+import java.util.ArrayList;
 import java.util.Date;
+
 
 /**
  * Class описывающий меню трекера.
@@ -13,27 +15,26 @@ public class MenuTracker {
     /**
      * Массив с набором действиий, соответствующих массиву menuItems.
      */
-    private UserAction[] actions;
+    private ArrayList<UserAction> actions = new ArrayList<UserAction>();
 
     /**
      * Конструктор по умолчанию.
      */
     public MenuTracker() {
-        this.actions = new UserAction[]{
-                new ActionAdd("Add task", 0),
-                new ActionShowAll("Show all tasks", 1),
-                new ActionEdit("Edit task", 2),
-                new ActionDelete("Delete task", 3),
-                new ActionFindById("Find task by id", 4),
-                new ActionFindByName("Find task by name", 5),
-                new ActionExit("Exit", 6)};
+        this.actions.add(new ActionAdd("Add task", 0));
+        this.actions.add(new ActionShowAll("Show all tasks", 1));
+        this.actions.add(new ActionEdit("Edit task", 2));
+        this.actions.add(new ActionDelete("Delete task", 3));
+        this.actions.add(new ActionFindById("Find task by id", 4));
+        this.actions.add(new ActionFindByName("Find task by name", 5));
+        this.actions.add(new ActionExit("Exit", 6));
     }
 
     /**
      * Геттер пунктов меню.
      * @return объект UserAction
      */
-    public UserAction[] getActions() {
+    public ArrayList<UserAction> getActions() {
         return this.actions;
     }
 
@@ -43,7 +44,7 @@ public class MenuTracker {
      * @return - Объект Action
      */
     public UserAction select(int index) {
-        return this.actions[index];
+        return this.actions.get(index);
     }
 
     /**
@@ -74,10 +75,10 @@ public class MenuTracker {
             String name = input.ask("Enter the task's name: ");
             String description = input.ask("Enter the task's description: ");
 
-            Item[] items = tracker.findAll();
+            ArrayList<Item> items = tracker.findAll();
             Integer id = 0;
-            if (items.length > 0) {
-                id = Integer.parseInt(items[items.length - 1].getId());
+            if (items.size() > 0) {
+                id = Integer.parseInt(items.get(items.size() - 1).getId());
                 id++;
             }
             Item resultItem = tracker.add(new Item(id.toString(), name, description, date.getTime()));
@@ -110,14 +111,14 @@ public class MenuTracker {
          */
         @Override
         public boolean execute(Tracker tracker, Input input) {
-            Item[] items = tracker.findAll();
-            int[] itemsRange = new int[items.length];
-            for (int i = 0; i < items.length; i++) {
-                input.print(String.format("%s. Task %s %s", i, items[i].getId(), items[i].getName()));
-                itemsRange[i] = i;
+            ArrayList<Item> items = tracker.findAll();
+            ArrayList<Integer> itemsRange = new ArrayList<Integer>();
+            for (int i = 0; i < items.size(); i++) {
+                input.print(String.format("%s. Task %s %s", i, items.get(i).getId(), items.get(i).getName()));
+                itemsRange.add(i);
             }
-            if (items.length > 0) {
-                tracker.delete(items[input.ask("Select: ", itemsRange)]);
+            if (items.size() > 0) {
+                tracker.delete(items.get(input.ask("Select: ", itemsRange)));
             }
             return false;
         }
@@ -179,23 +180,18 @@ class ActionEdit extends BaseAction {
      */
     @Override
     public boolean execute(Tracker tracker, Input input) {
-        Item[] items = tracker.findAll();
-        int[] itemsRange = new int[items.length];
-        for (int i = 0; i < items.length; i++) {
-            input.print(String.format("%s. Task %s %s", i, items[i].getId(), items[i].getName()));
-            itemsRange[i] = i;
+        ArrayList<Item> items = tracker.findAll();
+        ArrayList<Integer> itemsRange = new ArrayList<Integer>();
+        for (int i = 0; i < items.size(); i++) {
+            input.print(String.format("%s. Task %s %s", i, items.get(i).getId(), items.get(i).getName()));
+            itemsRange.add(i);
         }
-        if (items.length > 0) {
-            Item item = items[input.ask("Select task: ", itemsRange)];
-            String[] comments = null;
-            if (item.getComments() != null) {
-                comments = new String[item.getComments().length];
-            } else {
-                 comments = new String[1];
-            }
+        if (items.size() > 0) {
+            Item item = items.get(input.ask("Select task: ", itemsRange));
+            ArrayList<String> comments = new ArrayList<String>();
             String name = input.ask("Enter new name: ");
             String description = input.ask("Enter new description: ");
-            comments[comments.length - 1] = input.ask("Enter comment: ");
+            comments.add(input.ask("Enter comment: "));
             tracker.update(new Item(item.getId(), name,  description, item.getCreated(), comments));
         }
        return false;
@@ -263,8 +259,8 @@ class ActionFindByName extends BaseAction {
     @Override
     public boolean execute(Tracker tracker, Input input) {
         String name = input.ask("Enter name: ");
-        Item[] items = tracker.findByName(name);
-        if (items.length > 0) {
+        ArrayList<Item> items = tracker.findByName(name);
+        if (items.size() > 0) {
             for (Item item : items) {
                 input.print(String.format("Found item - %s %s", item.getId(), item.getName()));
             }
