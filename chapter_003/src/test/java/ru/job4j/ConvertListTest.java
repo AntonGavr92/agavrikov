@@ -89,4 +89,20 @@ public class ConvertListTest {
         assertThat(result, is(expected));
     }
 
+    /**
+     * Тестирование метода convert.
+     */
+    @Test
+    public void testConvert() {
+        ConvertList convertList = new ConvertList();
+        List<int[]> list = new ArrayList<>();
+        list.add(new int[]{1, 2, 3});
+        list.add(new int[]{3, 4, 5});
+        list.add(new int[]{6, 7, 8, 9});
+        List<Integer> resultList = convertList.convert(list);
+        int result = resultList.get(resultList.size()-1);
+        int expected = 9;
+        assertThat(result, is(expected));
+    }
+
 }

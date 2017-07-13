@@ -52,4 +52,19 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * Метод который преобразует колекцию массивов в коллекцию чисел из всех массивов.
+     * @param list - ArrayList содержаший в себе массивы
+     * @return ArrayList содержащий все числа из ArrayList с массивами
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (int[] val : list) {
+            for (int i = 0; i < val.length; i++) {
+                result.add(val[i]);
+            }
+        }
+        return result;
+    }
 }
