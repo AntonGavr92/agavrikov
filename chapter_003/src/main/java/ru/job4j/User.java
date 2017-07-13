@@ -6,7 +6,7 @@ package ru.job4j;
  * @since 13.07.2017
  * @version 1
  */
-public class User {
+public class User implements Comparable<User> {
 
     /**
      * Поле для хранения идентификатора пользователя.
@@ -24,6 +24,11 @@ public class User {
     private String name;
 
     /**
+     * Поле для хранения возраста пользователя.
+     */
+    private Integer age;
+
+    /**
      * Конструктор, для инициализации объекта.
      * @param id - id пользователя
      * @param name - имя пользователя
@@ -33,6 +38,16 @@ public class User {
         this.id = id;
         this.name = name;
         this.city = city;
+    }
+
+    /**
+     * Конструктор для инициализации пользователя, для задач по сортировке.
+     * @param name - имя пользователя
+     * @param age - возраст пользователя
+     */
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
     /**
@@ -59,4 +74,27 @@ public class User {
         return this.city;
     }
 
+    /**
+     * Геттер для получения возраста.
+     * @return возраст
+     */
+    public int getAge() {
+        return this.age;
+    }
+
+    /**
+     * Реализация метода из Comparable.
+     * @param o
+     * @return
+     */
+    @Override
+    public int compareTo(User o) {
+        if (this.age > o.getAge()) {
+            return 1;
+        } else if (this.age < o.getAge()) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 }
