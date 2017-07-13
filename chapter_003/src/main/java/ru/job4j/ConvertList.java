@@ -42,7 +42,7 @@ public class ConvertList {
         int[][] result = new int[rows][length];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < length; j++) {
-                if(iter.hasNext()) {
+                if (iter.hasNext()) {
                     result[i][j] = iter.next();
                 } else {
                     result[i][j] = 0;
