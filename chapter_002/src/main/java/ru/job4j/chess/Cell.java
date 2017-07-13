@@ -7,16 +7,16 @@ package ru.job4j.chess;
  * @version 1
  */
 public class Cell {
-    /**
-     * Поле для хранения фигуры, которая стоит на данном поле.
-     */
-    private Figure figure;
 
     /**
      * Поле для хранения доски, которой принадлежит ячейка.
      */
     private final Board board;
 
+    /**
+     * Поле для хранения признака присутствия фигуры на ячейке.
+     */
+    private boolean hasFigure;
     /**
      * Поле для хранения индекс строки ячейки.
      */
@@ -43,9 +43,9 @@ public class Cell {
      * Геттер фигуры в данной ячейке.
      * @return фигура
      */
-    public Figure getFigure() {
+    /*public Figure getFigure() {
         return this.figure;
-    }
+    }*/
 
     /**
      * Геттер, возвращающий нам объект - доску, на которой расположена ячейка.
@@ -72,12 +72,19 @@ public class Cell {
     }
 
     /**
-     * Сеттер фигуры в заданную ячейку.
-     * @param figure - фигура, которуй надо установить на ячейку.
-     *
+     * Метод для проверки ячейки на заполненность.
+     * @return заполнена ли ячейка
      */
-    public void setFigure(Figure figure) {
-        this.figure = figure;
+    public boolean cellHasFigure() {
+        return this.hasFigure;
+    }
+
+    /**
+     * Метод для установки ячейке свойства заполненности.
+     * @param cellHasFigure - заполнена ли ячейка
+     */
+    public void setCellHasFigure(boolean cellHasFigure) {
+         this.hasFigure = cellHasFigure;
     }
 
 }

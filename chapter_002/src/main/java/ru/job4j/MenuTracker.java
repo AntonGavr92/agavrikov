@@ -188,10 +188,9 @@ class ActionEdit extends BaseAction {
         if (items.length > 0) {
             Item item = items[input.ask("Select task: ", itemsRange)];
             String[] comments = null;
-            if(item.getComments() != null) {
+            if (item.getComments() != null) {
                 comments = new String[item.getComments().length];
-            }
-            else{
+            } else {
                  comments = new String[1];
             }
             String name = input.ask("Enter new name: ");
