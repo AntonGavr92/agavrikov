@@ -11,7 +11,7 @@ abstract class Figure {
     /**
      * Поле для хранения текущей позиции фигуры.
      */
-    private Cell position;
+    protected final Cell position;
 
     /**
      * Конструктор.
@@ -19,26 +19,8 @@ abstract class Figure {
      */
      Figure(Cell position) {
         this.position = position;
-        position.setCellHasFigure(true);
     }
 
-    /**
-     * Метод для получения ячейки на которой стоит фигура.
-     * @return ячека на которой стоит фигура.
-     */
-    public Cell getPosition() {
-         return this.position;
-    }
-
-    /**
-     * Метод для изменения яччейки у фигуры.
-     * @param newPosition - новая ячейка.
-     */
-    public void setPosition(Cell newPosition) {
-        this.position.setCellHasFigure(false);
-        this.position = newPosition;
-        this.position.setCellHasFigure(true);
-    }
 
     /**
      * /**
@@ -49,6 +31,8 @@ abstract class Figure {
      * @throws OccupiedWayException исключение о блокировки движения другой фигуры
      */
     abstract Cell[] way(Cell dist) throws ImpossibleMoveException, OccupiedWayException;
+
+    abstract Figure clone(Cell dist);
 }
 
 /**
@@ -74,6 +58,10 @@ class Pawn extends Figure {
      */
     public Cell[] way(Cell dist) {
         return new Cell[]{};
+    }
+
+    public Figure clone(Cell dist) {
+        return new Pawn(dist);
     }
 
 }
@@ -103,6 +91,10 @@ class Castle extends Figure {
         return new Cell[]{};
     }
 
+    public Figure clone(Cell dist) {
+        return new Castle(dist);
+    }
+
 }
 
 /**
@@ -130,6 +122,10 @@ class Knight extends Figure {
         return new Cell[]{};
     }
 
+    public Figure clone(Cell dist) {
+        return new Knight(dist);
+    }
+
 }
 
 /**
@@ -155,38 +151,32 @@ class Bishop extends Figure {
      */
     @Override
     public Cell[] way(Cell dist) throws ImpossibleMoveException, OccupiedWayException {
-        Cell[][] cellsBoard = dist.getBoard().getCells();
-        int currentCol = this.getPosition().getCol();
-        int currentRow = this.getPosition().getRow();
+        int currentCol = this.position.getCol();
+        int currentRow = this.position.getRow();
 
         int distCol  = dist.getCol();
         int distRow  = dist.getRow();
 
         Cell[] wayCells = new Cell[Math.abs(distRow - currentRow)];
         int wayCellsCounter = 0;
-        boolean cellHasFigure = false;
 
         if (currentRow >= distRow && Math.abs(currentCol - distCol) ==  Math.abs(distRow - currentRow)) {
-            //Можно ходить, получим все ячейки для проверки их занятостью
             while (currentCol != distCol && currentRow != distRow) {
-                cellHasFigure = cellsBoard[--currentRow][--currentCol].cellHasFigure();
-                if (cellHasFigure) {
-                   throw new OccupiedWayException("Occupied way.");
-                }
-                wayCells[wayCellsCounter++] = cellsBoard[currentRow][currentCol];
+                wayCells[wayCellsCounter++] = new Cell(currentRow--, currentCol--);
             }
+
         } else if (currentRow <= distRow && currentCol + distCol == distRow + currentRow) {
             while (currentCol != distCol && currentRow != distRow) {
-                cellHasFigure = cellsBoard[++currentRow][++currentCol].cellHasFigure();
-                if (cellHasFigure) {
-                    throw new OccupiedWayException("Occupied way.");
-                }
-                wayCells[wayCellsCounter++] = cellsBoard[currentRow][currentCol];
+                wayCells[wayCellsCounter++] = new Cell(currentRow++, currentCol++);
             }
         } else {
             throw new ImpossibleMoveException("Can not move on this field.");
         }
         return wayCells;
+    }
+
+    public Figure clone(Cell dist) {
+        return new Bishop(dist);
     }
 
 }
@@ -216,6 +206,10 @@ class King extends Figure {
         return new Cell[]{};
     }
 
+    public Figure clone(Cell dist) {
+        return new King(dist);
+    }
+
 }
 
 /**
@@ -241,6 +235,10 @@ class Queen extends Figure {
      */
     public Cell[] way(Cell dist) {
         return new Cell[]{};
+    }
+
+    public Figure clone(Cell dist) {
+        return new Queen(dist);
     }
 
 }

@@ -9,18 +9,14 @@ package ru.job4j.chess;
 public class Cell {
 
     /**
-     * Поле для хранения доски, которой принадлежит ячейка.
-     */
-    private final Board board;
-
-    /**
-     * Поле для хранения признака присутствия фигуры на ячейке.
-     */
-    private boolean hasFigure;
-    /**
      * Поле для хранения индекс строки ячейки.
      */
     private final int row;
+
+    /**
+     * Поле для хранения идентификатора о наличии на клетке фигуры
+     */
+    private boolean hasFigure;
 
     /**
      * Поле для хранения индекса ячейки.
@@ -29,31 +25,14 @@ public class Cell {
 
     /**
      * Конструктор.
-     * @param board - доска
      * @param row строка ячейки.
      * @param col колонка ячейки.
      */
-    public Cell(Board board, int row, int col) {
-        this.board = board;
+    public Cell(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    /**
-     * Геттер фигуры в данной ячейке.
-     * @return фигура
-     */
-    /*public Figure getFigure() {
-        return this.figure;
-    }*/
-
-    /**
-     * Геттер, возвращающий нам объект - доску, на которой расположена ячейка.
-     * @return объект доски
-     */
-    public Board getBoard() {
-        return this.board;
-    }
 
     /**
      * Геттер, возвращающий нам строку в которой находится ячейка.

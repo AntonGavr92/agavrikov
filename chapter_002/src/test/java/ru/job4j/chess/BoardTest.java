@@ -22,10 +22,10 @@ public class BoardTest {
         Cell[][] cells = board.getCells();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new Cell(board, i, j);
+                cells[i][j] = new Cell(i, j);
             }
         }
-        board.setFigure(new Bishop(cells[4][2]));
+        board.setFigure(new Bishop(cells[4][2]), 4, 2);
         boolean result = false;
         try {
             result = board.move(cells[4][2], cells[2][0]);
@@ -50,11 +50,11 @@ public class BoardTest {
         Cell[][] cells = board.getCells();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new Cell(board, i, j);
+                cells[i][j] = new Cell(i, j);
             }
         }
-        board.setFigure(new Bishop(cells[3][1]));
-        board.setFigure(new Bishop(cells[4][2]));
+        board.setFigure(new Bishop(cells[3][1]),3, 1);
+        board.setFigure(new Bishop(cells[4][2]), 4, 2);
         boolean result = false;
         try {
             result = board.move(cells[4][2], cells[2][0]);
@@ -78,11 +78,11 @@ public class BoardTest {
         Cell[][] cells = board.getCells();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new Cell(board, i, j);
+                cells[i][j] = new Cell(i, j);
             }
         }
-        board.setFigure(new Bishop(cells[3][1]));
-        board.setFigure(new Bishop(cells[4][2]));
+        board.setFigure(new Bishop(cells[3][1]), 3,1);
+        board.setFigure(new Bishop(cells[4][2]),4, 2);
         boolean result = false;
         try {
             result = board.move(cells[5][2], cells[2][0]);
