@@ -12,17 +12,17 @@ import static org.junit.Assert.assertThat;
  * @version $Id$
  * @since 0.1
  */
-public class EvenIteratorTest {
+public class PrimeIteratorTest {
     /**
      * Метод для тестирования метода next.
      */
     @Test
     public void testNext() {
-        EvenIterator it = new EvenIterator(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+        PrimeIterator it = new PrimeIterator(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
         it.next();
         it.next();
         int result = it.next();
-        int expected = 6;
+        int expected = 5;
         assertThat(result, is(expected));
     }
 
@@ -31,12 +31,12 @@ public class EvenIteratorTest {
      */
     @Test
     public void whenHasNextIsTrueThanGetElement() {
-        EvenIterator it = new EvenIterator(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+        PrimeIterator it = new PrimeIterator(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13});
         int result = 0;
         while (it.hasNext()) {
             result = it.next();
         }
-        int expected = 8;
+        int expected = 13;
         assertThat(result, is(expected));
     }
 }

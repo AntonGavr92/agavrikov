@@ -6,7 +6,7 @@ package ru.job4j.iterator;
  * @since 14.07.2017
  * @version 1
  */
-public class EvenIterator {
+public class PrimeIterator {
 
     /**
      * Поле для хранения массива.
@@ -24,7 +24,7 @@ public class EvenIterator {
      *
      * @param array массив, по которому необходимо пройтись с помощью итератора
      */
-    public EvenIterator(int[] array) {
+    public PrimeIterator(int[] array) {
         this.array = array;
     }
 
@@ -35,7 +35,15 @@ public class EvenIterator {
      */
     public boolean hasNext() {
         for (int i = this.currentIndex; i < array.length; i++) {
-            if (this.array[i] % 2 == 0) {
+            boolean prime = true;
+            for (int j = 2; j < this.array[i]; j++) {
+                if (this.array[i] % j == 0) {
+                    prime = false;
+                    break;
+                }
+            }
+            if (prime && this.array[i] != 1) {
+                this.currentIndex = i;
                 return true;
             }
         }
@@ -49,7 +57,15 @@ public class EvenIterator {
      */
     public int next() {
         for (int i = this.currentIndex; i < array.length; i++) {
-            if (this.array[i] % 2 == 0) {
+            boolean prime = true;
+            for (int j = 2; j < this.array[i]; j++) {
+                if (this.array[i] % j == 0) {
+                    prime = false;
+                    this.currentIndex++;
+                    break;
+                }
+            }
+            if (prime && this.array[i] != 1) {
                 this.currentIndex++;
                 return this.array[i];
             }
