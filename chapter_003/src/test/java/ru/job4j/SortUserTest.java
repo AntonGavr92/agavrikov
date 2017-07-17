@@ -107,13 +107,10 @@ public class SortUserTest {
         SortUser sortUser = new SortUser();
         Set<User> sortList = sortUser.sort(list);
 
-        for (User user : sortList) {
-            System.out.println(String.format("%s %s", user.getName(), user.getAge()));
-        }
 
-        //String result = sortList.get(0).getName();
-       // String expected = "Anton";
-        //assertThat(result, is(expected));
+        int result = sortList.size();
+        int expected = 4;
+        assertThat(result, is(expected));
 
     }
 }
