@@ -94,7 +94,7 @@ public class User implements Comparable<User> {
         } else if (this.age < o.getAge()) {
             return -1;
         } else {
-            return 0;
+            return this.age.equals(o.getName()) ? 0 : 1;
         }
     }
 }

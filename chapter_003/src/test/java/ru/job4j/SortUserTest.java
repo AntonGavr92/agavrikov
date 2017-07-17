@@ -92,4 +92,28 @@ public class SortUserTest {
         assertThat(result, is(expected));
 
     }
+
+    /**
+     * Метод для тестирования сортировки по двум полям.
+     */
+    @Test
+    public void sortByAllField1sWithameAge() {
+        List<User> list = new ArrayList<User>();
+        list.add(new User("Tim", 30));
+        list.add(new User("Anton", 25));
+        list.add(new User("Alex", 30));
+        list.add(new User("Anton", 25));
+
+        SortUser sortUser = new SortUser();
+        Set<User> sortList = sortUser.sort(list);
+
+        for (User user : sortList) {
+            System.out.println(String.format("%s %s", user.getName(), user.getAge()));
+        }
+
+        //String result = sortList.get(0).getName();
+       // String expected = "Anton";
+        //assertThat(result, is(expected));
+
+    }
 }
