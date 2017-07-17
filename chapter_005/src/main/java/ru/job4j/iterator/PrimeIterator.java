@@ -64,7 +64,7 @@ public class PrimeIterator {
             }
             if (prime && this.array[i] != 1) {
                 if (needMoveCurrentElement) {
-                    this.currentIndex++;
+                    this.currentIndex = i + 1;
                 }
                 res = this.array[i];
                 break;
