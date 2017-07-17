@@ -32,13 +32,13 @@ public class SortUser {
         Collections.sort(list, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
+                int res = 0;
                 if (o1.getName().length() > o2.getName().length()) {
-                    return 1;
+                    res = 1;
                 } else if (o1.getName().length() < o2.getName().length()) {
-                    return -1;
-                } else {
-                    return 0;
+                    res = -1;
                 }
+                return res;
             }
         });
         return list;
@@ -53,17 +53,16 @@ public class SortUser {
         Collections.sort(list, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                if (o1.getName().compareTo(o2.getName()) > 0) {
-                    return 1;
+                int res = -1;
+
+                if(o1.getName().compareTo(o2.getName()) > 0) {
+                    res = 1;
                 } else if (o1.getName().compareTo(o2.getName()) < 0) {
-                    return -1;
-                } else {
-                    if (o1.getAge() > o2.getAge()) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
+                    res = -1;
+                }  else if (o1.getAge() > o2.getAge()){
+                    res = 1;
                 }
+                return res;
             }
         });
         return list;
