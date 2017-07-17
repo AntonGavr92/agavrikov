@@ -34,12 +34,13 @@ public class EvenIterator {
      * @return true если есть следующий элемент, false - если элементы кончились
      */
     public boolean hasNext() {
+        boolean res = false;
         for (int i = this.currentIndex; i < array.length; i++) {
             if (this.array[i] % 2 == 0) {
-                return true;
+                res = true;
             }
         }
-        return false;
+        return res;
     }
 
     /**
@@ -48,13 +49,15 @@ public class EvenIterator {
      * @return значение элемента
      */
     public int next() {
+        int res = -1;
         for (int i = this.currentIndex; i < array.length; i++) {
             if (this.array[i] % 2 == 0) {
                 this.currentIndex++;
-                return this.array[i];
+                res = this.array[i];
+                break;
             }
             this.currentIndex++;
         }
-        return -1;
+        return res;
     }
 }

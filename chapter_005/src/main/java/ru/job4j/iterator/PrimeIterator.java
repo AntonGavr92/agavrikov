@@ -34,43 +34,43 @@ public class PrimeIterator {
      * @return true если есть следующий элемент, false - если элементы кончились
      */
     public boolean hasNext() {
-        for (int i = this.currentIndex; i < array.length; i++) {
-            boolean prime = true;
-            for (int j = 2; j < this.array[i]; j++) {
-                if (this.array[i] % j == 0) {
-                    prime = false;
-                    break;
-                }
-            }
-            if (prime && this.array[i] != 1) {
-                this.currentIndex = i;
-                return true;
-            }
-        }
-        return false;
+        return getPrimeNumber(false) != -1 ? true : false;
     }
 
     /**
-     * Метод для последовательного получения четных значений.
+     * Метод для последовательного получения простых чисел в массиве.
      *
      * @return значение элемента
      */
     public int next() {
+        return getPrimeNumber(true);
+    }
+
+    /**
+     * Метод для нахождения простого числа в массиве.
+     * @param needMoveCurrentElement - булев параметр, указывающий на необходимость сдвига каретки.
+     * @return следующее просто число. Если таковое не найдено, вернет -1.
+     */
+    public int getPrimeNumber(boolean needMoveCurrentElement) {
+        int res = -1;
+
         for (int i = this.currentIndex; i < array.length; i++) {
             boolean prime = true;
             for (int j = 2; j < this.array[i]; j++) {
                 if (this.array[i] % j == 0) {
                     prime = false;
-                    this.currentIndex++;
                     break;
                 }
             }
             if (prime && this.array[i] != 1) {
-                this.currentIndex++;
-                return this.array[i];
+                if (needMoveCurrentElement) {
+                    this.currentIndex++;
+                }
+                res = this.array[i];
+                break;
             }
-            this.currentIndex++;
         }
-        return -1;
+        return res;
     }
+
 }

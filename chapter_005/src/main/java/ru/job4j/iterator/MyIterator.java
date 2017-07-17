@@ -6,7 +6,7 @@ package ru.job4j.iterator;
  * @since 14.07.2017
  * @version 1
  */
-public class Iterator {
+public class MyIterator {
 
     /**
      * Поле для хранения массива.
@@ -27,7 +27,7 @@ public class Iterator {
      * Конструктор для инициализации полей.
      * @param array массив, по которому необходимо пройтись с помощью итератора
      */
-    public Iterator(int[][] array) {
+    public MyIterator(int[][] array) {
         this.array = array;
     }
 
@@ -36,7 +36,7 @@ public class Iterator {
      * @return true если есть следующий элемент, false - если элементы кончились
      */
     public boolean hasNext() {
-        return this.currentIndexRow < this.array.length && !(this.currentIndexRow == this.array.length - 1 && currentIndexCol == this.array[this.currentIndexRow].length);
+        return this.currentIndexRow + 1 != this.array.length  || this.currentIndexCol < this.array[currentIndexRow].length;
     }
 
     /**
@@ -44,12 +44,11 @@ public class Iterator {
      * @return значение элемента
      */
     public int next() {
-        if (this.currentIndexCol < this.array[currentIndexRow].length) {
-            return this.array[this.currentIndexRow][this.currentIndexCol++];
-        } else {
+        if (this.currentIndexCol >= this.array[currentIndexRow].length) {
+            this.currentIndexRow++;
             this.currentIndexCol = 0;
-            return this.array[++this.currentIndexRow][this.currentIndexCol++];
         }
+        return this.array[this.currentIndexRow][this.currentIndexCol++];
     }
 
 }

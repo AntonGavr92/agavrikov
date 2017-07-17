@@ -19,7 +19,7 @@ public class IteratorTest {
      */
     @Test
     public void testNext() {
-        Iterator it = new Iterator(new int[][]{{1, 2}, {3, 4}});
+        MyIterator it = new MyIterator(new int[][]{{1, 2}, {3, 4}});
         it.next();
         it.next();
         it.next();
@@ -33,7 +33,7 @@ public class IteratorTest {
      */
     @Test
     public void whenHasNextIsTrueThanGetElement() {
-        Iterator it = new Iterator(new int[][]{{1, 2}, {3, 4}});
+        MyIterator it = new MyIterator(new int[][]{{1, 2}, {3, 4}});
         int result = 0;
         while (it.hasNext()) {
             result = it.next();
