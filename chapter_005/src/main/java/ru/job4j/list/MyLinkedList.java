@@ -14,18 +14,17 @@ public class MyLinkedList<E> implements SimpleContainer<E> {
     /**
      * Количество элементов в списке.
      */
-    private int size = 0;
+    protected int size = 0;
 
     /**
      * Первый элемент в списке.
      */
-    private Node<E> first;
+    protected Node<E> first;
 
     /**
      * Последний элемент в списке.
      */
-    private Node<E> last;
-
+    protected Node<E> last;
 
     /**
      * Класс для описания одного элемента в нашем листе.
@@ -176,7 +175,7 @@ public class MyLinkedList<E> implements SimpleContainer<E> {
                    currentNode = first;
                    result = first.getItem();
                } else {
-                   result = currentNode.getNext().item;
+                   result = currentNode.getNext().getItem();
                    currentNode = currentNode.getNext();
                }
                return result;
