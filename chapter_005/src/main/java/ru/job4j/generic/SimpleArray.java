@@ -45,6 +45,30 @@ public class SimpleArray<T> {
     }
 
     /**
+     * Метод, с помощью которого мы можем получить элемент.
+     * @param object искомый элемент
+     * @return объект
+     */
+    public T get(T object) {
+        return findIndexByObject(object) < 0 ? null : this.get(findIndexByObject(object));
+    }
+
+    /**
+     * Метод, с помощью которого мы можем получить индекс по элементу.
+     * @param object элемент в структуру
+     * @return индекс объекта в структуре
+     */
+    public int findIndexByObject(T object) {
+        int result = -1;
+        for (int i = 0; i < this.index; i++) {
+            if (this.objects[i].equals(object)) {
+                result = i;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Метод для удаления элемента по его индексу.
      * @param index индекс элемента в нашей структуре
      */
