@@ -89,12 +89,14 @@ public class User implements Comparable<User> {
      */
     @Override
     public int compareTo(User o) {
+        int res = 0;
         if (this.age > o.getAge()) {
-            return 1;
+            res = 1;
         } else if (this.age < o.getAge()) {
-            return -1;
+            res = -1;
         } else {
-            return this.age.equals(o.getName()) ? 0 : 1;
+            res = this.age.equals(o.getName()) ? 0 : 1;
         }
+        return res;
     }
 }
