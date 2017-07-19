@@ -34,8 +34,8 @@ public class BankTest {
         bank.traceCustomer(customer);
         bank.traceCustomer(customer2);
         bank.traceCustomer(customer3);
-        long[] result = bank.getTimeMaxCustomersInBank();
-        long[] expected = new long[]{1500282934, 1500283534};
+        long result = bank.getTimeMaxCustomersInBank().total();
+        long expected = 600;
         assertThat(result, is(expected));
     }
 
@@ -79,8 +79,8 @@ public class BankTest {
         bank.traceCustomer(customer5);
         bank.traceCustomer(customer6);
         bank.traceCustomer(customer7);
-        long[] result = bank.getTimeMaxCustomersInBank();
-        long[] expected = new long[]{1500287134, 1500300934};
+        long result = bank.getTimeMaxCustomersInBank().total();
+        long expected = 13800;
         assertThat(result, is(expected));
     }
 

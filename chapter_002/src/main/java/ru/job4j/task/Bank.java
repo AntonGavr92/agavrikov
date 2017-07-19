@@ -31,7 +31,7 @@ public class Bank {
      * Метод для получения отрезка времени с максимальным количеством посетителей.
      * @return массив, хранящий границы отрезка времени с максимальным количеством посещений
      */
-    public long[] getTimeMaxCustomersInBank() {
+    public Pick getTimeMaxCustomersInBank() {
         int maxCustomers = 0;
         int customersRealTime = 0;
         long timeStart = 0;
@@ -51,6 +51,7 @@ public class Bank {
                 timeExit = event.getTime();
             }
         }
-        return new long[]{timeStart, timeExit};
+
+        return new Pick(timeStart, timeExit);
     }
 }
