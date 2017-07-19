@@ -64,11 +64,11 @@ public class OptimizedSimpleSet<E> implements Iterator<E> {
         if (this.size == 0) {
             this.container[this.size++] = value;
         } else {
-            if (this.size == container.length){
+            if (this.size == container.length) {
                 this.container = Arrays.copyOf(this.container, this.size * 3 / 2 + 1);
             }
             index = getIndexByHashCode(value.hashCode());
-            if(index >= 0) {
+            if (index >= 0) {
                 for (int i = this.size - 1; i >= index; i--) {
                     this.container[i + 1] = this.container[i];
                 }
@@ -79,14 +79,18 @@ public class OptimizedSimpleSet<E> implements Iterator<E> {
     }
 
 
-
+    /**
+     * Вспомогательный метод, реализующий определение индекса для добавления элемента в данную структуру, по hashCode.
+     * @param hashCode hashCode объекта
+     * @return - индекс в который должен быть помещен элемент.
+     */
     private int getIndexByHashCode(int hashCode) {
         int result;
         int left = 0;
         int right = this.size;
         while (right > left) {
             int mid = left + (right - left) / 2;
-            if(container[mid].hashCode() < hashCode) {
+            if (container[mid].hashCode() < hashCode) {
                 result = left;
                 left = mid;
             } else if (container[mid].hashCode() > hashCode) {
