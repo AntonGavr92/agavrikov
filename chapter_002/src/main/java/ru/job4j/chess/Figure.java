@@ -21,6 +21,9 @@ abstract class Figure {
         this.position = position;
     }
 
+    public Cell getPosition() {
+         return this.position;
+    }
 
     /**
      * /**

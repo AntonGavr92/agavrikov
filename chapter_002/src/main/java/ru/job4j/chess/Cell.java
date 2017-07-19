@@ -13,10 +13,6 @@ public class Cell {
      */
     private final int row;
 
-    /**
-     * Поле для хранения идентификатора о наличии на клетке фигуры
-     */
-    private boolean hasFigure;
 
     /**
      * Поле для хранения индекса ячейки.
@@ -49,21 +45,4 @@ public class Cell {
     public int getCol() {
         return this.col;
     }
-
-    /**
-     * Метод для проверки ячейки на заполненность.
-     * @return заполнена ли ячейка
-     */
-    public boolean cellHasFigure() {
-        return this.hasFigure;
-    }
-
-    /**
-     * Метод для установки ячейке свойства заполненности.
-     * @param cellHasFigure - заполнена ли ячейка
-     */
-    public void setCellHasFigure(boolean cellHasFigure) {
-         this.hasFigure = cellHasFigure;
-    }
-
 }
