@@ -1,22 +1,23 @@
 package ru.job4j.set;
 
 import org.junit.Test;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test SimpleSet class.
+ * Test OptimizedSimpleSet class.
  * @author Anton Gavrikov
  * @version $Id$
  * @since 0.1
  */
-public class SimpleSetTest {
+public class OptimizedSimpleSetTest {
     /**
      * Тестирование метода добавления в set.
      */
     @Test
-    public void whenAddElementToSimpleSetThenSizeSimpleSetIncrement() {
-        SimpleSet<String> set = new SimpleSet<String>();
+    public void whenAddElementToOptimizedSimpleSetThenSizeOptimizedSimpleSetIncrement() {
+        OptimizedSimpleSet<String> set = new OptimizedSimpleSet<String>();
         set.add("Test");
         int result = set.size();
         int expected = 1;
@@ -27,8 +28,8 @@ public class SimpleSetTest {
      * Тестирование метода добавления в set 2 одиннаковых объектов.
      */
     @Test
-    public void whenAddElementToSimpleSetAndAddSameElementThenSizeSimpleSetIncrement() {
-        SimpleSet<String> set = new SimpleSet<String>();
+    public void whenAddElementToOptimizedSimpleSetAndAddSameElementThenSizeOptimizedSimpleSetIncrement() {
+        OptimizedSimpleSet<String> set = new OptimizedSimpleSet<String>();
         set.add("Test");
         set.add("Test");
         int result = set.size();
@@ -40,8 +41,8 @@ public class SimpleSetTest {
      * Тестирование конструкции foreach.
      */
     @Test
-    public void whenAdd1ElementToSimpleSetAndStartForEachThenLastEmelementWillBeSecondAddedElement() {
-        SimpleSet<String> set = new SimpleSet<String>();
+    public void whenAdd1ElementToOptimizedSimpleSetAndStartForEachThenLastEmelementWillBeSecondAddedElement() {
+        OptimizedSimpleSet<String> set = new OptimizedSimpleSet<String>();
         set.add("Test");
         set.add("Test foreach");
         String result = "";
@@ -54,11 +55,11 @@ public class SimpleSetTest {
 
     /**
      * Тестирование времени на вставку элементов.
-     * Тест занял 4,802 сек
+     * Тест занял 0,022 сек
      */
     @Test
     public void timeTest() {
-        SimpleSet<Integer> set = new SimpleSet<Integer>();
+        OptimizedSimpleSet<Integer> set = new OptimizedSimpleSet<Integer>();
         for (int i = 0; i < 100000; i++) {
             set.add(i);
         }
