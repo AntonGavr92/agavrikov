@@ -61,5 +61,26 @@ public class TreeTest {
         assertThat(result, is(expected));
     }
 
+    /**
+     * Тестирование итератора.
+     */
+    @Test
+    public void testForEach() {
+        Tree<String> tree = new Tree<String>();
+        tree.add("Parent", "Child");
+        tree.add("Child", "Child1");
+        tree.add("Child2", "Child3");
+        tree.add("Child1", "Child4");
+        tree.add("Child1", "Child5");
+        tree.add("Child", "Child6");
+        String result = "";
+        for (String s : tree) {
+            result = s;
+        }
+
+        String expected = "Parent";
+        assertThat(result, is(expected));
+    }
+
 
 }

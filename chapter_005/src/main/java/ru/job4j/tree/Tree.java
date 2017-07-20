@@ -1,5 +1,6 @@
 package ru.job4j.tree;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,11 @@ import java.util.List;
  * @param <E> - Ключ
  */
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
+
+    /**
+     * Поле для итератора в котором хранятся значения.
+     */
+    List<E> iterList = new ArrayList<>();
 
     /**
      * поле для хранения структуры.
@@ -70,6 +76,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         if (node != null) {
             node.addChildren(child);
             result = true;
+            iterList.add(parent);
         }
         return result;
     }
@@ -128,6 +135,22 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new Iterator<E>() {
+            @Override
+            public boolean hasNext() {
+                boolean result = false;
+                if (iterList.size() > 0) {
+                    result = true;
+                }
+                return result;
+            }
+
+            @Override
+            public E next() {
+                E val = iterList.get(iterList.size() - 1);
+                iterList.remove(iterList.size() - 1);
+                return val;
+            }
+        };
     }
 }
