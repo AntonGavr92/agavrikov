@@ -28,4 +28,20 @@ public class UserTest {
         System.out.println(map);
     }
 
+    /**
+     * Тестирование map с помещенными в нее Users без переопределения equals.
+     */
+    @Test
+    public void testWithoutOverrideEquals() {
+        Calendar date = new Calendar("20 May 1992");
+        User user1 = new User("Ivan", 0, date);
+        User user2 = new User("Ivan", 0, date);
+
+        Map<User, Object> map = new HashMap<>();
+        map.put(user1, "ss");
+        map.put(user2, "ss");
+
+        System.out.println(map);
+    }
+
 }
