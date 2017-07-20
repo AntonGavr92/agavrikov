@@ -67,8 +67,37 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             result = true;
         }
         Node<E> node = findParent(this.root, parent);
-        node.addChildren(child);
+        if (node != null) {
+            node.addChildren(child);
+            result = true;
+        }
         return result;
+    }
+
+    /**
+     * Метод для определения, является ли дерево бинарным.
+     * @param node - узел
+     * @return если дерево бинарное - true, иначе - false
+     */
+    public boolean isBinary(Node<E> node) {
+        boolean isBinary = true;
+        if (node.children.size() <= 2) {
+            for (Node<E> childNode : node.children) {
+                isBinary = isBinary(childNode);
+                break;
+            }
+        } else {
+            isBinary = false;
+        }
+        return isBinary;
+    }
+
+    /**
+     * Перегрузка метода isBinary.
+     * @return если дерево бинарное - true, иначе - false
+     */
+    public boolean isBinary() {
+        return isBinary(this.root);
     }
 
     /**
@@ -79,10 +108,12 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
      */
     public Node<E> findParent(Node<E> node, E parent) {
         Node<E> resNode = null;
-        if (node.children.size() > 0 && node.value.compareTo(parent) != 0) {
-            for (Node<E> childNode : node.children) {
-                resNode = findParent(childNode, parent);
-                break;
+        if (node.value.compareTo(parent) != 0) {
+            if (node.children.size() > 0) {
+                for (Node<E> childNode : node.children) {
+                    resNode = findParent(childNode, parent);
+                    break;
+                }
             }
         } else {
             resNode = node;

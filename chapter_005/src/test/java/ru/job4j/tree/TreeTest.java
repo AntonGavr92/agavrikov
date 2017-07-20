@@ -43,5 +43,23 @@ public class TreeTest {
         assertThat(result, is(expected));
     }
 
+    /**
+     * Тестирование метода isBinary.
+     */
+    @Test
+    public void testisBinary() {
+        Tree<String> tree = new Tree<String>();
+        tree.add("Parent", "Child");
+        tree.add("Child", "Child1");
+        tree.add("Child2", "Child3");
+        tree.add("Child1", "Child4");
+        tree.add("Child1", "Child5");
+        tree.add("Child", "Child6");
+
+        boolean result = tree.isBinary();
+        boolean expected = true;
+        assertThat(result, is(expected));
+    }
+
 
 }
