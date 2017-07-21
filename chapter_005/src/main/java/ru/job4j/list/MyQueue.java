@@ -24,7 +24,11 @@ public class MyQueue<E> extends MyLinkedList<E> {
      * @return ссылка на объект.
      */
     public E pop() {
-        return this.first.getItem();
+        E res = this.first.getItem();
+        this.first = this.first.getNext();
+        this.first.setPrev(null);
+        this.size--;
+        return res;
     }
 
     /**

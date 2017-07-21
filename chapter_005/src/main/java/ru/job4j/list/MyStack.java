@@ -24,7 +24,11 @@ public class MyStack<E> extends MyLinkedList<E> {
      * @return ссылка на объект.
      */
     public E pop() {
-        return this.last.getItem();
+        E res = this.last.getItem();
+        this.last = this.last.getPrev();
+        this.last.setNext(null);
+        this.size--;
+        return res;
     }
 
     /**

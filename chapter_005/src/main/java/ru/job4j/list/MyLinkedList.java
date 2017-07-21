@@ -91,6 +91,14 @@ public class MyLinkedList<E> implements SimpleContainer<E> {
             this.next = node;
         }
 
+        /**
+         * Сеттер предыдущего нода.
+         * @param node предыдущий нод.
+         */
+        public void setPrev(Node<E> node) {
+            this.prev = node;
+        }
+
     }
     /**
      * Метод, описывающий добавление в список.
