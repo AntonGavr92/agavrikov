@@ -19,10 +19,10 @@ public class RoleStoreTest {
     @Test
     public void testAddUser() {
         RoleStore store = new RoleStore(10);
-        User user = new User();
-        user.setId("122121");
-        store.add(user);
-        String result = store.getArray().get(user).getId();
+        Role role = new Role();
+        role.setId("122121");
+        store.add(role);
+        String result = store.getArray().get(role).getId();
         String expected = "122121";
         assertThat(result, is(expected));
     }
@@ -33,15 +33,15 @@ public class RoleStoreTest {
     @Test
     public void testUpdateUser() {
         RoleStore store = new RoleStore(10);
-        User user = new User();
-        user.setId("122121");
-        store.add(user);
+        Role role = new Role();
+        role.setId("122121");
+        store.add(role);
 
-        User user2 = new User();
-        user2.setId("11");
+        Role role2 = new Role();
+        role2.setId("11");
 
-        store.update(user, user2);
-        String result = store.getArray().get(user2).getId();
+        store.update(role, role2);
+        String result = store.getArray().get(role2).getId();
         String expected = "11";
 
         assertThat(result, is(expected));
@@ -53,11 +53,11 @@ public class RoleStoreTest {
     @Test
     public void testDeleteUser() {
         RoleStore store = new RoleStore(10);
-        User user = new User();
-        user.setId("122121");
-        store.add(user);
-        store.delete(user);
-        Base result = store.getArray().get(user);
+        Role role = new Role();
+        role.setId("122121");
+        store.add(role);
+        store.delete(role);
+        Base result = store.getArray().get(role);
         Base expected = null;
         assertThat(result, is(expected));
     }
