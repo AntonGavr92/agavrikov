@@ -2,6 +2,7 @@ package ru.job4j.set;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import ru.job4j.list.MyArrayList;
 
 /**
  * Класс реализующий структуру Set на массивах.
@@ -13,38 +14,30 @@ import java.util.Iterator;
 public class SimpleSet<E> implements Iterator<E> {
 
     /**
-     * Массив объектов.
-     */
-    private Object[] container;
-
-    /**
-     * Размер первоначального массива по умолчанию.
-     */
-    private static final int DEFAULT_CAPACITY = 10;
-
-    /**
-     * Количество элементов(не null) в списке.
-     */
-    private int size;
-
-    /**
-     * Текущий индекс для итератора.
+     * Поле для хранения индекса итератора.
      */
     private int currentIndex = 0;
+
+    /**
+     * Поле для хранения списка на массиве.
+     */
+    private MyArrayList<E> list;
+
 
     /**
      * Конструктор, принимающий параметр - первоначальный размер массива.
      * @param capacity первоначальный размер массива
      */
     public SimpleSet(int capacity) {
-        this.container = new Object[capacity];
+
+        this.list = new MyArrayList<>(capacity);
     }
 
     /**
      * Конструктор по умолчанию.
      */
     public SimpleSet() {
-        this.container = new Object[DEFAULT_CAPACITY];
+        this.list = new MyArrayList<>();
     }
 
     /**
@@ -52,7 +45,7 @@ public class SimpleSet<E> implements Iterator<E> {
      * @return количество элементов в set
      */
     public int size() {
-        return this.size;
+        return this.list.size();
     }
 
     /**
@@ -62,20 +55,14 @@ public class SimpleSet<E> implements Iterator<E> {
      */
     public void add(E value) {
         boolean isDouble = false;
-        for (int i = 0; i < this.size; i++) {
-            E obj = (E) this.container[i];
-            if (obj.equals(value)) {
+        for (E valList : this.list) {
+            if (valList.equals(value)) {
                 isDouble = true;
                 break;
             }
         }
         if (!isDouble) {
-            if (this.size < container.length) {
-                this.container[size++] = value;
-            } else {
-                this.container = Arrays.copyOf(this.container, this.size * 3 / 2 + 1);
-                this.container[size++] = value;
-            }
+            this.list.add(value);
         }
     }
 
@@ -89,7 +76,13 @@ public class SimpleSet<E> implements Iterator<E> {
      */
     @Override
     public boolean hasNext() {
-        return currentIndex < size;
+        boolean result = false;
+        if (currentIndex < this.list.size()){
+            result = true;
+        } else {
+            currentIndex = 0;
+        }
+        return result;
     }
 
     /**
@@ -99,6 +92,6 @@ public class SimpleSet<E> implements Iterator<E> {
      */
     @Override
     public E next() {
-        return (E) container[currentIndex++];
+        return (E) this.list.get(currentIndex++);
     }
 }
