@@ -20,6 +20,11 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     List<E> iterList = new ArrayList<>();
 
     /**
+     * Поле для хранения флага о том что iterList был пройден
+     */
+    boolean iterListIsEnd = true;
+
+    /**
      * поле для хранения структуры.
      */
      Node<E> root;
@@ -76,7 +81,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         if (node != null) {
             node.addChildren(child);
             result = true;
-            iterList.add(parent);
         }
         return result;
     }
@@ -91,7 +95,9 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         if (node.children.size() <= 2) {
             for (Node<E> childNode : node.children) {
                 isBinary = isBinary(childNode);
-                break;
+                if (!isBinary) {
+                    break;
+                }
             }
         } else {
             isBinary = false;
@@ -119,7 +125,9 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             if (node.children.size() > 0) {
                 for (Node<E> childNode : node.children) {
                     resNode = findParent(childNode, parent);
-                    break;
+                    if (resNode != null) {
+                        break;
+                    }
                 }
             }
         } else {
@@ -127,6 +135,21 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
         return resNode;
     }
+
+    /**
+     * Метод для прохода по дереву и созданию списка значений для иетратора.
+     * @param node узел дерева.
+     * @return если массив получится пустым при заполнении вернет false иначе true
+     */
+    public boolean createArrayValues(Node<E> node) {
+        boolean notEmptyArray = iterList.size() > 0;
+        iterList.add(node.value);
+        for (Node<E> childNode : node.children) {
+            notEmptyArray = createArrayValues(childNode);
+        }
+        return notEmptyArray;
+    }
+
 
     /**
      * Returns an iterator over elements of type {@code T}.
@@ -138,11 +161,16 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return new Iterator<E>() {
             @Override
             public boolean hasNext() {
-                boolean result = false;
-                if (iterList.size() > 0) {
-                    result = true;
+                boolean res = false;
+                if (iterListIsEnd) {
+                    res = createArrayValues(root);
+                    iterListIsEnd = !res;
+                } else if (iterList.size() > 0) {
+                    res = true;
+                } else {
+                    iterListIsEnd = true;
                 }
-                return result;
+                return res;
             }
 
             @Override

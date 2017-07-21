@@ -32,6 +32,11 @@ public class TreeTest {
         Tree<String> tree = new Tree<String>();
         tree.add("Parent", "Child");
         tree.add("Child", "Child1");
+
+        tree.add("Child", "Test");
+        tree.add("Test", "Child7");
+        tree.add("Test", "Child8");
+
         tree.add("Child1", "Child2");
         tree.add("Child2", "Child3");
         tree.add("Child1", "Child4");
