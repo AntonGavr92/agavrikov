@@ -33,16 +33,7 @@ public class LinkedSimpleSet<E> extends MyLinkedList<E> implements Iterator<E> {
             }
         }
         if (!isDouble) {
-            if (this.first == null) {
-                this.first = new Node<E>(null, value, null);
-                this.last = this.first;
-            } else {
-                this.last = new Node<E>(this.last, value, null);
-                if (this.last.getPrev() != null) {
-                    this.last.getPrev().setNext(this.last);
-                }
-            }
-            size++;
+            super.add(value);
         }
     }
 
