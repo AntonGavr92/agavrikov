@@ -17,10 +17,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     /**
      * Поле для итератора в котором хранятся значения.
      */
-    List<E> iterList = new ArrayList<>();
+    List<E> iterList = new ArrayList<E>();
 
     /**
-     * Поле для хранения флага о том что iterList был пройден
+     * Поле для хранения флага о том что iterList был пройден.
      */
     boolean iterListIsEnd = true;
 
@@ -137,7 +137,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
-     * Метод для прохода по дереву и созданию списка значений для иетратора.
+     * Метод для прохода по дереву и созданию списка значений для итератора.
      * @param node узел дерева.
      * @return если массив получится пустым при заполнении вернет false иначе true
      */
