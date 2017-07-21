@@ -5,40 +5,73 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by gavrikov.a on 20/07/2017.
+ * Класс реализующий справочник подразделений с сортировкой.
+ * @author agavrikov
+ * @since 18.07.2017
+ * @version
  */
 public class CatalogUnits {
 
-    public static void main(String[] srgs) {
-        Set<String> catalog = new TreeSet<String>(new Comparator<String>() {
+    /**
+     * Поле для хранения множества подразделений.
+     */
+    private Set<String> catalog = new TreeSet<String>();
+
+
+    /**
+     * Метод для добавления подразделений в наш справочник.
+     * @param unit - подразделение
+     */
+    public void addUnit(String unit) {
+        String[] arUnits = unit.split("\\\\");
+        String unitName = "";
+        for (String s : arUnits) {
+            if (s.equals(arUnits[0])) {
+                unitName = String.format("%s", s);
+            } else {
+                unitName = String.format("%s\\%s", unitName, s);
+            }
+            if (!this.catalog.contains(unitName)) {
+                catalog.add(unitName);
+            }
+        }
+    }
+
+    /**
+     * Метод, возвращающий наш справочник с сортировкой по возрастанию.
+     * @return справочник с сортировкой по возрастанию.
+     */
+    public Set<String> getCatalogAsc() {
+        return this.catalog;
+    }
+
+    /**
+     * Метод, возвращающий наш справочник с сортировкой по убыванию.
+     * @return справочник с сортировкой по убыванию.
+     */
+    public Set<String> getCatalogDesc() {
+         Set set = new TreeSet<String>(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 String[] ar1 = o1.split("\\\\");
                 String[] ar2 = o2.split("\\\\");
+                int result = -o1.compareTo(o2);
 
-
-                if (o1.split("\\\\").length > o2.split("\\\\").length){
+                if (ar1.length > ar2.length) {
                     if (ar1[0].compareTo(ar2[0]) > 0) {
-                        return -1;
+                        result = -1;
                     } else {
-                        return 1;
+                        result = 1;
                     }
-                    //System.out.println(ar1[0]);
-                    //return 1;
+                } else if (ar1.length == ar2.length && ar1[0].compareTo(ar2[0]) <= 0) {
+                    result = o1.compareTo(o2);
+                } else if (ar1.length < ar2.length && ar1[0].compareTo(ar2[0]) <= 0) {
+                    result = o1.compareTo(o2);
                 }
-                return -o1.compareTo(o2);
+                return result;
             }
         });
-        catalog.add("K1\\SK1");
-        catalog.add("K1\\SK2");
-        catalog.add("K1\\SK1\\SSK1");
-        catalog.add("K1\\SK1\\SSK2");
-        catalog.add("K2");
-        catalog.add("K2\\SK1\\SSK1");
-        catalog.add("K2\\SK1\\SSK2");
-
-        for (String s : catalog) {
-            System.out.println(s);
-        }
+        set.addAll(this.catalog);
+        return set;
     }
 }
