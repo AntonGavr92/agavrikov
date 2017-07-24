@@ -46,7 +46,7 @@ public class SymbolsCounter {
                 if (new Date().getTime() - timeStart > 999) {
                     Thread.currentThread().interrupt();
                 }
-                if(!Thread.currentThread().isInterrupted()) {
+                if (!Thread.currentThread().isInterrupted()) {
                     System.out.println("Text has " + res.length + " words.");
                 }
             }
@@ -56,7 +56,7 @@ public class SymbolsCounter {
         try {
             threadSpace.join();
             threadWords.join();
-        }catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("End program");
