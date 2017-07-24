@@ -1,5 +1,7 @@
 package ru.job4j.threads;
 
+import java.util.Date;
+
 /**
  * Класс реализующий паралельный счетчик пробелов и слов в строке.
  * @author agavrikov
@@ -13,30 +15,50 @@ public class SymbolsCounter {
      * @param args параметры.
      */
     public static void main(String[] args) {
-        String text = "Computer users take it for granted that their systems can do more than one thing at a time";
+        System.out.println("Start program");
+        String text = "Computer users take it for granted that their systems can do more than one thing at a time Computer users take it for granted that their systems can do more than one thing at a time Computer users take it for granted that their systems can do more than one thing at a time Computer users take it for granted that their systems can do more than one thing at a time Computer users take it for granted that their systems can do more than one thing at a time Computer users take it for granted that their systems can do more than one thing at a time";
         Thread threadSpace = new Thread(new Runnable() {
             @Override
             public void run() {
+                long timeStart = new Date().getTime();
                 int counter = 0;
                 char[] res = text.toCharArray();
                 for (char symbol : res) {
+                    if (new Date().getTime() - timeStart > 999) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
                     if (Character.toString(symbol).equals(" ")) {
                         counter++;
                     }
                 }
-                System.out.println("Text has " + counter + " spaces.");
+                if (!Thread.currentThread().isInterrupted()) {
+                    System.out.println("Text has " + counter + " spaces.");
+                }
             }
         });
 
         Thread threadWords = new Thread(new Runnable() {
             @Override
             public void run() {
+                long timeStart = new Date().getTime();
                 String[] res = text.split(" ");
-                System.out.println("Text has " + res.length + " words.");
+                if (new Date().getTime() - timeStart > 999) {
+                    Thread.currentThread().interrupt();
+                }
+                if(!Thread.currentThread().isInterrupted()) {
+                    System.out.println("Text has " + res.length + " words.");
+                }
             }
         });
-
         threadSpace.start();
         threadWords.start();
+        try {
+            threadSpace.join();
+            threadWords.join();
+        }catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("End program");
     }
 }
