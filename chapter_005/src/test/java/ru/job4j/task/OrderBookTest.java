@@ -22,7 +22,7 @@ public class OrderBookTest {
         long timeStart = new Date().getTime();
         ParseXML parser = new ParseXML();
         OrderBook orders = new OrderBook();
-        orders.addOrdersBook(parser.proccessFile("C:\\projects\\agavrikov\\chapter_005\\src\\main\\java\\ru\\job4j\\task\\orders.xml"));
+        orders.addOrdersBook(parser.proccessFile("src\\tmp\\orders.xml"));
         TreeSet<Order> res = orders.getBuyBooks("book-1", false);
         long timeFinish = new Date().getTime();
         boolean result = timeFinish - timeStart > 6000;
@@ -37,7 +37,7 @@ public class OrderBookTest {
     public void testBuyMethod() {
         ParseXML parser = new ParseXML();
         OrderBook orders = new OrderBook();
-        orders.addOrdersBook(parser.proccessFile("C:\\projects\\agavrikov\\chapter_005\\src\\main\\java\\ru\\job4j\\task\\orders.xml"));
+        orders.addOrdersBook(parser.proccessFile("src\\tmp\\orders.xml"));
         TreeSet<Order> res = orders.getBuyBooks("book-2", true);
         double price = 0;
         boolean result = true;
@@ -60,7 +60,7 @@ public class OrderBookTest {
     public void testSellMethod() {
         ParseXML parser = new ParseXML();
         OrderBook orders = new OrderBook();
-        orders.addOrdersBook(parser.proccessFile("C:\\projects\\agavrikov\\chapter_005\\src\\main\\java\\ru\\job4j\\task\\orders.xml"));
+        orders.addOrdersBook(parser.proccessFile("src\\tmp\\orders.xml"));
         TreeSet<Order> res = orders.getSellBooks("book-2", false);
         double price = 0;
         boolean result = true;

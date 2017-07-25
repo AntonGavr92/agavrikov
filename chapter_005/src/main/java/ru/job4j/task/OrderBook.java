@@ -14,6 +14,11 @@ import java.util.TreeSet;
 public class OrderBook {
 
     /**
+     * Поле для хранения идентификатора продажи.
+     */
+    public static final String SELL_NAME = "SELL";
+
+    /**
      * Поле для хранения множенства заказов книг для продажи.
      */
     private HashSet<Order> resultSell = new HashSet<Order>();
@@ -29,7 +34,7 @@ public class OrderBook {
      */
     public void addOrdersBook(Map<Integer, Order> books) {
         for (Order order : books.values()) {
-            if (order.operation.equals("SELL")) {
+            if (SELL_NAME.equals(order.operation)) {
                 resultSell.add(order);
             } else {
                 resultBuy.add(order);

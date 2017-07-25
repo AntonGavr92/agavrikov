@@ -17,6 +17,46 @@ import javax.xml.stream.XMLStreamReader;
 public class ParseXML {
 
     /**
+     * Индекс атрибута цены.
+     */
+    public static final int ATTR_INDEX_PRICE = 2;
+
+    /**
+     * Индекс атрибута операции.
+     */
+    public static final int ATTR_INDEX_OPERATION = 1;
+
+    /**
+     * Индекс атрибута наименования книги.
+     */
+    public static final int ATTR_INDEX_NAME = 0;
+
+    /**
+     * Индекс атрибута идентификатора заказа при операции добавления заказа.
+     */
+    public static final int ATTR_INDEX_ADD_ORDER_ID = 4;
+
+    /**
+     * Индекс атрибута объема.
+     */
+    public static final int ATTR_INDEX_VOLUME = 3;
+
+    /**
+     * Индекс атрибута идентификатора заказа при операции удаления заказа.
+     */
+    public static final int ATTR_INDEX_DEL_ORDER_ID = 1;
+
+    /**
+     * Имя тега для добавления заказа.
+     */
+    public static final String ADD_ORDER_TAG = "AddOrder";
+
+    /**
+     * Имя тега для удаления заказа.
+     */
+    public static final String DELETE_ORDER_TAG = "DeleteOrder";
+
+    /**
      * Поле для хранения результирующей карты.
      */
     private HashMap<Integer, Order> orderMap = new HashMap<Integer, Order>();
@@ -28,16 +68,16 @@ public class ParseXML {
      * @param xmlr - XMLStreamReader
      */
     private void proccessElementXML(XMLStreamReader xmlr) {
-        if (xmlr.getName().toString().equals("AddOrder")) {
+        if (ADD_ORDER_TAG.equals(xmlr.getName().toString())) {
             Order order = new Order();
-            order.price = Double.parseDouble(xmlr.getAttributeValue(2));
-            order.operation = xmlr.getAttributeValue(1);
-            order.book = xmlr.getAttributeValue(0);
-            order.orderId = Integer.parseInt(xmlr.getAttributeValue(4));
-            order.volume = Integer.parseInt(xmlr.getAttributeValue(3));
-            this.orderMap.put(Integer.parseInt(xmlr.getAttributeValue(4)), order);
-        } else if (xmlr.getName().toString().equals("DeleteOrder")) {
-            this.orderMap.remove(Integer.parseInt(xmlr.getAttributeValue(1)));
+            order.price = Double.parseDouble(xmlr.getAttributeValue(ATTR_INDEX_PRICE));
+            order.operation = xmlr.getAttributeValue(ATTR_INDEX_OPERATION);
+            order.book = xmlr.getAttributeValue(ATTR_INDEX_NAME);
+            order.orderId = Integer.parseInt(xmlr.getAttributeValue(ATTR_INDEX_ADD_ORDER_ID));
+            order.volume = Integer.parseInt(xmlr.getAttributeValue(ATTR_INDEX_VOLUME));
+            this.orderMap.put(Integer.parseInt(xmlr.getAttributeValue(ATTR_INDEX_ADD_ORDER_ID)), order);
+        } else if (DELETE_ORDER_TAG.equals(xmlr.getName().toString())) {
+            this.orderMap.remove(Integer.parseInt(xmlr.getAttributeValue(ATTR_INDEX_DEL_ORDER_ID)));
         }
     }
 
