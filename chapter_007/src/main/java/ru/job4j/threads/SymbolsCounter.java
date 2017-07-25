@@ -28,12 +28,12 @@ public class SymbolsCounter {
                         Thread.currentThread().interrupt();
                         break;
                     }
-                    if (Character.toString(symbol).equals(" ")) {
-                        counter++;
+                    if (symbol == ' ') {
+                            counter++;
                     }
                 }
                 if (!Thread.currentThread().isInterrupted()) {
-                    System.out.println("Text has " + counter + " spaces.");
+                    System.out.println(String.format("Text has %s spaces.", counter));
                 }
             }
         });
@@ -47,7 +47,7 @@ public class SymbolsCounter {
                     Thread.currentThread().interrupt();
                 }
                 if (!Thread.currentThread().isInterrupted()) {
-                    System.out.println("Text has " + res.length + " words.");
+                    System.out.println(String.format("Text has %s words.", res.length));
                 }
             }
         });
