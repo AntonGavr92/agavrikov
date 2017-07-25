@@ -24,7 +24,10 @@ public class UserStorage {
      * @param user пользователь
      */
     public void add(User user) {
-        storage.put(user.getId(), user);
+        synchronized (this) {
+            storage.put(user.getId(), user);
+        }
+
     }
 
     /**
@@ -32,8 +35,10 @@ public class UserStorage {
      * @param user пользователь
      */
     public void delete(User user) {
-        if (storage.containsKey(user.getId())) {
-            storage.remove(user.getId());
+        synchronized (this) {
+            if (storage.containsKey(user.getId())) {
+                storage.remove(user.getId());
+            }
         }
     }
 
@@ -43,7 +48,9 @@ public class UserStorage {
      * @param user - пользователь, на которого обновляем
      */
     public void update(User userForUpdate, User user) {
-        storage.put(userForUpdate.getId(), user);
+        synchronized (this) {
+            storage.put(userForUpdate.getId(), user);
+        }
     }
 
     /**
@@ -53,12 +60,14 @@ public class UserStorage {
      * @param amount количество средств.
      */
     public void transfer(int fromId, int toId, int amount) {
-        if (storage.containsKey(fromId) && storage.containsKey(toId)) {
-            User userFrom = storage.get(fromId);
-            User userTo = storage.get(toId);
-            if (userFrom.getAmount() >= amount) {
-                userFrom.setAmount(userFrom.getAmount() - amount);
-                userTo.setAmount(userTo.getAmount() + amount);
+        synchronized (this) {
+            if (storage.containsKey(fromId) && storage.containsKey(toId)) {
+                User userFrom = storage.get(fromId);
+                User userTo = storage.get(toId);
+                if (userFrom.getAmount() >= amount) {
+                    userFrom.setAmount(userFrom.getAmount() - amount);
+                    userTo.setAmount(userTo.getAmount() + amount);
+                }
             }
         }
     }

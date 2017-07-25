@@ -1,7 +1,5 @@
 package ru.job4j.monitore;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 
 /**
  * Класс описывающий пользователя.
@@ -9,13 +7,11 @@ import net.jcip.annotations.ThreadSafe;
  * @since 25.07.2017
  * @version 1
  */
-@ThreadSafe
-public class User {
+final public class User {
 
     /**
      * поле для хранения количества (ден средств).
      */
-    @GuardedBy("this")
     private int amount;
 
     /**
