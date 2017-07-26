@@ -32,27 +32,27 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
      * Класс описывающий узел дерева.
      * @param <E> объект
      */
-    class Node<E> {
+    static public class Node<E> {
         /**
          * поле для хранения ссылки на правый узел.
          */
-        Node<E> right;
+        public Node<E> right;
 
         /**
          * поле для хранения ссылки на левый узел.
          */
-        Node<E> left;
+        public Node<E> left;
 
         /**
          * поле для хранения значения.
          */
-        E value;
+        public E value;
 
         /**
          * Конструктор.
          * @param value - значение.
          */
-        Node(E value) {
+        public Node(E value) {
            this.value = value;
         }
     }
@@ -72,6 +72,14 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
             result = addElementToTree(root, value);
         }
         return result;
+    }
+
+    /**
+     * Геттер корня дерева.
+     * @return корень дерева.
+     */
+    public Node<E> getRoot() {
+        return this.root;
     }
 
     /**
