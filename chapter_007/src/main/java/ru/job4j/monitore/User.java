@@ -7,7 +7,7 @@ package ru.job4j.monitore;
  * @since 25.07.2017
  * @version 1
  */
-final public class User {
+public class User {
 
     /**
      * поле для хранения количества (ден средств).
