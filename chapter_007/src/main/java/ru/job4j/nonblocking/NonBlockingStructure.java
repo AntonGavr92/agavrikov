@@ -32,18 +32,17 @@ public class NonBlockingStructure<K, V extends ConcurrentVersion> {
      * @param value значение
      */
     public void update(K key, V value) {
-        //O_o\\
-        if (cMap.containsKey(key)) {
-            int version = cMap.get(key).version;
-            cMap.computeIfPresent(key, (k, v) -> {
+        cMap.computeIfPresent(key, (k, v) -> {
+            if (cMap.containsKey(key)) {
+                int version = cMap.get(key).version;
                 if (v.version != version) {
                     throw new OptimisticException("Error");
                 } else {
                     value.version = v.version++;
                 }
-                return value;
-            });
-        }
+            }
+            return value;
+        });
     }
 
     /**
