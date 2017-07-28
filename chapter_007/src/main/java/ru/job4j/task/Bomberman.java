@@ -31,15 +31,9 @@ public class Bomberman {
         }
     }
 
-    /**
-     * Точка входа в программу.
-     * @param args Набор параметров
-     */
-    public static void main(String[] args) {
-        Bomberman bomberman = new Bomberman(2, 2);
-        Hero hero = new Hero(0, 0);
-        Random rand = new Random();
+    public void createThread(Bomberman bomberman) {
         boolean play = true;
+        Random rand = new Random();
         Thread heroThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -59,6 +53,12 @@ public class Bomberman {
             }
         });
         heroThread.start();
+    }
+
+    public void createHeroThread(Bomberman bomberman) {
+        Random rand = new Random();
+        boolean play = true;
+        Hero hero = new Hero(0, 0);
         while (play) {
             //спорный вариант, возможно здесь лучше использовать producer customer
             //движение каждую секунду
@@ -89,6 +89,17 @@ public class Bomberman {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    /**
+     * Точка входа в программу.
+     * @param args Набор параметров
+     */
+    public static void main(String[] args) {
+        Bomberman bomberman = new Bomberman(2, 2);
+        bomberman.createHeroThread(bomberman);
+        bomberman.createThread(bomberman);
     }
 
 }
