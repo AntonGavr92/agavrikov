@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -39,7 +39,7 @@ public class ParallerSearch {
     /**
      * Поле для хранения путей файлов, которые имеют расширение указанное в exts и содержат искомую строку.
      */
-    private Vector<String> pathsResult = new Vector<String>();
+    private CopyOnWriteArrayList<String> pathsResult = new CopyOnWriteArrayList<String>();
 
     /**
      * Конструктор для инициализации некоторых полей.
