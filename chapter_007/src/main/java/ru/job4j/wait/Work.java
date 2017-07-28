@@ -11,6 +11,6 @@ public class Work {
     /**
      * Поле описывающее, выполнена ли работа.
      */
-    private boolean isDone = false;
+    boolean isDone = false;
 
 }

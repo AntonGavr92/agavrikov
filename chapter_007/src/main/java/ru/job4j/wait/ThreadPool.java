@@ -29,8 +29,8 @@ public class ThreadPool {
                 this.wait();
             }
             countWorkingThreads++;
-            //work.isDone = true;
-            //countWorkingThreads--;
+            work.isDone = true;
+            countWorkingThreads--;
         }
     }
 
