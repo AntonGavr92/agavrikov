@@ -1,5 +1,8 @@
 package ru.job4j.wait;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Класс реализующий шаблон Producer Customer.
  * @author agavrikov
@@ -14,34 +17,41 @@ public class ThreadPool {
     private final int countThreads = Runtime.getRuntime().availableProcessors();
 
     /**
-     * Поле для хранения работающих потоков.
+     * Очередь для выполнения задач, за которой будет мониторить пул.
      */
-    private int countWorkingThreads = 0;
-
+  private final Queue<Work> queue = new LinkedList<>();
     /**
      * Метод, для добавления работы на потоке.
      * @param work некая работа
      * @throws InterruptedException исключение
      */
     public void add(Work work) throws InterruptedException {
-        synchronized (this) {
-            while (countWorkingThreads >= countThreads) {
-                this.wait();
-            }
-            countWorkingThreads++;
-            work.isDone = true;
-            countWorkingThreads--;
+        synchronized (queue) {
+            queue.add(work);
+            queue.notifyAll();
         }
     }
 
-    /**
-     * Метод для проверки свободных потоков, и при их наличии активизирующий ждущие потоки.
-     */
-    public void checkCountThreads() {
-        synchronized (this) {
-            if (countWorkingThreads < countThreads) {
-                this.notify();
-            }
+    public void createPool() {
+        for (int i = 0; i < countThreads; i++) {
+            Thread thread = new Thread( new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        synchronized (queue) {
+                            try {
+                                while (queue.size() == 0) {
+                                    queue.wait();
+                                }
+                                queue.poll().isDone = true;
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 }
