@@ -1,8 +1,8 @@
 package ru.job4j;
 
+import javax.xml.crypto.Data;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
 
 /**
@@ -18,6 +18,11 @@ public class Tracker {
      */
     private ArrayList<Item> items = new ArrayList<Item>();
 
+    /**
+     * Поле для хранения данных о подключении к бд.
+     */
+    DataConnection dataConnection = new DataConnection("localhost", "5432", "postgres", "12345678", "task", "postgresql");
+
 
     /**
      * Метод для добавления заявки в трекер.
@@ -25,7 +30,25 @@ public class Tracker {
      * @return - добавленная заявка
      */
     public Item add(Item item) {
-        this.items.add(item);
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO items (id, name, description, created) VALUES (?, ?, ?, ?)");
+            ps.setString(1, item.getId());
+            ps.setString(2, item.getName());
+            ps.setString(3, item.getDesc());
+            ps.setLong(4, item.getCreated());
+            ps.execute();
+            ps.close();
+
+            if (item.getComments() != null) {
+                ps = conn.prepareStatement("INSERT INTO comments (id_item, text) VALUES (?, ?)");
+                ps.setString(1, item.getId());
+                ps.setString(2, item.getComments().get(item.getComments().size()));
+                ps.execute();
+                ps.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
+        }
         return item;
     }
 
@@ -34,10 +57,30 @@ public class Tracker {
      * @param item заявка, которую нужно обновить
      */
     public void update(Item item) {
-        for (int i = 0; i < this.items.size(); i++) {
-            if (this.items.get(i).getId().equals(item.getId())) {
-                this.items.set(i, item);
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
+            PreparedStatement ps = conn.prepareStatement("UPDATE items SET name = ?, description = ?, created = ? WHERE id = ?");
+            ps.setString(1, item.getName());
+            ps.setString(2, item.getDesc());
+            ps.setLong(3, item.getCreated());
+            ps.setString(4, item.getId());
+            ps.execute();
+            ps.close();
+
+            //Тут можно соптимизировать, за счет контроля id комментариев. А пока полоностью чистим и заполняем коментами.
+            ps = conn.prepareStatement("DELETE FROM comments WHERE comments.id_item = ?");
+            ps.setString(1, item.getId());
+            ps.execute();
+            ps.close();
+
+            ps = conn.prepareStatement("INSERT INTO comments (id_item, text) VALUES (?, ?)");
+            for(String comment : item.getComments()) {
+                ps.setString(1, item.getId());
+                ps.setString(2, comment);
+                ps.execute();
             }
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
         }
     }
 
@@ -46,7 +89,19 @@ public class Tracker {
      * @param item - заявка, которую нужно удалить
      */
     public void delete(Item item) {
-        this.items.remove(item);
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM comments WHERE comments.id_item = ?");
+            ps.setString(1, item.getId());
+            ps.execute();
+            ps.close();
+
+            ps = conn.prepareStatement("DELETE FROM items WHERE items.id = ?");
+            ps.setString(1, item.getId());
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
+        }
     }
 
 
@@ -55,7 +110,19 @@ public class Tracker {
      * @return массив всех заявок
      */
     public ArrayList<Item> findAll() {
-        return this.items;
+        ArrayList<Item> result = new ArrayList<Item>();
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
+            Statement ps = conn.createStatement();
+            ResultSet rs = ps.executeQuery("SELECT * FROM items");
+            while (rs.next()) {
+                result.add(convertRowDbToItem(rs));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
+        }
+        return result;
     }
 
     /**
@@ -65,11 +132,17 @@ public class Tracker {
      */
     public ArrayList<Item> findByName(String key) {
         ArrayList<Item> foundItems = new ArrayList<Item>();
-        int currentIndex = 0;
-        for (Item item : this.items) {
-           if (item.getName().equals(key)) {
-               foundItems.add(item);
-           }
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM items WHERE items.name = ?");
+            ps.setString(1, key);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                foundItems.add(convertRowDbToItem(rs));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
         }
         return foundItems;
     }
@@ -81,12 +154,43 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item foundElement = null;
-        for (Item item : this.items) {
-            if (item.getId().equals(id)) {
-                foundElement = item;
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM items WHERE items.id = ?");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                foundElement = convertRowDbToItem(rs);
             }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(e.getStackTrace());
         }
         return foundElement;
+    }
+
+
+    /**
+     * Метод для конвертации данных из базы данных в объект Item.
+     * @param rs отбъек строки таблицы бд
+     * @return собранный объект Item
+     */
+    private Item convertRowDbToItem(ResultSet rs) {
+        Item result = null;
+        try {
+            result = new Item(rs.getString(1), rs.getString(2), rs.getString(3), rs.getLong(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Геттер данных соединения с бд.
+     * @return объект  данных соединения с бд
+     */
+    public DataConnection getDataConnection() {
+        return this.dataConnection;
     }
 
 }
