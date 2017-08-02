@@ -1,0 +1,1 @@
+CREATE TABLE job_offers (id serial primary key, text character varying(5000), href character varying(2000));
