@@ -228,11 +228,10 @@ public class JsoupParser {
         }
         if (executeQuery) {
             query.delete(query.length() - 1, query.length());
-            try {
-                Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
-                PreparedStatement ps = conn.prepareStatement(query.toString());
+            try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+                 PreparedStatement ps = conn.prepareStatement(query.toString())) {
                 ps.execute();
-                ps.close();
+
             } catch (SQLException e) {
                 e.getStackTrace();
             }
@@ -243,15 +242,12 @@ public class JsoupParser {
      * Метод для создания защиты от дублей, при наличии записей в бд.
      */
     public void createDoubleControl() {
-        try {
-            Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
-            PreparedStatement ps = conn.prepareStatement("SELECT href FROM job_offers");
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             PreparedStatement ps = conn.prepareStatement("SELECT href FROM job_offers")) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 doubleControl.add(rs.getString(1));
             }
-            rs.close();
-            ps.close();
         } catch (SQLException e) {
             e.getStackTrace();
         }

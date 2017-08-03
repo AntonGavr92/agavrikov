@@ -38,16 +38,13 @@ public class DbIterator {
      */
     public boolean tableIsNotExist(String tableName) {
         boolean result = true;
-        try {
-            Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
-            PreparedStatement ps = conn.prepareStatement("select table_name from information_schema.tables where table_name = ?;");
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             PreparedStatement ps = conn.prepareStatement("select table_name from information_schema.tables where table_name = ?;")){
             ps.setString(1, tableName);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result = false;
             }
-            rs.close();
-            ps.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -59,12 +56,10 @@ public class DbIterator {
      * @param tableName наименование таблицы
      */
     public void createTable(String tableName) {
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
-            PreparedStatement ps = conn.prepareStatement(String.format("CREATE TABLE %s (number INTEGER)", tableName));
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             PreparedStatement ps = conn.prepareStatement(String.format("CREATE TABLE %s (number INTEGER)", tableName))) {
             //Не сработало, полагаю из за ковычек..
-            //ps.setString(1, tableName);
-            ps.execute();
-            ps.close();
+
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -77,15 +72,13 @@ public class DbIterator {
      */
     public boolean tableEmpty(String tableName) {
         boolean result = true;
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
-            PreparedStatement ps = conn.prepareStatement(String.format("SELECT * FROM %s", tableName));
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             PreparedStatement ps = conn.prepareStatement(String.format("SELECT * FROM %s", tableName))) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result = false;
                 break;
             }
-            rs.close();
-            ps.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -97,10 +90,9 @@ public class DbIterator {
      * @param tableName имя таблицы, которую необходимо очистить.
      */
     public void clearTable(String tableName) {
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
-            PreparedStatement ps = conn.prepareStatement(String.format("DELETE FROM %s", tableName));
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             PreparedStatement ps = conn.prepareStatement(String.format("DELETE FROM %s", tableName))) {
             ps.execute();
-            ps.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -117,8 +109,8 @@ public class DbIterator {
         } else if (!tableEmpty(tableName)) {
             clearTable(tableName);
         }
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
-            PreparedStatement ps = conn.prepareStatement(String.format("INSERT INTO %s (number) VALUES (?)", tableName));
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             PreparedStatement ps = conn.prepareStatement(String.format("INSERT INTO %s (number) VALUES (?)", tableName));) {
             for (int i = 1; i <= count; i++) {
                 ps.setInt(1, i);
                 ps.execute();
@@ -136,14 +128,12 @@ public class DbIterator {
      */
     public ArrayList<Integer> getDataFromTable(String tableName) {
         ArrayList<Integer> result = new ArrayList<Integer>();
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword())) {
-            Statement ps = conn.createStatement();
+        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
+             Statement ps = conn.createStatement()) {
             ResultSet rs = ps.executeQuery(String.format("SELECT * FROM %s", tableName));
             while (rs.next()) {
                 result.add(rs.getInt(1));
             }
-            rs.close();
-            ps.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
