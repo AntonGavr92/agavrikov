@@ -45,9 +45,17 @@ public class Forest {
         Forest forest = new Forest();
         Frog frog = new Frog(6, 10, 0);
         forest.findWay(frog);
+        long timeStart = System.currentTimeMillis();
+        boolean finish = false;
+        while (!finish) {
+            finish = forest.findWay(forest.frogMoves.poll());
+            if(System.currentTimeMillis() - timeStart < 20000){
+                break;
+            }
+        }
+        /*forest.createThread().start();
         forest.createThread().start();
-        forest.createThread().start();
-        forest.createThread().start();
+        forest.createThread().start();*/
     }
 
     /**
@@ -73,8 +81,10 @@ public class Forest {
     /**
      * Метод для прохода всех возможных полей лягушки, с целью попасть в нужную нам точку.
      * @param frog лягушка
+     * @return false - если не достигли конечной точки, true - если достигаем
      */
-    public void findWay(Frog frog) {
+    public boolean findWay(Frog frog) {
+        boolean result = false;
         for (Move move : getMove(frog)) {
             frogMoves.add(frog.setNewPosition(move.getRow(), move.getCol()));
             if(move.getRow() == 9 && move.getCol() == 8) {
@@ -82,11 +92,13 @@ public class Forest {
                     if(this.minMoves == 0 || this.minMoves > frog.getMoves() + 1) {
                         this.minMoves = frog.getMoves() + 1;
                         System.out.println(this.minMoves);
-                        return;
+                        result = true;
+                        break;
                     }
                 }
             }
         }
+        return result;
     }
 
     /**
