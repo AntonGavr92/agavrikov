@@ -30,10 +30,11 @@ public class UpdateUserServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(getUsersHtml(req));
-        writer.flush();
+        if (req.getParameter("userId") != null) {
+            resp.sendRedirect(String.format("%s/update_user/?id=%s", req.getContextPath(), req.getParameter("userId")));
+        } else {
+            resp.sendRedirect(String.format("%s/update_user/", req.getContextPath()));
+        }
     }
 
     /**
@@ -45,48 +46,12 @@ public class UpdateUserServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
         if (req.getParameter("userId") != null) {
-            if (userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")))) {
-                writer.append(getUsersHtml(req) + "</br>Данные успешно сохранены. <a href='" + req.getContextPath() + "/users'>Назад</a>.");
-            } else {
-                writer.append(getUsersHtml(req) + "</br>При сохранении данных возникла ошибка. <a href='" + req.getContextPath() + "/users'>Назад</a>.");
-            }
+            userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")));
+            resp.sendRedirect(String.format("%s/update_user/?id=%s", req.getContextPath(), req.getParameter("userId")));
         } else {
             userManger.addUser(new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")));
-            writer.append(getUsersHtml(req) + "</br>Данные успешно сохранены. <a href='" + req.getContextPath() + "/users'>Назад</a>.");
+            resp.sendRedirect(String.format("%s/update_user/", req.getContextPath()));
         }
-        writer.flush();
     }
-
-    /**
-     * Вспомогательный метод для создания html строки.
-     * @param req запрос.
-     * @return html строку
-     */
-    private String getUsersHtml(HttpServletRequest req) {
-        StringBuilder sb = new StringBuilder();
-        if (req.getParameter("id") != null) {
-            User user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
-            sb.append("Форма редактирования пользователя</br></br>");
-            sb.append("<form style='margin-bottom: 0;' action='" + req.getContextPath() + "/update_user?id=" + user.getId() + "' method='post'>"
-                    + "Имя : <input type='text' name='nameUser' value='" + user.getName() + "'></input></br></br>"
-                    + "Почта : <input type='text' name='emailUser' value='" + user.getEmail() + "'></input></br></br>"
-                    + "Логин : <input type='text' name='loginUser' value='" + user.getLogin() + "'></input></br></br>"
-                    + "<input type='submit' value='Сохранить'></input>"
-                    + "<input type='hidden' name='userId' value='" + user.getId() + "'></input>"
-                    + "</form>");
-        } else { //если нужно создать пользователя
-            sb.append("Форма создания пользователя</br></br>");
-            sb.append("<form style='margin-bottom: 0;' action='" + req.getContextPath() + "/update_user' method='post'>"
-                    + "Имя : <input type='text' name='nameUser'></input></br></br>"
-                    + "Почта : <input type='text' name='emailUser'></input></br></br>"
-                    + "Логин : <input type='text' name='loginUser'></input></br></br>"
-                    + "<input type='submit' value='Сохранить'></input>"
-                    + "</form>");
-        }
-        return sb.toString();
-    }
-
 }
