@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 /**
@@ -30,11 +29,11 @@ public class UpdateUserServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("userId") != null) {
-            resp.sendRedirect(String.format("%s/update_user/?id=%s", req.getContextPath(), req.getParameter("userId")));
-        } else {
-            resp.sendRedirect(String.format("%s/update_user/", req.getContextPath()));
+        if (req.getParameter("id") != null) {
+            User user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
+            req.setAttribute("user", user);
         }
+        req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
     }
 
     /**
@@ -46,12 +45,13 @@ public class UpdateUserServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("userId") != null) {
+        if (req.getParameter("id") != null) {
             userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")));
-            resp.sendRedirect(String.format("%s/update_user/?id=%s", req.getContextPath(), req.getParameter("userId")));
+            User user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
+            req.setAttribute("user", user);
         } else {
             userManger.addUser(new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")));
-            resp.sendRedirect(String.format("%s/update_user/", req.getContextPath()));
         }
+        req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
     }
 }

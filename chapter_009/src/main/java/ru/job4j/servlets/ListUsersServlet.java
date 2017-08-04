@@ -5,8 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+
 
 /**
  * Class описывающий список пользователей и взаимодействия с ними.
@@ -30,7 +29,8 @@ public class ListUsersServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(String.format("%s/users/", req.getContextPath()));
+        req.setAttribute("users", userManger.getAllUsers());
+        req.getRequestDispatcher("/WEB-INF/views/get_users.jsp").forward(req, resp);
     }
 
     /**
@@ -43,6 +43,7 @@ public class ListUsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         userManger.deleteUserById(Integer.parseInt(req.getParameter("userId")));
-        resp.sendRedirect(String.format("%s/users/", req.getContextPath()));
+        req.setAttribute("users", userManger.getAllUsers());
+        req.getRequestDispatcher("/WEB-INF/views/get_users.jsp").forward(req, resp);
     }
 }
