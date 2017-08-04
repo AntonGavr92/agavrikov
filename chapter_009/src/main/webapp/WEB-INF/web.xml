@@ -8,6 +8,14 @@
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.UsersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UsersServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.ListUsersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.UpdateUserServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
@@ -17,5 +25,15 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/user</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UsersServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <url-pattern>/update_user</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -14,6 +14,11 @@ public class User {
     private String name;
 
     /**
+     * Идентификатор пользователя.
+     */
+    private int id;
+
+    /**
      * Email пользователя.
      */
     private String email;
@@ -40,6 +45,32 @@ public class User {
         this.email = email;
         this.login = login;
         this.createDate = createDate;
+    }
+
+    /**
+     * Конструктор для инициализации полей пользователя.
+     * @param name имя
+     * @param email почта
+     * @param login логин
+     * @param id идентификатор пользователя
+     */
+    public User(int id, String name, String email, String login) {
+        this.name = name;
+        this.email = email;
+        this.login = login;
+        this.id = id;
+    }
+
+    /**
+     * Конструктор для инициализации полей пользователя при создании нового пользователя.
+     * @param name имя
+     * @param email почта
+     * @param login логин
+     */
+    public User(String name, String email, String login) {
+        this.name = name;
+        this.email = email;
+        this.login = login;
     }
 
     /**
@@ -72,6 +103,14 @@ public class User {
      */
     public long getCreateDate() {
         return this.createDate;
+    }
+
+    /**
+     * Геттер идентификатора пользователя.
+     * @return идентификатор пользователя.
+     */
+    public int getId() {
+        return this.id;
     }
 
     /**
