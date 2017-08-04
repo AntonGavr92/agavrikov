@@ -2,6 +2,7 @@ package ru.job4j;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -72,7 +73,7 @@ public class StartUI {
     public void checkDb(){
         if (tableIsNotExist("items")) {
             try (Connection conn = DriverManager.getConnection(tracker.getDataConnection().urlConnection(), tracker.getDataConnection().getUser(), tracker.getDataConnection().getPassword())) {
-                PreparedStatement ps = conn.prepareStatement(getSqlScript("chapter_002\\src\\tmp\\createTableItems.sql"));
+                PreparedStatement ps = conn.prepareStatement(getSqlScript(this.getClass().getClassLoader().getResourceAsStream("createTableItems.sql")));
                 ps.execute();
                 ps.close();
             } catch (SQLException e) {
@@ -81,7 +82,7 @@ public class StartUI {
         }
         if (tableIsNotExist("comments")) {
             try (Connection conn = DriverManager.getConnection(tracker.getDataConnection().urlConnection(), tracker.getDataConnection().getUser(), tracker.getDataConnection().getPassword())) {
-                PreparedStatement ps = conn.prepareStatement(getSqlScript("chapter_002\\src\\tmp\\createTableComments.sql"));
+                PreparedStatement ps = conn.prepareStatement(getSqlScript(this.getClass().getClassLoader().getResourceAsStream("createTableComments.sql")));
                 ps.execute();
                 ps.close();
             } catch (SQLException e) {
@@ -92,18 +93,12 @@ public class StartUI {
 
     /**
      * Метод для получения скрипта Sql из файла
-     * @param path
-     * @return
+     * @param in входящий поток данных
+     * @return строка собранная из потока
      */
-    private String getSqlScript(String path) {
-        File file = new File(path);
+    private String getSqlScript(InputStream in) {
         StringBuffer str = new StringBuffer();
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Scanner scanner = new Scanner(in);
         if (scanner != null) {
             try {
                 while (scanner.hasNextLine()) {
