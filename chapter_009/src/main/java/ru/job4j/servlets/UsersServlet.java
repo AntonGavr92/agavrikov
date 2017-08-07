@@ -19,7 +19,7 @@ public class UsersServlet extends HttpServlet {
     /**
      * Объект управления пользователями в бд.
      */
-    private final SimpleUserManager userManager = new SimpleUserManager();
+    private final SimpleUserManager userManager = SimpleUserManager.getManager();
 
     /**
      * Метод для получения пользователя по имени.

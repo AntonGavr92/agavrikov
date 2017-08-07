@@ -14,28 +14,51 @@ public class SimpleUserManager {
     /**
      * Информация о соединении с бд.
      */
-    private final DataConnection dataConnection = new DataConnection("localhost", "5432", "postgres", "12345678", "task", "postgresql");
+    private final DataConnection dataConnection;
+
+    /**
+     * Поле для хранения пула соединений с бд.
+     */
+    private final ConnectionPool pool;
+
+    /**
+     * поле для хранения единственного экземпляра класса.
+     */
+    private static final SimpleUserManager USER_MANAGER = new SimpleUserManager();
+
+    /**
+     * Конструктор с модификатором privat(паттерн синглтон).
+     */
+    private SimpleUserManager() {
+        this.dataConnection = new DataConnection("localhost", "5432", "postgres", "12345678", "task", "postgresql");
+        this.pool = new ConnectionPool(this.dataConnection, "org.postgresql.Driver", 2);
+    }
+
+    /**
+     * Метод для получения экземпляра класса.
+     * @return объект SimpleUserManager
+     */
+    public static SimpleUserManager getManager() {
+        return USER_MANAGER;
+    }
 
     /**
      * Метод для добавления пользователя в бд.
      * @param user объект - пользователь.
      */
     public void addUser(User user) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO users_s (name, email, login, date_created) VALUES (?, ?, ?, ?)")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO users_s (name, email, login, date_created) VALUES (?, ?, ?, ?)")) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getLogin());
             ps.setLong(4, System.currentTimeMillis());
             ps.execute();
+
         } catch (SQLException e) {
             e.getStackTrace();
         }
+        pool.closeConnection(conn);
     }
 
     /**
@@ -43,18 +66,14 @@ public class SimpleUserManager {
      * @param user пользователь
      */
     public void deleteUser(User user) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(this.dataConnection.urlConnection(), this.dataConnection.getUser(), this.dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("DELETE FROM users_s WHERE users_s.name = ?")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users_s WHERE users_s.name = ?")) {
             ps.setString(1, user.getName());
             ps.execute();
         } catch (SQLException e) {
             e.getStackTrace();
         }
+        pool.closeConnection(conn);
     }
 
     /**
@@ -62,13 +81,8 @@ public class SimpleUserManager {
      * @param user пользователь
      */
     public void updateUser(User user) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(dataConnection.urlConnection(), dataConnection.getUser(), dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("UPDATE users_s SET users_s.email = ?, users_s.login = ? WHERE users_s.name = ?")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("UPDATE users_s SET users_s.email = ?, users_s.login = ? WHERE users_s.name = ?")) {
             ps.setString(3, user.getName());
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getLogin());
@@ -76,6 +90,7 @@ public class SimpleUserManager {
         } catch (SQLException e) {
             e.getStackTrace();
         }
+        pool.closeConnection(conn);
     }
 
     /**
@@ -85,13 +100,8 @@ public class SimpleUserManager {
      */
     public User getUserByName(String name) {
         User user = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(this.dataConnection.urlConnection(), this.dataConnection.getUser(), this.dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s WHERE users_s.name = ?")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s WHERE users_s.name = ?")) {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -101,7 +111,7 @@ public class SimpleUserManager {
         } catch (SQLException e) {
             e.getStackTrace();
         }
-
+        pool.closeConnection(conn);
         return user;
     }
 
@@ -114,13 +124,8 @@ public class SimpleUserManager {
      */
     public ArrayList<User> getAllUsers() {
         ArrayList<User> list = new ArrayList<User>();
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(this.dataConnection.urlConnection(), this.dataConnection.getUser(), this.dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s")) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
@@ -129,6 +134,7 @@ public class SimpleUserManager {
         } catch (SQLException e) {
             e.getStackTrace();
         }
+        pool.closeConnection(conn);
         return list;
     }
 
@@ -137,19 +143,14 @@ public class SimpleUserManager {
      * @param id идентификатор пользователя
      */
     public void deleteUserById(int id) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try (Connection conn = DriverManager.getConnection(this.dataConnection.urlConnection(), this.dataConnection.getUser(), this.dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("DELETE FROM users_s WHERE users_s.id = ?")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM users_s WHERE users_s.id = ?")) {
             ps.setInt(1, id);
             ps.execute();
         } catch (SQLException e) {
 
         }
+        pool.closeConnection(conn);
     }
 
     /**
@@ -159,13 +160,8 @@ public class SimpleUserManager {
      */
     public User getUserById(int id) {
         User user = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(this.dataConnection.urlConnection(), this.dataConnection.getUser(), this.dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s WHERE users_s.id = ?")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s WHERE users_s.id = ?")) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -175,6 +171,7 @@ public class SimpleUserManager {
         } catch (SQLException e) {
             e.getStackTrace();
         }
+        pool.closeConnection(conn);
         return user;
     }
 
@@ -186,22 +183,19 @@ public class SimpleUserManager {
      */
     public boolean updateUserById(int id, User user) {
         boolean result = false;
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (Connection conn = DriverManager.getConnection(this.dataConnection.urlConnection(), this.dataConnection.getUser(), this.dataConnection.getPassword());
-             PreparedStatement ps = conn.prepareStatement("UPDATE users_s SET name = ?, email = ?, login = ? WHERE id = ?")) {
+        Connection conn = pool.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement("UPDATE users_s SET name = ?, email = ?, login = ? WHERE id = ?")) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getLogin());
             ps.setInt(4, id);
             ps.execute();
             result = true;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        pool.closeConnection(conn);
         return result;
     }
 }
