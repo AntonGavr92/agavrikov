@@ -29,9 +29,19 @@ public class User {
     private String login;
 
     /**
+     * Password пользователя.
+     */
+    private String password;
+
+    /**
      * Дата создания пользователя.
      */
     private long createDate;
+
+    /**
+     * Идентификатор роли пользователя.
+     */
+    private int idRole;
 
     /**
      * Конструктор для инициализации полей пользователя.
@@ -53,16 +63,36 @@ public class User {
      * @param email почта
      * @param login логин
      * @param id идентификатор пользователя
+     * @param password пароль
+     * @param idRole идентификатор роли пользователя
      */
-    public User(int id, String name, String email, String login) {
+    public User(int id, String name, String email, String login, String password, int idRole) {
         this.name = name;
         this.email = email;
         this.login = login;
         this.id = id;
+        this.password = password;
+        this.idRole = idRole;
     }
 
     /**
      * Конструктор для инициализации полей пользователя при создании нового пользователя.
+     * @param name имя
+     * @param email почта
+     * @param login логин
+     * @param password пароль пользователя\
+     * @param idRole идентификатор роли пользователя
+     */
+    public User(String name, String email, String login, String password, int idRole) {
+        this.name = name;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.idRole = idRole;
+    }
+
+    /**
+     * Конструктор для инициализации полей пользователя для получения пользователя без пароля.
      * @param name имя
      * @param email почта
      * @param login логин
@@ -71,6 +101,14 @@ public class User {
         this.name = name;
         this.email = email;
         this.login = login;
+    }
+
+    /**
+     * Геттер пароля.
+     * @return пароля пользователя.
+     */
+    public String getPassword() {
+        return this.password;
     }
 
     /**
@@ -111,6 +149,14 @@ public class User {
      */
     public int getId() {
         return this.id;
+    }
+
+    /**
+     * Геттер идентификатора роли пользователя.
+     * @return идентификатор роли пользователя.
+     */
+    public int getIdRole() {
+        return this.idRole;
     }
 
     /**

@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -29,11 +30,23 @@ public class UpdateUserServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
         if (req.getParameter("id") != null) {
-            User user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
-            req.setAttribute("user", user);
+            User userForUpdate = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
+            req.setAttribute("user", userForUpdate);
+        } else if (!isAdmin(req)) {
+            resp.sendRedirect(String.format("%s/update_user?id=%s", req.getContextPath(), session.getAttribute("id")));
+            return;
         }
-        req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
+        if (isAdmin(req)) {
+            req.setAttribute("roles", userManger.getAllRoles());
+            req.setAttribute("isAdmin", true);
+            req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
+        } else if ((Integer) session.getAttribute("id") != Integer.parseInt(req.getParameter("id"))) {
+            resp.sendRedirect(String.format("%s/update_user?id=%s", req.getContextPath(), session.getAttribute("id")));
+        } else {
+            req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
+        }
     }
 
     /**
@@ -46,12 +59,33 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") != null) {
-            userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")));
             User user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
+            userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser"), req.getParameter("userPassword"), user.getIdRole()));
+            user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
             req.setAttribute("user", user);
         } else {
-            userManger.addUser(new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser")));
+            userManger.addUser(new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser"), req.getParameter("userPassword"), Integer.parseInt(req.getParameter("role"))));
         }
+        if (isAdmin(req)) {
+            req.setAttribute("isAdmin", true);
+            req.setAttribute("roles", userManger.getAllRoles());
+        }
+
         req.getRequestDispatcher("/WEB-INF/views/update_user.jsp").forward(req, resp);
+    }
+
+    /**
+     * Метод для проверки на администратора.
+     * @param req объект запроса
+     * @return true  - если пользователь - администратор, иначе false.
+     */
+    private boolean isAdmin(HttpServletRequest req) {
+        boolean result = false;
+        HttpSession session = req.getSession();
+        User user = userManger.getUserById((Integer) session.getAttribute("id"));
+        if (user.getIdRole() == userManger.getIdAdminRole()) {
+            result = true;
+        }
+        return result;
     }
 }
