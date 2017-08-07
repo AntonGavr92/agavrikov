@@ -46,9 +46,14 @@ public class JsoupParser {
     private Queue<Element> offers = new LinkedList<Element>();
 
     /**
-     * Поле для хранения ссылко на записи в бд, для исключения дублирования.
+     * Поле для хранения ссылок на записи в бд, для исключения дублирования.
      */
     private HashSet<String> doubleControl = new HashSet<String>();
+
+    /**
+     * Поле для хранения алиасов месяцев.
+     */
+    private HashSet<Alias> mounthAliases = new HashSet<Alias>();
 
     /**
      * Поле для хранения данных о последнем запуске программы.
@@ -70,6 +75,20 @@ public class JsoupParser {
         this.findWords = findWords;
         this.excludedWords = excludedWords;
         this.timeInterval = timeInterval;
+
+        //Заполним алиасы месяцев
+        mounthAliases.add(new Alias("янв", "1"));
+        mounthAliases.add(new Alias("фев", "2"));
+        mounthAliases.add(new Alias("мар", "3"));
+        mounthAliases.add(new Alias("апр", "4"));
+        mounthAliases.add(new Alias("май", "5"));
+        mounthAliases.add(new Alias("июн", "6"));
+        mounthAliases.add(new Alias("июл", "7"));
+        mounthAliases.add(new Alias("авг", "8"));
+        mounthAliases.add(new Alias("сен", "9"));
+        mounthAliases.add(new Alias("окт", "10"));
+        mounthAliases.add(new Alias("ноя", "11"));
+        mounthAliases.add(new Alias("дек", "12"));
     }
 
     /**
@@ -173,30 +192,11 @@ public class JsoupParser {
             calendar.add(Calendar.DATE, -1);
             formatDate.replace(formatDate.indexOf("вчера"), formatDate.indexOf(","), String.format("%s %s %s", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)));
         } else {
-            if (formatDate.indexOf("янв") != -1) {
-                formatDate.replace(formatDate.indexOf("янв"), formatDate.indexOf(" ", formatDate.indexOf("янв")), "1");
-            } else if (formatDate.indexOf("фев") != -1) {
-                formatDate.replace(formatDate.indexOf("фев"), formatDate.indexOf(" ", formatDate.indexOf("фев")), "2");
-            } else if (formatDate.indexOf("мар") != -1) {
-                formatDate.replace(formatDate.indexOf("мар"), formatDate.indexOf(" ", formatDate.indexOf("мар")), "3");
-            } else if (formatDate.indexOf("апр") != -1) {
-                formatDate.replace(formatDate.indexOf("апр"), formatDate.indexOf(" ", formatDate.indexOf("апр")), "4");
-            } else if (formatDate.indexOf("май") != -1) {
-                formatDate.replace(formatDate.indexOf("май"), formatDate.indexOf(" ", formatDate.indexOf("май")), "5");
-            } else if (formatDate.indexOf("июн") != -1) {
-                formatDate.replace(formatDate.indexOf("июн"), formatDate.indexOf(" ", formatDate.indexOf("июн")), "6");
-            } else if (formatDate.indexOf("июл") != -1) {
-                formatDate.replace(formatDate.indexOf("июл"), formatDate.indexOf(" ", formatDate.indexOf("июл")), "7");
-            } else if (formatDate.indexOf("авг") != -1) {
-                formatDate.replace(formatDate.indexOf("авг"), formatDate.indexOf(" ", formatDate.indexOf("авг")), "8");
-            } else if (formatDate.indexOf("сен") != -1) {
-                formatDate.replace(formatDate.indexOf("сен"), formatDate.indexOf(" ", formatDate.indexOf("сен")), "9");
-            } else if (formatDate.indexOf("окт") != -1) {
-                formatDate.replace(formatDate.indexOf("окт"), formatDate.indexOf(" ", formatDate.indexOf("окт")), "10");
-            } else if (formatDate.indexOf("ноя") != -1) {
-                formatDate.replace(formatDate.indexOf("ноя"), formatDate.indexOf(" ", formatDate.indexOf("ноя")), "11");
-            } else if (formatDate.indexOf("дек") != -1) {
-                formatDate.replace(formatDate.indexOf("дек"), formatDate.indexOf(" ", formatDate.indexOf("дек")), "12");
+            for (Alias alias : mounthAliases) {
+                if (formatDate.indexOf(alias.getWord()) != -1) {
+                    formatDate.replace(formatDate.indexOf(alias.getWord()), formatDate.indexOf(" ", formatDate.indexOf(alias.getWord())), alias.getAlias());
+                    break;
+                }
             }
         }
         try {
