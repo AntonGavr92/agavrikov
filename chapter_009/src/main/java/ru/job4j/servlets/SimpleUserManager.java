@@ -30,7 +30,7 @@ public class SimpleUserManager {
     /**
      * поле для хранения идентификатора роли администратора.
      */
-    private static final int ID_ADMIN_ROLE = 0;
+    private static final int ID_ADMIN_ROLE = 1;
 
     /**
      * Конструктор с модификатором privat(паттерн синглтон).
@@ -59,22 +59,37 @@ public class SimpleUserManager {
     /**
      * Метод для добавления пользователя в бд.
      * @param user объект - пользователь.
+     * @return идентификатор пользователя
      */
-    public void addUser(User user) {
+    public int addUser(User user) {
+        int result = -1;
         Connection conn = pool.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO users_s (name, email, login, date_created, password, role) VALUES (?, ?, ?, ?, ?, ?)")) {
+        try (PreparedStatement ps = conn.prepareStatement("INSERT INTO users_s (name, email, login, date_created, password, role, city) VALUES (?, ?, ?, ?, ?, ?, ?)");
+             PreparedStatement psResId = conn.prepareStatement("SELECT id FROM users_s WHERE users_s.name = ? AND users_s.email = ? AND users_s.login = ?")) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getLogin());
             ps.setLong(4, System.currentTimeMillis());
             ps.setString(5, user.getPassword());
             ps.setInt(6, user.getIdRole());
+            ps.setInt(7, user.getCity().getId());
             ps.execute();
+
+            psResId.setString(1, user.getName());
+            psResId.setString(2, user.getEmail());
+            psResId.setString(3, user.getLogin());
+
+            ResultSet rs = psResId.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+
+            }
 
         } catch (SQLException e) {
             e.getStackTrace();
         }
         pool.closeConnection(conn);
+        return result;
     }
 
     /**
@@ -177,11 +192,14 @@ public class SimpleUserManager {
     public User getUserById(int id) {
         User user = null;
         Connection conn = pool.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s WHERE users_s.id = ?")) {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM users_s LEFT OUTER JOIN cities_s ON users_s.city = cities_s.id WHERE users_s.id = ?")) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getInt(7));
+                if (rs.getInt(8) != 0) {
+                    user.setCity(new City(rs.getString(9), rs.getString(10), rs.getInt(8)));
+                }
             }
 
         } catch (SQLException e) {
@@ -200,13 +218,14 @@ public class SimpleUserManager {
     public boolean updateUserById(int id, User user) {
         boolean result = false;
         Connection conn = pool.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement("UPDATE users_s SET name = ?, email = ?, login = ?, password = ?, role = ? WHERE id = ?")) {
+        try (PreparedStatement ps = conn.prepareStatement("UPDATE users_s SET name = ?, email = ?, login = ?, password = ?, role = ?, city = ? WHERE id = ?")) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getLogin());
             ps.setString(4, user.getPassword());
             ps.setInt(5, user.getIdRole());
-            ps.setInt(6, id);
+            ps.setInt(6, user.getCity().getId());
+            ps.setInt(7, id);
             ps.execute();
             result = true;
 
@@ -260,4 +279,5 @@ public class SimpleUserManager {
         pool.closeConnection(conn);
         return result;
     }
+
 }

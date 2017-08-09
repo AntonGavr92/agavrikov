@@ -44,6 +44,11 @@ public class User {
     private int idRole;
 
     /**
+     * Город пользователя.
+     */
+    private City city;
+
+    /**
      * Конструктор для инициализации полей пользователя.
      * @param name имя
      * @param email почта
@@ -181,6 +186,22 @@ public class User {
      */
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    /**
+     * Геттер города пользователя.
+     * @return город пользователя.
+     */
+    public City getCity() {
+        return city;
+    }
+
+    /**
+     * Сеттер города пользователя.
+     * @param city город пользователя
+     */
+    public void setCity(City city) {
+        this.city = city;
     }
 
 }

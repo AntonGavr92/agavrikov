@@ -10,39 +10,87 @@
 <html>
 <head>
     <title>Users</title>
+    <style>
+        td {
+            padding:4px 7px;
+        }
+
+        .add-link:hover {
+            background: #5fef84;
+        }
+
+        .add-link {
+            display: block;
+            padding: 4px 7px;
+            text-decoration: none;
+            color: #000000;
+        }
+
+        .edit-link {
+            display: block;
+            padding: 4px 7px;
+            text-decoration: none;
+            color: #000000;
+        }
+
+        .admin-table tr:last-child td{
+            padding: 0;
+        }
+
+        .delete-user {
+            background: none;
+            border: none;
+            outline: none;
+            display: block;
+            cursor: pointer;
+        }
+        .padding-0 {
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <c:if test="${!empty users}">
-    <table>
+    <table class="admin-table" border="1" style="border-collapse: collapse;">
+        <tr>
+            <td>Имя</td>
+            <td>Email</td>
+            <td>Логин</td>
+            <td></td>
+            <td></td>
+        </tr>
         <c:forEach items="${users}" var="user">
             <tr>
                 <td><c:out value="${user.name}"></c:out></td>
                 <td><c:out value="${user.email}"></c:out></td>
                 <td><c:out value="${user.login}"></c:out></td>
-                <td><a href="${pageContext.servletContext.contextPath}/update_user?id=<c:out value="${user.id}"></c:out>">Редактировать пользователя</a></td>
-                <td>
+                <td><a class="edit-link" href="${pageContext.servletContext.contextPath}/update_user?id=<c:out value="${user.id}"></c:out>">Редактировать</a></td>
+                <td class="padding-0">
                     <form style='margin-bottom: 0;' action='${pageContext.servletContext.contextPath}/users' method='post'>
-                        <input type='submit' value='Удалить пользователя'>
+                        <input class="delete-user" type='submit' value='Удалить'>
                         <input type='hidden' name='userId' value='<c:out value="${user.id}"></c:out>'>
                     </form>
                 </td>
             </tr>
         </c:forEach>
+        <tr>
+            <td colspan="5" style="text-align: center;"><a class="add-link" href='${pageContext.servletContext.contextPath}/update_user'>Создать</a></td>
+        </tr>
     </table>
-        </br><a href='${pageContext.servletContext.contextPath}/update_user'>Создать пользователя</a>
     </c:if>
     <c:if test="${!empty user}">
-        <table>
+        <table border="1" style="border-collapse: collapse;">
+            <tr>
+                <td>Имя</td>
+                <td>Email</td>
+                <td>Логин</td>
+                <td></td>
+            </tr>
             <tr>
                 <td><c:out value="${user.name}"></c:out></td>
                 <td><c:out value="${user.email}"></c:out></td>
                 <td><c:out value="${user.login}"></c:out></td>
-                <td><a href="${pageContext.servletContext.contextPath}/update_user?id=<c:out value="${user.id}"></c:out>">Редактировать пользователя</a></td>
-                <td>
-                    <form style='margin-bottom: 0;' action='${pageContext.servletContext.contextPath}/users' method='post'>
-                        <input type='hidden' name='userId' value='<c:out value="${user.id}"></c:out>'>
-                    </form>
-                </td>
+                <td><a class="edit-link" href="${pageContext.servletContext.contextPath}/update_user?id=<c:out value="${user.id}"></c:out>">Редактировать</a></td>
             </tr>
         </table>
     </c:if>

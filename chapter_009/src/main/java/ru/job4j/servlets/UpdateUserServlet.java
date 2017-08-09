@@ -22,6 +22,11 @@ public class UpdateUserServlet extends HttpServlet {
     private final SimpleUserManager userManger = SimpleUserManager.getManager();
 
     /**
+     * Объект управления городами в бд.
+     */
+    private final SimpleCityManager cityManager = SimpleCityManager.getManager();
+
+    /**
      * Метод для получения пользователей.
      * @param req запрос
      * @param resp ответ
@@ -31,6 +36,7 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+        req.setAttribute("cities", cityManager.getAllCities());
         if (req.getParameter("id") != null) {
             User userForUpdate = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
             req.setAttribute("user", userForUpdate);
@@ -58,13 +64,19 @@ public class UpdateUserServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("cities", cityManager.getAllCities());
         if (req.getParameter("id") != null) {
             User user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
-            userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser"), req.getParameter("userPassword"), user.getIdRole()));
+
+            User updateUser = new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser"), req.getParameter("userPassword"), user.getIdRole());
+            updateUser.setCity(cityManager.getCityById((Integer.parseInt(req.getParameter("active_city")))));
+            userManger.updateUserById(Integer.parseInt(req.getParameter("userId")), updateUser);
             user = userManger.getUserById(Integer.parseInt(req.getParameter("id")));
             req.setAttribute("user", user);
         } else {
-            userManger.addUser(new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser"), req.getParameter("userPassword"), Integer.parseInt(req.getParameter("role"))));
+            User user = new User(req.getParameter("nameUser"), req.getParameter("emailUser"), req.getParameter("loginUser"), req.getParameter("userPassword"), Integer.parseInt(req.getParameter("role")));
+            user.setCity(cityManager.getCityById((Integer.parseInt(req.getParameter("active_city")))));
+            userManger.addUser(user);
         }
         if (isAdmin(req)) {
             req.setAttribute("isAdmin", true);

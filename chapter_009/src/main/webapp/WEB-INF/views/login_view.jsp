@@ -3,6 +3,22 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        input{
+            padding: 3px 8px;
+            outline: none;
+            border-radius: 4px;
+            border: 1px solid;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        .submit {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <c:if test="${!empty error}">
@@ -10,9 +26,9 @@
 </c:if>
 
     <form style='margin-bottom: 0;' action='${pageContext.servletContext.contextPath}/auth' method='post'>
-        Логин : <input type='text' name='login'></br></br>
-        Пароль : <input type='password' name='password'></br></br>
-        <input type='submit' value='Войти'>
+        <input placeholder="Логин" type='text' name='login'></br></br>
+        <input placeholder="Парооль" type='password' name='password'></br></br>
+        <input class="submit" type='submit' value='Войти'>
     </form>
 </body>
 </html>

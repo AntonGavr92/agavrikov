@@ -20,6 +20,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.SigninController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateCityServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.CreateCity</servlet-class>
+    </servlet>
     <filter>
         <filter-name>AuthChecker</filter-name>
         <filter-class>ru.job4j.servlets.AuthChecker</filter-class>
@@ -44,6 +48,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateCityServlet</servlet-name>
+        <url-pattern>/add_city</url-pattern>
     </servlet-mapping>
     <filter-mapping>
         <filter-name>AuthChecker</filter-name>
