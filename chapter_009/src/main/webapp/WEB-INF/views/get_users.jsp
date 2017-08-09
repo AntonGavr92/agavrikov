@@ -9,45 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/get_users.css"></link>
     <title>Users</title>
-    <style>
-        td {
-            padding:4px 7px;
-        }
-
-        .add-link:hover {
-            background: #5fef84;
-        }
-
-        .add-link {
-            display: block;
-            padding: 4px 7px;
-            text-decoration: none;
-            color: #000000;
-        }
-
-        .edit-link {
-            display: block;
-            padding: 4px 7px;
-            text-decoration: none;
-            color: #000000;
-        }
-
-        .admin-table tr:last-child td{
-            padding: 0;
-        }
-
-        .delete-user {
-            background: none;
-            border: none;
-            outline: none;
-            display: block;
-            cursor: pointer;
-        }
-        .padding-0 {
-            padding: 0;
-        }
-    </style>
 </head>
 <body>
     <c:if test="${!empty users}">

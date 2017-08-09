@@ -2,23 +2,8 @@
 <%@ page contentType="text/html;charset=utf-8" %>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/login_view.css"></link>
     <title>Title</title>
-    <style>
-        input{
-            padding: 3px 8px;
-            outline: none;
-            border-radius: 4px;
-            border: 1px solid;
-        }
-
-        form {
-            text-align: center;
-        }
-
-        .submit {
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 <c:if test="${!empty error}">

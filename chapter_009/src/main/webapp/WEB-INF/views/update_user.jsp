@@ -2,97 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/update_user.css"></link>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/js/script.js"></script>
     <title>Add/update user</title>
-    <style>
-        input{
-            padding: 3px 8px;
-            outline: none;
-            border-radius: 4px;
-            border: 1px solid;
-        }
-
-        form {
-            text-align: center;
-        }
-
-        .submit {
-            cursor: pointer;
-        }
-
-        .error {
-            background: #ff7878;
-        }
-
-        .cities, .create-city{
-            max-width: 400px;
-            margin: auto;
-        }
-
-        .cities .check {
-            display: inline-block;
-            width: 10%;
-        }
-
-        .cities .city-block, .create-city .city-block {
-            display: inline-block;
-            width: 44%;
-            margin-top: 10px;
-        }
-
-        .city-block input{
-            width: 100%;
-        }
-    </style>
-    <script>
-        function validate() {
-            var result = true;
-            $(".error").each(function(index) {
-                $(this).removeClass("error");
-            });
-
-            $(".main-fields input").each(function(index) {
-                if ($(this).val() == "") {
-                    $(this).addClass("error");
-                    result = false;
-                }
-            });
-            if (!result) {
-                event.preventDefault();
-            }
-            return result;
-        }
-
-        function createCity() {
-            var valNewCity = $(".city input").val();
-            var valNewCountry = $(".country input").val();
-            if (valNewCity != "" && valNewCountry !="" ) {
-                $(".city input").removeClass("error");
-                $(".country input").removeClass("error");
-                $.ajax({
-                    url: '${pageContext.servletContext.contextPath}/add_city',
-                    dataType : "json",
-                    data : {country : valNewCountry, city : valNewCity},
-                    type : "post",
-                    success: function (data) {
-                        var resStr = "<div>" +
-                                     "<div class='city city-block'>"+ valNewCity +"</div>" +
-                                     "<div class='country city-block'>"+ valNewCountry +"</div>" +
-                                     "<div class='check'><input type='radio' checked value='" + data.id + "' name='active_city'/></div></div>";
-                        $(".cities").append(resStr);
-                    }
-                });
-            } else {
-                if (valNewCity = "") {
-                    $(".city input").addClass("error");
-                }
-                if (valNewCountry = "") {
-                    $(".country input").addClass("error")
-                }
-            }
-            event.preventDefault();
-        }
-    </script>
 </head>
 <body>
     <c:choose>
@@ -117,7 +30,7 @@
                 <div class="create-city">
                     <div class="city city-block"><input type="text"/></div>
                     <div class="country city-block"><input type="text"/></div>
-                    <div class="add"><button onclick="createCity();">Добавить город</button></div>
+                    <div class="add"><button onclick="createCity('${pageContext.servletContext.contextPath}');">Добавить город</button></div>
                 </div>
 
                 <c:if test="${isAdmin}">
@@ -153,7 +66,7 @@
                 <div class="create-city">
                     <div class="city city-block"><input type="text"/></div>
                     <div class="country city-block"><input type="text"/></div>
-                    <div class="add"><button onclick="createCity();">Добавить город</button></div>
+                    <div class="add"><button onclick="createCity('${pageContext.servletContext.contextPath}');">Добавить город</button></div>
                 </div>
                 <select name="role">
                          <c:forEach items="${roles}" var="role">

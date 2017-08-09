@@ -1,0 +1,36 @@
+td {
+    padding:4px 7px;
+}
+
+.add-link:hover {
+    background: #5fef84;
+}
+
+.add-link {
+    display: block;
+    padding: 4px 7px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.edit-link {
+    display: block;
+    padding: 4px 7px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.admin-table tr:last-child td{
+    padding: 0;
+}
+
+.delete-user {
+    background: none;
+    border: none;
+    outline: none;
+    display: block;
+    cursor: pointer;
+}
+.padding-0 {
+    padding: 0;
+}
