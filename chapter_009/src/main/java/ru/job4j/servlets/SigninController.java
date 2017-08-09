@@ -30,11 +30,9 @@ public class SigninController extends HttpServlet {
         User user = userManger.getUserByLoginPass(req.getParameter("login"), req.getParameter("password"));
         if (user != null) {
             HttpSession session = req.getSession();
-                synchronized (session) {
-                session.setAttribute("login", user.getLogin());
-                session.setAttribute("id", user.getId());
-                resp.sendRedirect(String.format("%s/users", req.getContextPath()));
-            }
+            session.setAttribute("login", user.getLogin());
+            session.setAttribute("id", user.getId());
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
             req.setAttribute("error", "User not found.");
             doGet(req, resp);
