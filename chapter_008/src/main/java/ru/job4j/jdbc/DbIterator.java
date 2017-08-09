@@ -135,13 +135,13 @@ public class DbIterator {
             clearTable(tableName);
         }
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:sample.db");
-             Statement st = conn.createStatement()) {
-            StringBuilder val = new StringBuilder();
+             PreparedStatement ps = conn.prepareStatement(String.format("INSERT INTO %s (number) VALUES (?)", tableName))) {
+            conn.setAutoCommit(false);
             for (int i = 1; i <= count; i++) {
-                val.append(String.format("(%s),", i));
+                ps.setInt(1, i);
+                ps.addBatch();
             }
-            val.delete(val.length() - 1, val.length());
-            st.execute(String.format("INSERT INTO %s (number) VALUES %s", tableName, val.toString()));
+            ps.executeBatch();
         } catch (SQLException e) {
             LOG.error("Ошибка при работе с бд.", e);
         }
