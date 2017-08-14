@@ -24,10 +24,10 @@
         <servlet-name>CreateCityServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.CreateCity</servlet-class>
     </servlet>
-    <filter>
+    <!--<filter>
         <filter-name>AuthChecker</filter-name>
         <filter-class>ru.job4j.servlets.AuthChecker</filter-class>
-    </filter>
+    </filter>-->
 
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
@@ -53,8 +53,45 @@
         <servlet-name>CreateCityServlet</servlet-name>
         <url-pattern>/add_city</url-pattern>
     </servlet-mapping>
-    <filter-mapping>
+    <!--<filter-mapping>
         <filter-name>AuthChecker</filter-name>
         <url-pattern>*</url-pattern>
+    </filter-mapping>-->
+
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>ru.job4j.task.servlets.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/task/auth</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <servlet-class>ru.job4j.task.servlets.UpdateUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <url-pattern>/task/update</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.task.servlets.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/task/*</url-pattern>
     </filter-mapping>
+
+    <servlet>
+        <servlet-name>UsersListServlet</servlet-name>
+        <servlet-class>ru.job4j.task.servlets.UsersListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UsersListServlet</servlet-name>
+        <url-pattern>/task/list</url-pattern>
+    </servlet-mapping>
+
 </web-app>
