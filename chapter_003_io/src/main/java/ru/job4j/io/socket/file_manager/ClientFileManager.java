@@ -46,53 +46,94 @@ public class ClientFileManager {
      */
     public void start() {
         boolean exit = false;
-        try (BufferedReader inUser = new BufferedReader(this.userIn);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             InputStream inFile = socket.getInputStream();
-             PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true)) {
+        try (BufferedReader inUser = new BufferedReader(this.userIn)) {
             do {
                 System.out.println("Write command");
                 String str = inUser.readLine();
                 String[] command = str.split(" ");
                 if (command.length > 1 && command[0].equals("download")) {
-                    out.println(str);
                     String[] path = command[1].split("/");
-                    File file = new File(String.format("C:/test/%s", path[path.length - 1]));
-                    FileOutputStream fos = new FileOutputStream(file);
-                    int b;
-                    while ((b = inFile.read()) != -1) {
-                        fos.write((char) b);
-                    }
-                    byte[] buffer = new byte[inFile.available()];
-                    inFile.read(buffer);
-                    fos.write(buffer);
-                    fos.close();
-                    inFile.close();
+                    downloadFile(str, path[path.length - 1]);
                 } else if (command.length > 1 && command[0].equals("upload")){
-                    out.println(str);
-                    in.readLine();
-                    FileInputStream fis = new FileInputStream(command[1]);
-                    int b;
-                    while ((b = fis.read()) != -1) {
-                        out.write((char) b);
-                    }
-                    out.println();
+                    uploadFile(str, command[1]);
                 } else {
-                    out.println(str);
-                    str = in.readLine();
-                    if ((str) != null) {
-                        while (!str.isEmpty()) {
-                            System.out.println(str);
-                            str = in.readLine();
-                        }
-                    } else {
-                        exit = true;
-                    }
+                    exit = simpleCommand(str);
                 }
             } while (!exit);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Функция для загрузки файла с сервера.
+     * @param userCommand пользовательская команда
+     * @param fileName имя файла, который нужно скачать с сервера
+     */
+    private void downloadFile(String userCommand, String fileName) {
+        try (InputStream inFile = socket.getInputStream();
+             PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true)) {
+            out.println(userCommand);
+            File file = new File(String.format("C:/test/%s", fileName));
+            FileOutputStream fos = new FileOutputStream(file);
+            int b;
+            while ((b = inFile.read()) != -1) {
+                fos.write((char) b);
+            }
+            byte[] buffer = new byte[inFile.available()];
+            inFile.read(buffer);
+            fos.write(buffer);
+            fos.close();
+        } catch (IOException e) {
+
+        }
+    }
+
+    /**
+     * Функция для загрузки файла на сервер.
+     * @param userCommand пользовательская команда
+     * @param path путь к файлу, который нужно передать на сервер.
+     */
+    private void uploadFile (String userCommand, String path) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true)) {
+            out.println(userCommand);
+            in.readLine();
+            FileInputStream fis = new FileInputStream(path);
+            int b;
+            while ((b = fis.read()) != -1) {
+                out.write((char) b);
+            }
+            out.println();
+
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+    }
+
+    /**
+     * Метод, для отправки запроса и получения ответа от сервера, простых комманд, которые не связаны с обменом файлов.
+     * @param userCommand пользовательская команда
+     * @return в случае если необходимо выйти из программы - true, иначе false.
+     */
+    private boolean simpleCommand(String userCommand) {
+        boolean exit = false;
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true)) {
+            out.println(userCommand);
+            String str = in.readLine();
+            if ((str) != null) {
+                while (!str.isEmpty()) {
+                    System.out.println(str);
+                    str = in.readLine();
+                }
+            } else {
+                exit = true;
+            }
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+        return exit;
     }
 
     /**

@@ -8,16 +8,33 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Created by gavrikov.a on 18/08/2017.
+ * Класс, реализующий работу сервера.
+ * @author agavrikov
+ * @since 18.08.2017
+ * @version 1
  */
 public class ServerFileManager {
 
+    /**
+     * Поле для хранения сокета.
+     */
     private final Socket socket;
 
+    /**
+     * Поле для хранения текущей директории на сервере.
+     */
     private Dir serverPath;
 
+    /**
+     * Поле для хранения списка команд.
+     */
     private final List<FileManagerAction> listCommand = new LinkedList<FileManagerAction>();
 
+    /**
+     * Конструктор для инициализации полей.
+     * @param socket сокет
+     * @param serverPath путь на сервере
+     */
     public ServerFileManager(Socket socket, String serverPath) {
         this.socket = socket;
         this.serverPath = new Dir(serverPath);
@@ -30,6 +47,9 @@ public class ServerFileManager {
         this.listCommand.add(new Help(listCommand));
     }
 
+    /**
+     * Метод, реализующий взаимодействие с сервером.
+     */
     public void start() {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()))) {
             String command = "";
@@ -59,6 +79,10 @@ public class ServerFileManager {
         }
     }
 
+    /**
+     * Точка входа в программу.
+     * @param args параметры
+     */
     public static void main(String[] args) {
         Properties properties = new Properties();
         String path = "C:/projects/test/";

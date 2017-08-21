@@ -17,10 +17,34 @@ import java.util.Random;
 public class Chat {
 
     /**
+     * Команда чата, для приостановки работы чата.
+     */
+    private static final String STOP = "стоп";
+
+    /**
+     * Команда чата, для продолжения работы чата.
+     */
+    private static final String CONTINUE = "продолжить";
+
+    /**
+     * Команда чата, для завершения работы чата.
+     */
+    private static final String FINISH = "закончить";
+
+
+    /**
      * Точка входа в программу.
      * @param args входящие параметры
      */
     public static void main(String[] args) {
+        Chat chat = new Chat();
+        chat.start();
+    }
+
+    /**
+     * Метод, реализующий работу чата.
+     */
+    public void start() {
         LinkedList<String> phrases = new LinkedList<String>();
         ClassLoader classLoader = Chat.class.getClassLoader();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,11 +58,11 @@ public class Chat {
             Random rand = new Random();
             boolean stoped = false;
             String text = br.readLine();
-            while (!text.equals("закончить")) {
-                if (text.equals("стоп")) {
+            while (!FINISH.equals(text)) {
+                if (STOP.equals(text)) {
                     fos.write(String.format("%s пользователь ввел стоп.%s", System.currentTimeMillis(), System.lineSeparator()).getBytes());
                     stoped = true;
-                } else if (stoped && text.equals("продолжить")) {
+                } else if (stoped && CONTINUE.equals(text)) {
                     fos.write(String.format("%s пользователь ввел продолжить.%s", System.currentTimeMillis(), System.lineSeparator()).getBytes());
                     stoped = false;
                 }

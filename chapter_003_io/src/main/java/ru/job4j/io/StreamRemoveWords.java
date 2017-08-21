@@ -23,43 +23,13 @@ public class StreamRemoveWords {
      */
     public void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            char[] symb = new char[]{};
-            int curIndex = -1;
-            while (true) {
-                boolean hasWord = false;
-                int val = br.read();
-                if (val != -1) {
-                    for (String s : abuse) {
-                        curIndex = -1;
-                        symb = new char[s.length()];
-                        for (char c : s.toCharArray()) {
-                            if (c == (char) val) {
-                                symb[++curIndex] = c;
-                                if (curIndex < symb.length - 1) {
-                                    val = br.read();
-                                }
-                                hasWord = true;
-                            } else {
-                                hasWord = false;
-                                break;
-                            }
-                        }
-                        if (hasWord) {
-                            break;
-                        }
-                    }
-                    if (curIndex != -1 && !hasWord) {
-                        for (char c : symb) {
-                            if ((byte) c != 0) {
-                                out.write((byte) c);
-                            }
-                        }
-                    } else if (!hasWord) {
-                        out.write((byte) (char) val);
-                    }
-                } else {
-                    break;
+            String res = br.readLine();
+            while (res != null) {
+                for (String s : abuse) {
+                    res = res.replaceAll(s, "");
                 }
+                out.write(res.getBytes());
+                res = br.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
