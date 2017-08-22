@@ -41,7 +41,7 @@ public class InteractCalc {
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(System.in))) {
             String userInput;
             while (!(userInput = bf.readLine()).equals(EXIT_COMMAND)) {
-                System.out.println(parserUserInput(userInput));
+                System.out.println(this.parserUserInput(userInput));
             }
         } catch (IOException e) {
             e.getStackTrace();
@@ -53,7 +53,7 @@ public class InteractCalc {
      * @param userInput user input.
      * @return result of calculate or message about Incorrect data.
      */
-    private String parserUserInput(String userInput) {
+    public String parserUserInput(String userInput) {
         String result;
         if (userInput.contains(PREV_RESULT)) {
             userInput = userInput.replace(PREV_RESULT, Double.toString(this.calc.getResult()));
