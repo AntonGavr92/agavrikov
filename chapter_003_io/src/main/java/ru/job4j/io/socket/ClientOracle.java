@@ -72,8 +72,12 @@ public class ClientOracle {
     public static void main(String[] args) throws IOException {
         String host = "127.0.0.1";
         int port = 5000;
-        ClientOracle client = new ClientOracle(new Socket(InetAddress.getByName(host), port), new InputStreamReader(System.in));
-        client.start();
+        try (Socket socket = new Socket(InetAddress.getByName(host), port);
+            InputStreamReader in = new InputStreamReader(System.in)) {
+            ClientOracle client = new ClientOracle(socket, in);
+            client.start();
+        } catch (Exception e){
+            e.getStackTrace();
+        }
     }
-
 }

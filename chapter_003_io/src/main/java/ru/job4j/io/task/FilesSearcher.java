@@ -20,46 +20,31 @@ public class FilesSearcher {
     private final String resultPath;
 
     /**
-     * Искомое значение.
+     * Объект - валидатор.
      */
-    private final String searchVal;
-
-    /**
-     * Символ, идентифицирующий поиск осуществляемый по маске.
-     */
-    private static final String TYPE_SEARCH_BY_MASK = "-m";
-
-    /**
-     * Символ маски.
-     */
-    private static final String MASK_SYMBOl = "*";
-
-    /**
-     * Символ, идентифицирующий поиск осуществляемый по полному наименованию.
-     */
-    private static final String TYPE_SEARCH_BY_FULL_NAME = "-f";
+    private Validator validator;
 
     /**
      * Конструктор с указанным путем к логам, для инициализации полей.
-     * @param path путь
-     * @param searchVal искомое значение
+     * @param path путь.
+     * @param validator валидатор
      * @param resultPath путь к файлу с логами
      */
-    public FilesSearcher(String path, String searchVal, String resultPath) {
+    public FilesSearcher(String path, Validator validator, String resultPath) {
         this.path = path;
         this.resultPath = resultPath;
-        this.searchVal = searchVal;
+        this.validator = validator;
     }
 
     /**
      * Конструктор для инициализации полей.
      * @param path путь
-     * @param searchVal искомое значение
+     * @param validator валидатор
      */
-    public FilesSearcher(String path, String searchVal) {
+    public FilesSearcher(String path, Validator validator) {
         this.path = path;
         this.resultPath = null;
-        this.searchVal = searchVal;
+        this.validator = validator;
     }
 
     /**
@@ -83,11 +68,12 @@ public class FilesSearcher {
             }
         }
         if (!path.equals("") && !searchVal.equals("")) {
+            Validator validator = new Validator(searchType, searchVal);
             FilesSearcher filesSearcher;
             if (!logPath.equals("")) {
-                filesSearcher = new FilesSearcher(path, searchVal, logPath);
+                filesSearcher = new FilesSearcher(path, validator, logPath);
             } else {
-                filesSearcher = new FilesSearcher(path, searchVal);
+                filesSearcher = new FilesSearcher(path, validator);
             }
             filesSearcher.searchFiles(new File(filesSearcher.path), searchType);
         } else {
@@ -95,50 +81,7 @@ public class FilesSearcher {
         }
     }
 
-    /**
-     * Метод для проверки имени по маске.
-     * @param fileName имя файла
-     * @return если имя файла соответствует маске - true иначе false
-     */
-    private boolean checkByMask(String fileName) {
-        boolean result = false;
-        if (this.searchVal.equals(MASK_SYMBOl)) {
-            result = true;
-        } else if (fileName.contains(this.searchVal.replace(MASK_SYMBOl, ""))) {
-            result = true;
-        }
-        return result;
-    }
 
-    /**
-     * Метод для проверки имени.
-     * @param fileName имя файла
-     * @return если имя файла идеентично искомому - true иначе false
-     */
-    private boolean checkByFullName(String fileName) {
-        boolean result = false;
-        if (this.searchVal.equals(fileName)) {
-            result = true;
-        }
-        return result;
-    }
-
-    /**
-     * Метод, для определения необходимой функции проверки и вызывающий функцию записи лога.
-     * @param file файл
-     * @param searchType тип поиска
-     */
-    private void checkFileName(File file, String searchType) {
-        boolean accetableFile = false;
-        if(searchType.equals(TYPE_SEARCH_BY_FULL_NAME)) {
-            accetableFile = this.checkByFullName(file.getName());
-        } else if (searchType.equals(TYPE_SEARCH_BY_MASK)){
-            accetableFile = this.checkByMask(file.getName());
-        }
-        if (accetableFile && resultPath != null) {
-            createLog(file.getPath());
-        }
-    }
 
     /**
      * Метод для формирования файла с логами.
@@ -150,6 +93,18 @@ public class FilesSearcher {
             fos.flush();
         } catch (IOException e) {
             e.getStackTrace();
+        }
+    }
+
+    /**
+     * Метод, для определения необходимой функции проверки и вызывающий функцию записи лога.
+     * @param file файл
+     * @param searchType тип поиска
+     */
+    private void checkFileName(File file, String searchType) {
+        boolean accetableFile = validator.isCorrect(file);
+        if (accetableFile && resultPath != null) {
+            createLog(file.getPath());
         }
     }
 

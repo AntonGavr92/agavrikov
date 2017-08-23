@@ -28,6 +28,27 @@ public class InteractCalc {
     private static final String EXIT_COMMAND = "exit";
 
     /**
+     * Operation sum.
+     */
+    private static final String OPERATION_SUM = "+";
+
+    /**
+     * Operation div.
+     */
+    private static final String OPERATION_DIV = "/";
+
+    /**
+     * Operation multiple.
+     */
+    private static final String OPERATION_MULTIPLE = "*";
+
+    /**
+     * Operation subtract.
+     */
+    private static final String OPERATION_SUBTRACT = "-";
+
+
+    /**
      * Constructor for initialization.
      */
     public InteractCalc() {
@@ -75,13 +96,13 @@ public class InteractCalc {
      * @return result of calculate
      */
     private String calculateNum(double arg1, double arg2, String operation) {
-        if (operation.equals("+")) {
+        if (operation.equals(OPERATION_SUM)) {
             this.calc.add(arg1, arg2);
-        } else if (operation.equals("-")) {
+        } else if (operation.equals(OPERATION_SUBTRACT)) {
             this.calc.substruct(arg1, arg2);
-        } else if (operation.equals("/")) {
+        } else if (operation.equals(OPERATION_DIV)) {
             this.calc.div(arg1, arg2);
-        } else if (operation.equals("*")) {
+        } else if (operation.equals(OPERATION_MULTIPLE)) {
             this.calc.multiple(arg1, arg2);
         }
         return Double.toString(this.calc.getResult());
