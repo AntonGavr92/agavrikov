@@ -1,5 +1,6 @@
 package ru.job4j.lsp;
 
+import java.util.LinkedList;
 import java.util.TreeSet;
 
 /**
@@ -49,6 +50,17 @@ public class ControlQuality {
             if (percentExpiryFood >= storage.getPercentExpiryControlFrom() && percentExpiryFood <= storage.getPercentExpiryControlTo()) {
                 storage.putFood(food);
                 break;
+            }
+        }
+    }
+
+    /**
+     * Method for resort food.
+     */
+    public void restore() {
+        for (Storage storage : this.storages) {
+            for (Food food : storage.getFoods()) {
+                putInStorage(food);
             }
         }
     }
