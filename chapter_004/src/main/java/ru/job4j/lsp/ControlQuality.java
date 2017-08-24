@@ -39,7 +39,8 @@ public class ControlQuality {
      * @param food food
      */
     public void putInStorage(Food food) {
-        int percentExpiryFood = (int) (100 - (double) (food.getExpirydDate() - System.currentTimeMillis()) / (food.getExpirydDate() - food.getCreateDate()) * 100);
+        int percentExpiryFood = (int) (100 - (double) (food.getExpirydDate() -
+                System.currentTimeMillis()) / (food.getExpirydDate() - food.getCreateDate()) * 100);
         if (percentExpiryFood > 100) {
             percentExpiryFood = 100;
         }
@@ -60,6 +61,7 @@ public class ControlQuality {
     public void restore() {
         for (Storage storage : this.storages) {
             for (Food food : storage.getFoods()) {
+                storage.getFoods().remove(food);
                 putInStorage(food);
             }
         }
