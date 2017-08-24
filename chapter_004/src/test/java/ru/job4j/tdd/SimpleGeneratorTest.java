@@ -46,7 +46,7 @@ public class SimpleGeneratorTest {
         String result;
         try {
             result = sg.getGenerateString("I am a ${name}, Who are ${subjects}?", aliases);
-        } catch (Exception e){
+        } catch (Exception e) {
             result = null;
         }
         String expected = null;
@@ -68,7 +68,7 @@ public class SimpleGeneratorTest {
         String result;
         try {
             result = sg.getGenerateString("I am a ${name}, Who are ${subjects}?", aliases);
-        } catch (Exception e){
+        } catch (Exception e) {
             result = null;
         }
         String expected = null;

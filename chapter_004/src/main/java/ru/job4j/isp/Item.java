@@ -14,7 +14,7 @@ public abstract class Item implements AddItemMenu, Action {
     private Menu subMenu;
 
     /**
-     * Item has a sub menu;
+     * Item has a sub menu.
      */
     private boolean hasSubMenu;
 

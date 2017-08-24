@@ -5,6 +5,9 @@ package ru.job4j.lsp;
  */
 public class ReproductFood extends Food {
 
+    /**
+     * canReproduct.
+     */
     private boolean canReproduct = true;
 
     /**
@@ -22,16 +25,21 @@ public class ReproductFood extends Food {
     /**
      * Constructor for initialisation fields.
      *
-     * @param name        name
-     * @param expirydDate expirydDate
-     * @param createDate  createDate
-     * @param price       price
+     * @param name          name
+     * @param expirydDate   expirydDate
+     * @param createDate    createDate
+     * @param price         price
+     * @param isReproducted is reproducted
      */
     public ReproductFood(String name, long expirydDate, long createDate, int price, boolean isReproducted) {
         super(name, expirydDate, createDate, price);
         this.canReproduct = isReproducted;
     }
 
+    /**
+     * Getter.
+     * @return canReproduct
+     */
     public boolean isCanReproduct() {
         return this.canReproduct;
     }

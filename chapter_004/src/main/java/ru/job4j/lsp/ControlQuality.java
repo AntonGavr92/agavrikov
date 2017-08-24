@@ -1,6 +1,5 @@
 package ru.job4j.lsp;
 
-import java.util.LinkedList;
 import java.util.TreeSet;
 
 /**
@@ -39,8 +38,8 @@ public class ControlQuality {
      * @param food food
      */
     public void putInStorage(Food food) {
-        int percentExpiryFood = (int) (100 - (double) (food.getExpirydDate() -
-                System.currentTimeMillis()) / (food.getExpirydDate() - food.getCreateDate()) * 100);
+        int percentExpiryFood = (int) (100 - (double) (food.getExpirydDate()
+                - System.currentTimeMillis()) / (food.getExpirydDate() - food.getCreateDate()) * 100);
         if (percentExpiryFood > 100) {
             percentExpiryFood = 100;
         }

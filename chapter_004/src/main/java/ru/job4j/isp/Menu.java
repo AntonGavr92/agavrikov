@@ -15,7 +15,7 @@ public class Menu implements AddItemMenu, GetItemsMap {
     /**
      * list of items.
      */
-    LinkedList<Item> menuItems = new LinkedList<>();
+    private LinkedList<Item> menuItems = new LinkedList<>();
 
     /**
      * Method for adding items in menu.

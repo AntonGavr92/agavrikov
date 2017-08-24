@@ -44,11 +44,13 @@ public class SimpleIO {
         showMenuRec(this.menu, "-");
         Map<Integer, Item> map = this.menu.getItemsMap();
         String command;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.in))){
-            while (!(command = br.readLine()).equals(EXIT_COMMAND)) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.in))) {
+            command = br.readLine();
+            while (!command.equals(EXIT_COMMAND)) {
                 map.get(Integer.parseInt(command)).execute();
                 System.out.println(String.format("%s is executed", command));
                 showMenuRec(this.menu, "-");
+                command = br.readLine();
             }
         } catch (IOException e) {
             e.getStackTrace();
