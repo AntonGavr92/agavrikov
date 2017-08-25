@@ -24,9 +24,11 @@ public class User {
     }
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         for (int i = 0; i < 300; i++) {
             User user = new User(String.format("user-%s", i), i + 10);
             System.out.println("Created new user without link on object.");
         }
+        System.out.println(System.currentTimeMillis() - start);
     }
 }
