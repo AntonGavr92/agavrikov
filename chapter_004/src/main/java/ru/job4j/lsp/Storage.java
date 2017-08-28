@@ -68,6 +68,22 @@ public abstract class Storage implements Comparable<Storage> {
         return this.foods;
     }
 
+    public boolean isAppropriate(Food food) {
+        boolean result = false;
+        int percentExpiryFood = (int) (100 - (double) (food.getExpirydDate()
+                - System.currentTimeMillis()) / (food.getExpirydDate() - food.getCreateDate()) * 100);
+        if (percentExpiryFood > 100) {
+            percentExpiryFood = 100;
+        }
+        if (percentExpiryFood >= this.getPercentExpiryControlFrom() && percentExpiryFood <= this.getPercentExpiryControlTo()) {
+            result = true;
+            if (percentExpiryFood > 75 && percentExpiryFood < 100) {
+                food.setDiscount(50);
+            }
+        }
+        return result;
+    }
+
     @Override
     public int compareTo(Storage o) {
         int result = -1;
