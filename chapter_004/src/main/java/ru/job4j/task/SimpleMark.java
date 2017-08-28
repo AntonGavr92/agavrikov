@@ -1,20 +1,24 @@
 package ru.job4j.task;
 
 /**
- * Created by gavrikov.a on 24/08/2017.
+ * SimpleMark class.
+ * @author agavrikov
+ * @since 28.08.2017
+ * @version 1
  */
-public class SimpleMark implements Mark {
+public class SimpleMark {
 
-    private final char view;
+    /**
+     * View mark.
+     */
+    public final char view;
 
-
+    /**
+     * constructor.
+     * @param symbol symbol
+     */
     public SimpleMark(char symbol) {
         this.view = symbol;
 
-    }
-
-    @Override
-    public char getView() {
-        return this.view;
     }
 }

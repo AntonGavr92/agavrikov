@@ -3,34 +3,51 @@ package ru.job4j.task;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
+
 
 /**
- * Created by gavrikov.a on 24/08/2017.
+ * Game class.
+ * @author agavrikov
+ * @since 28.08.2017
+ * @version 1
  */
 public class Game {
 
-    private Board board;
+    /**
+     * Board.
+     */
+    private final Board board;
 
-    private Victory victory;
+    /**
+     * Victory.
+     */
+    private final Victory victory;
 
+    /**
+     * Constructor.
+     * @param board Board
+     * @param victory Victory
+     */
     public Game(Board board, Victory victory) {
         this.board = board;
         this.victory = victory;
     }
 
+    /**
+     * method for start game.
+     */
     public void startGame() {
         boolean gameEnd = false;
-        Mark player1 = new SimpleMark('x');
-        Mark player2 = new SimpleMark('o');
-        Mark currentPlayer = player1;
+        SimpleMark player1 = new SimpleMark('x');
+        SimpleMark player2 = new SimpleMark('o');
+        SimpleMark currentPlayer = player1;
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(System.in))) {
             while (!gameEnd) {
-                System.out.println(String.format("Now move player wirh char %s", currentPlayer.getView()));
-                Field[][] fields = this.board.getFieldsBoard();
+                System.out.println(String.format("Now move player wirh char %s", currentPlayer.view));
+                SimpleField[][] fields = this.board.fields();
                 for (int i = 0; i < fields.length; i++) {
                     for (int j = 0; j < fields[i].length; j++) {
-                        System.out.print(fields[i][j].getMark().getView());
+                        System.out.print(fields[i][j].mark.view);
                     }
                     System.out.println();
                 }
@@ -44,7 +61,7 @@ public class Game {
                     gameEnd = true;
                 }
                 if (victory.playerIsWin(board, coordR, coordC)) {
-                    System.out.println(String.format("Player with char %s winner.", currentPlayer.getView()));
+                    System.out.println(String.format("Player with char %s winner.", currentPlayer.view));
                     gameEnd = true;
                 } else {
                     if (currentPlayer == player1) {
@@ -59,6 +76,10 @@ public class Game {
         }
     }
 
+    /**
+     * Point of start.
+     * @param args params
+     */
     public static void main(String[] args) {
         Game game = new Game(new SmallBoard(), new SimpleVictory());
         game.startGame();

@@ -1,33 +1,61 @@
 package ru.job4j.task;
 
 /**
- * Created by gavrikov.a on 24/08/2017.
+ * SimpleField class.
+ * @author agavrikov
+ * @since 28.08.2017
+ * @version 1
  */
-public class SimpleField implements Field{
+public class SimpleField {
 
-    private Mark mark;
+    /**
+     * Mark on field.
+     */
+    public final SimpleMark mark;
 
-    public void setMark(Mark mark) {
+    /**
+     * Field for flag empty field.
+     */
+    private final boolean isEmpty;
+
+    /**
+     * Constructor.
+     * @param mark mark.
+     */
+    public SimpleField(SimpleMark mark) {
+        this.mark = mark;
+        this.isEmpty = false;
+    }
+
+    /**
+     * Constructor.
+     * @param mark mark
+     * @param isEmpty field is empty.
+     */
+    public SimpleField(SimpleMark mark, boolean isEmpty) {
+        this.mark = mark;
+        this.isEmpty = isEmpty;
+    }
+
+    /**
+     * Change Empty field on field with mark.
+     * @param mark mark
+     * @return new field with mark.
+     */
+    public SimpleField changeMark(SimpleMark mark) {
+        SimpleField sf = null;
         if (this.isEmpty()) {
-            this.mark = mark;
+            sf = new SimpleField(mark);
         }
+        return sf;
     }
 
-    @Override
-    public Mark getMark() {
-        Mark result = new EmptyMark('_');
-        if (!this.isEmpty()) {
-            result = this.mark;
-        }
-        return result;
-    }
-
+    /**
+     * method for check field on empty.
+     * @return if field is empty - true, else false.
+     */
     public boolean isEmpty() {
-        boolean result = false;
-        if (this.mark == null) {
-            result = true;
-        }
-        return result;
+        return this.isEmpty;
     }
 
 }

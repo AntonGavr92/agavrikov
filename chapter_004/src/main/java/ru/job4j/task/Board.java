@@ -1,14 +1,31 @@
 package ru.job4j.task;
 
 /**
- * Created by gavrikov.a on 24/08/2017.
+ * Board interface.
+ * @author agavrikov
+ * @since 28.08.2017
+ * @version 1
  */
 public interface Board {
 
-    void move(Mark mark, int i, int j);
+    /**
+     * Method for get fields.
+     * @return fields
+     */
+    SimpleField[][] fields();
 
+    /**
+     * Method for move on board.
+     * @param mark mark
+     * @param i row
+     * @param j col
+     */
+    void move(SimpleMark mark, int i, int j);
+
+    /**
+     * Method for check available moves.
+     * @return true if available moves founded, else - false.
+     */
     boolean hasMoves();
-
-    Field[][] getFieldsBoard();
 
 }
