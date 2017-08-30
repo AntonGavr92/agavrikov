@@ -1,8 +1,10 @@
 <hibernate-mapping>
-    <class lazy="false" name="ru.job4j.carShop.models.Transmission" table="transmission">
+    <class lazy="false" name="ru.job4j.carShop.models.User" table="users">
         <id name="id" column="id">
             <generator class="identity"/>
         </id>
         <property name="name" column="name"/>
+        <property name="login" column="login"/>
+        <property name="password" column="password"/>
     </class>
 </hibernate-mapping>

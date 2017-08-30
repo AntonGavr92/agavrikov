@@ -11,7 +11,7 @@ public class GearShift {
     /**
      * Id of GearShift.
      */
-    private long id;
+    private int id;
 
     /**
      * Name of GearShift.
@@ -26,10 +26,17 @@ public class GearShift {
     }
 
     /**
+     * Constructor.
+     */
+    public GearShift(int id) {
+        this.id = id;
+    }
+
+    /**
      * Getter of id.
      * @return id
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -37,7 +44,7 @@ public class GearShift {
      * Setter id.
      * @param id id
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

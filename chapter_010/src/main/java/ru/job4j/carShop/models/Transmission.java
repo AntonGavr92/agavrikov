@@ -11,7 +11,7 @@ public class Transmission {
     /**
      * Id of Transmission.
      */
-    private long id;
+    private int id;
 
     /**
      * Name of Transmission.
@@ -26,10 +26,17 @@ public class Transmission {
     }
 
     /**
+     * Constructor.
+     */
+    public Transmission(int id) {
+        this.id = id;
+    }
+
+    /**
      * Getter of id.
      * @return id
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -37,7 +44,7 @@ public class Transmission {
      * Setter id.
      * @param id id
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -4,6 +4,7 @@
             <generator class="identity"/>
         </id>
         <property name="name" column="name"/>
+        <property name="picturePath" column="picture_path"/>
         <many-to-one name="engine"
                      column="engine"
                      class="ru.job4j.carShop.models.Engine"/>

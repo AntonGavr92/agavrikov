@@ -11,7 +11,7 @@ public class Engine {
     /**
      * Id of engine.
      */
-    private long id;
+    private int id;
 
     /**
      * Name of engine.
@@ -26,10 +26,17 @@ public class Engine {
     }
 
     /**
+     * Constructor.
+     */
+    public Engine(int id) {
+        this.id = id;
+    }
+
+    /**
      * Getter of id.
      * @return id
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -37,7 +44,7 @@ public class Engine {
      * Setter id.
      * @param id id
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

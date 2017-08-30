@@ -7,4 +7,22 @@
         <servlet-name>ItemsListServlet</servlet-name>
         <url-pattern>/index.html</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CarsList</servlet-name>
+        <servlet-class>ru.job4j.carShop.servlets.CarsList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CarsList</servlet-name>
+        <url-pattern>/cars/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CreateCar</servlet-name>
+        <servlet-class>ru.job4j.carShop.servlets.CreateCar</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateCar</servlet-name>
+        <url-pattern>/cars/create_car/</url-pattern>
+    </servlet-mapping>
 </web-app>

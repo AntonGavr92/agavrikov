@@ -11,7 +11,7 @@ public class Car {
     /**
      * Id of car.
      */
-    private long id;
+    private int id;
 
     /**
      * Name of car.
@@ -33,6 +33,10 @@ public class Car {
      */
     private Transmission transmission;
 
+    private String picturePath;
+
+    private User user;
+
     /**
      * Constructor.
      */
@@ -44,7 +48,7 @@ public class Car {
      * Getter of id.
      * @return id
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -52,7 +56,7 @@ public class Car {
      * Setter id.
      * @param id id
      */
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -118,6 +122,22 @@ public class Car {
      */
     public void setTransmission(Transmission transmission) {
         this.transmission = transmission;
+    }
+
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }
