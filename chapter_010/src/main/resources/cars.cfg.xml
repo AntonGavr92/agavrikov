@@ -2,11 +2,15 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/task</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/car_garage</property>
         <property name="connection.password">12345678</property>
         <property name="connection.username">postgres</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
 
-        <mapping resource="ru/job4j/todolist/models/Item.hbm.xml"/>
+        <mapping resource="ru/job4j/carShop/models/Car.hbm.xml"/>
+        <mapping resource="ru/job4j/carShop/models/Engine.hbm.xml"/>
+        <mapping resource="ru/job4j/carShop/models/GearShift.hbm.xml"/>
+        <mapping resource="ru/job4j/carShop/models/Transmission.hbm.xml"/>
+
     </session-factory>
 </hibernate-configuration>

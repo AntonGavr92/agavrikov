@@ -1,0 +1,17 @@
+<hibernate-mapping>
+    <class name="ru.job4j.carShop.models.Car" table="car">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name"/>
+        <many-to-one name="engine"
+                     column="engine"
+                     class="ru.job4j.carShop.models.Engine"/>
+        <many-to-one name="gearShift"
+                     column="gear_shift"
+                     class="ru.job4j.carShop.models.GearShift"/>
+        <many-to-one name="transmission"
+                     column="transmission"
+                     class="ru.job4j.carShop.models.Transmission"/>
+    </class>
+</hibernate-mapping>
