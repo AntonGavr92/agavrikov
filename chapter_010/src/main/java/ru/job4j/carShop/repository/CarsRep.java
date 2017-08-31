@@ -48,6 +48,15 @@ public class CarsRep {
         session.close();
     }
 
+    public List<Car> getCarsByFilters(String filters){
+        Session session = factory.openSession();
+        session.beginTransaction();
+        List<Car> list = session.createQuery(String.format("from Car where %s", filters)).list();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
+
     public List<Car> getAllCars() {
         return (List<Car>) getAllEntities(NAME_ENTITY_CAR);
     }
