@@ -37,10 +37,35 @@ public class Car {
 
     private User user;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Car car = (Car) o;
+
+        if (!name.equals(car.name)) return false;
+        if (!engine.equals(car.engine)) return false;
+        if (!gearShift.equals(car.gearShift)) return false;
+        if (!transmission.equals(car.transmission)) return false;
+        return picturePath.equals(car.picturePath);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + engine.hashCode();
+        result = 31 * result + gearShift.hashCode();
+        result = 31 * result + transmission.hashCode();
+        result = 31 * result + picturePath.hashCode();
+        return result;
+    }
+
     /**
      * Constructor.
      */
     public Car() {
+
 
     }
 

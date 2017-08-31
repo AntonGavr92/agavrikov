@@ -43,7 +43,7 @@ public class CarsRep {
     public void addCar(Car car) {
         Session session = factory.openSession();
         session.beginTransaction();
-        session.save(car);
+        session.saveOrUpdate(car);
         session.getTransaction().commit();
         session.close();
     }

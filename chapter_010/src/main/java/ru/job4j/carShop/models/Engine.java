@@ -25,11 +25,27 @@ public class Engine {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Engine engine = (Engine) o;
+
+        return name.equals(engine.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
     /**
      * Constructor.
      */
     public Engine(int id) {
         this.id = id;
+
     }
 
     /**
