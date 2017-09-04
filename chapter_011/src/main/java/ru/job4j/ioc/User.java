@@ -1,4 +1,4 @@
-package ru.job4j.ios;
+package ru.job4j.ioc;
 
 import org.springframework.stereotype.Component;
 

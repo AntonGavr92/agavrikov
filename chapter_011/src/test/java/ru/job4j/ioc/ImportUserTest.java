@@ -1,10 +1,8 @@
-package ru.job4j.ios;
+package ru.job4j.ioc;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by gavrikov.a on 31/08/2017.

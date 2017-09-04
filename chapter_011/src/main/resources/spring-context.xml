@@ -7,10 +7,39 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--Ручное указание бина, с идентификатором test и классом SpringBeansTest-->
-    <!--<bean id="test" class="ru.job4j.ios.SpringBeansTest"/>-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/car_garage" />
+        <property name="username" value="postgres" />
+        <property name="password" value="12345678" />
+    </bean>
 
-    <!--Автоматическое формирование бинов-->
-    <context:component-scan base-package="ru.job4j"/>
 
+    <!-- Hibernate 5 SessionFactory Bean definition -->
+    <bean id="hibernate5AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>ru.job4j.cars.models.Car</value>
+                <value>ru.job4j.cars.models.Engine</value>
+                <value>ru.job4j.cars.models.GearShift</value>
+                <value>ru.job4j.cars.models.Transmission</value>
+                <value>ru.job4j.cars.models.User</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="repository" class="ru.job4j.cars.repositories.CarsRep">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+    </bean>
 </beans>

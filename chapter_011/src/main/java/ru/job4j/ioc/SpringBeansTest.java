@@ -1,4 +1,4 @@
-package ru.job4j.ios;
+package ru.job4j.ioc;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

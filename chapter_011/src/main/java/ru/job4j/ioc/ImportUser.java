@@ -1,4 +1,4 @@
-package ru.job4j.ios;
+package ru.job4j.ioc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

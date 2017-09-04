@@ -1,22 +1,19 @@
-package ru.job4j.carShop.repository;
+package ru.job4j.cars.repositories;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import ru.job4j.carShop.models.Car;
-import ru.job4j.carShop.models.Engine;
-import ru.job4j.carShop.models.GearShift;
-import ru.job4j.carShop.models.Transmission;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+import ru.job4j.cars.models.*;
 
 import java.util.List;
 
 /**
  * Created by gavrikov.a on 30/08/2017.
  */
+@Component
 public class CarsRep {
-
-    private static final CarsRep INSTANCE_OF = new CarsRep();
 
     private static final String NAME_ENTITY_CAR = "Car";
     private static final String NAME_ENTITY_ENGINE = "Engine";
@@ -27,25 +24,24 @@ public class CarsRep {
     private SessionFactory factory;
 
     private CarsRep() {
-        try {
-            this.factory = new Configuration().configure("cars.cfg.xml").buildSessionFactory();
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
 
     }
 
-    public static CarsRep instanceOf() {
-        return INSTANCE_OF;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.factory = sessionFactory;
     }
 
 
     public void addCar(Car car) {
-        Session session = factory.openSession();
-        session.beginTransaction();
-        session.save(car);
-        session.getTransaction().commit();
-        session.close();
+        try {
+            Session session = factory.openSession();
+            session.beginTransaction();
+            session.saveOrUpdate(car);
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
     }
 
     public List<Car> getCarsByFilters(String filters){
@@ -80,5 +76,11 @@ public class CarsRep {
         session.getTransaction().commit();
         session.close();
         return list;
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        CarsRep carsRep = context.getBean(CarsRep.class);
+        List<Car> te = carsRep.getAllCars();
     }
 }

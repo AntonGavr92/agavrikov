@@ -1,4 +1,4 @@
-package ru.job4j.ios;
+package ru.job4j.ioc;
 
 /**
  * Created by gavrikov.a on 31/08/2017.
