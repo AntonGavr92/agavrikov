@@ -80,7 +80,6 @@ public class CarsRep {
 
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        CarsRep carsRep = context.getBean(CarsRep.class);
-        List<Car> te = carsRep.getAllCars();
+        CarDataRepository carsRep = context.getBean(CarDataRepository.class);
     }
 }

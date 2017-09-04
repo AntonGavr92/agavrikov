@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.models.*;
+import ru.job4j.cars.repositories.CarDataRepository;
 import ru.job4j.cars.repositories.CarsRep;
 
 import javax.servlet.ServletContext;
@@ -29,6 +30,8 @@ public class CarController {
     //Тут спорный вариант, но если от него отказываться, тогда делать сборку без файла контекста, насколько я понимаю, все через аннотации.
     private final CarsRep repository = new ClassPathXmlApplicationContext("spring-context.xml").getBean(CarsRep.class);
 
+    private final CarDataRepository repositoryData = new ClassPathXmlApplicationContext("spring-context.xml").getBean(CarDataRepository.class);
+
     private static final String UPLOAD_DIRECTORY = "upload";
 
     @Autowired
@@ -37,6 +40,7 @@ public class CarController {
     private final HashMap<String, String> filtersConditions = new HashMap<>();
 
     public CarController() {
+        //this.repositoryData = new ClassPathXmlApplicationContext("spring-context.xml").getBean(CarDataRepository.class);
         this.filtersConditions.put("filter_name", "name like '%");
         this.filtersConditions.put("filter_engine", "engine.id = ");
         this.filtersConditions.put("filter_gear_shift", "gearShift.id = ");
@@ -45,9 +49,10 @@ public class CarController {
 
     @RequestMapping(value = "/cars", method = RequestMethod.GET)
     public String showCars(ModelMap model) {
+
         this.repository.getAllCars();
         if (!model.containsAttribute("cars")) {
-            model.addAttribute("cars", repository.getAllCars());
+            model.addAttribute("cars", repositoryData.findAll());
         }
         model.addAttribute("transmissions", repository.getAllTransmissions());
         model.addAttribute("engines", repository.getAllEngines());
@@ -106,7 +111,7 @@ public class CarController {
         } catch (Exception ex) {
             ex.getStackTrace();
         }
-        repository.addCar(car);
+        repositoryData.save(car);
         return "createCar";
     }
 
