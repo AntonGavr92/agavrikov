@@ -14,6 +14,16 @@ public class User {
     @Column(name = "id")
     private long id;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    @Column(name = "username")
+    private String userName;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @Column(name = "name")
     private String name;
 
@@ -22,6 +32,9 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
+    private String role;
 
     public User() {
     }
@@ -81,6 +94,26 @@ public class User {
     public User(long id) {
         this.id = id;
 
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }
