@@ -39,7 +39,11 @@ public class ItemsRep {
     public void addItem(Item item) throws Exception {
         Session session = CONNECTION_POOL.getConnection();
         boolean result = false;
-        session.save(item);
+        try {
+            session.save(item);
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
         CONNECTION_POOL.closeConnection(session);
     }
 
@@ -63,7 +67,8 @@ public class ItemsRep {
      */
     public List<Item> getItemsWithFilter(String nameFields, String val, String condition) {
         Session session = CONNECTION_POOL.getConnection();
-        List<Item> list = session.createQuery(String.format("from Item where %s %s %s", nameFields, condition, val)).list();
+        String hql = String.format("from Item where %s %s :val", nameFields, condition);
+        List<Item> list = session.createQuery(hql).setParameter("val", val).list();
         CONNECTION_POOL.closeConnection(session);
         return list;
     }

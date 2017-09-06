@@ -2,6 +2,7 @@ package ru.job4j;
 
 import java.io.*;
 import java.lang.ref.SoftReference;
+import java.util.HashMap;
 
 /**
  * FileCacheManager class.
@@ -10,6 +11,12 @@ import java.lang.ref.SoftReference;
  * @version 1
  */
 public class FileCacheManager extends CacheManger<String, String> {
+
+
+    /**
+     * Cache map.
+     */
+    private final HashMap<String, SoftReference<String>> CacheMap = new HashMap<String, SoftReference<String>>();
 
     /**
      * Method for adding key/value in map.

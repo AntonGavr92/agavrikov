@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.job4j.cars.models.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,23 +34,42 @@ public class CarsRep {
 
 
     public void addCar(Car car) {
+        Session session = null;
         try {
-            Session session = factory.openSession();
+            session = factory.openSession();
             session.beginTransaction();
             session.saveOrUpdate(car);
             session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            e.getStackTrace();
+        } catch (Exception e){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+        } finally{
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     public List<Car> getCarsByFilters(String filters){
-        Session session = factory.openSession();
-        session.beginTransaction();
-        List<Car> list = session.createQuery(String.format("from Car where %s", filters)).list();
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        List<Car> list = new LinkedList<Car>();
+        try {
+            session = factory.openSession();
+            session.beginTransaction();
+            list = session.createQuery(String.format("from Car where %s", filters)).list();
+            session.getTransaction().commit();
+            session.close();
+            return list;
+        } catch (Exception e){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+        } finally{
+            if (session != null) {
+                session.close();
+            }
+        }
         return list;
     }
 
@@ -70,16 +90,22 @@ public class CarsRep {
     }
 
     private List<?> getAllEntities(String entity) {
-        Session session = factory.openSession();
-        session.beginTransaction();
-        List<?> list = session.createQuery(String.format("from %s", entity)).list();
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        List<?> list = null;
+        try {
+            session = factory.openSession();
+            session.beginTransaction();
+            list = session.createQuery(String.format("from %s", entity)).list();
+            session.getTransaction().commit();
+        } catch (Exception e){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+        } finally{
+            if (session != null) {
+                session.close();
+            }
+        }
         return list;
-    }
-
-    public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        CarDataRepository carsRep = context.getBean(CarDataRepository.class);
     }
 }

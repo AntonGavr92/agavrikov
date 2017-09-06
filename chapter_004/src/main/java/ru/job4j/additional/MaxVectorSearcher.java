@@ -12,10 +12,6 @@ public class MaxVectorSearcher {
      */
     private final Field[][] arr;
 
-    /**
-     * Object for get Random int.
-     */
-    private final Random rand;
 
     /**
      * Constructor.
@@ -23,14 +19,18 @@ public class MaxVectorSearcher {
      */
     public MaxVectorSearcher(int capacity) {
         this.arr = new Field[capacity][capacity];
-        this.rand = new Random();
+        Random rand = new Random();
         for (int i = 0; i < capacity; i++) {
             for (int j = 0; j < capacity; j++){
-                this.arr[i][j] = new Field(this.rand.nextInt(2));
+                this.arr[i][j] = new Field(rand.nextInt(2));
                 System.out.print(this.arr[i][j].value);
             }
             System.out.println();
         }
+    }
+
+    public MaxVectorSearcher(Field[][] fields){
+        this.arr = fields;
     }
 
     /**
@@ -47,7 +47,7 @@ public class MaxVectorSearcher {
      * Method for search max vector in arr.
      * @return max vector
      */
-    private int findMaxVector() {
+    public int findMaxVector() {
         /*
          * В данном случае, кажется можно было соптимизировать, до того что бы мы не проходили выборкой по проверенным полям,
          * используюя для хранения полей список и пробегаясь по нему. Но и при подобной схеме результат будет правильный.

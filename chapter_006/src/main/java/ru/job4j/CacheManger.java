@@ -12,11 +12,6 @@ import java.util.HashMap;
 public abstract class CacheManger<K, V> {
 
     /**
-     * Cache map.
-     */
-    public final HashMap<K, SoftReference<V>> CacheMap = new HashMap<>();
-
-    /**
      * Method for adding key/value in map.
      * @param key key
      * @param value value

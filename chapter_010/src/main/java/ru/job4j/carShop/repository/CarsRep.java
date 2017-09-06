@@ -9,6 +9,7 @@ import ru.job4j.carShop.models.GearShift;
 import ru.job4j.carShop.models.Transmission;
 
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,15 +25,10 @@ public class CarsRep {
     private static final String NAME_ENTITY_TRANSMISSION = "Transmission";
 
 
-    private SessionFactory factory;
+    private final SessionFactory factory;
 
     private CarsRep() {
-        try {
-            this.factory = new Configuration().configure("cars.cfg.xml").buildSessionFactory();
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-
+        this.factory = new Configuration().configure("cars.cfg.xml").buildSessionFactory();
     }
 
     public static CarsRep instanceOf() {
@@ -41,19 +37,40 @@ public class CarsRep {
 
 
     public void addCar(Car car) {
-        Session session = factory.openSession();
-        session.beginTransaction();
-        session.save(car);
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        try {
+            session = factory.openSession();
+            session.beginTransaction();
+            session.save(car);
+            session.getTransaction().commit();
+        } catch (Exception e){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+        } finally{
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public List<Car> getCarsByFilters(String filters){
-        Session session = factory.openSession();
-        session.beginTransaction();
-        List<Car> list = session.createQuery(String.format("from Car where %s", filters)).list();
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        List<Car> list = new LinkedList<>();
+        try{
+            session = factory.openSession();
+            session.beginTransaction();
+            list = session.createQuery(String.format("from Car where %s", filters)).list();
+            session.getTransaction().commit();
+        } catch (Exception e){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+        } finally{
+            if (session != null) {
+                session.close();
+            }
+        }
         return list;
     }
 
@@ -74,11 +91,22 @@ public class CarsRep {
     }
 
     private List<?> getAllEntities(String entity) {
-        Session session = factory.openSession();
-        session.beginTransaction();
-        List<?> list = session.createQuery(String.format("from %s", entity)).list();
-        session.getTransaction().commit();
-        session.close();
+        Session session = null;
+        List<?> list = new LinkedList<>();
+        try{
+            session = factory.openSession();
+            session.beginTransaction();
+            list = session.createQuery(String.format("from %s", entity)).list();
+            session.getTransaction().commit();
+        } catch (Exception e){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+        } finally{
+            if (session != null) {
+                session.close();
+            }
+        }
         return list;
     }
 }
