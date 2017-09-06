@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/cars").access("hasAuthority('USER')")
+                .antMatchers("/cars").access("hasAuthority('ADMIN')")
                 .antMatchers("/create_car").access("hasAuthority('ADMIN')")
                 .and()
                 .formLogin()

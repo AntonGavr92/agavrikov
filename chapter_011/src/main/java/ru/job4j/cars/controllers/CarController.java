@@ -17,6 +17,8 @@ import ru.job4j.cars.repositories.CarsRep;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ public class CarController {
     @Autowired
     ServletContext servletContext;
 
-    private final HashMap<String, String> filtersConditions = new HashMap<>();
+    private final HashMap<String, String> filtersConditions = new HashMap<String, String>();
 
     public CarController() {
         //this.repositoryData = new ClassPathXmlApplicationContext("spring-context.xml").getBean(CarDataRepository.class);
@@ -78,8 +80,13 @@ public class CarController {
     //Unable to process parts as no multi-part configuration has been provided - хотя все подключил в конф файлах...
     //Так что оставлю вариант, который реализуется без спринга.
     @RequestMapping(value = "/create_car", method = RequestMethod.POST)
-    public String createNewCar(HttpServletRequest req) {
+    public String createNewCar(@RequestParam("picture") MultipartFile file, @RequestParam Map<String,String> allRequestParams) {
         Car car = new Car();
+        car.setUser(new User(Integer.parseInt(allRequestParams.get("user"))));
+        car.setName(allRequestParams.get("name"));
+        car.setEngine(new Engine(Integer.parseInt(allRequestParams.get("engine"))));
+        car.setTransmission(new Transmission(Integer.parseInt(allRequestParams.get("transmission"))));
+        car.setGearShift(new GearShift(Integer.parseInt(allRequestParams.get("gear-shift"))));
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         String uploadPath = String.format("%s/%s", servletContext.getContextPath(), UPLOAD_DIRECTORY);
@@ -88,7 +95,8 @@ public class CarController {
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
-        try {
+        //without spring boot
+        /*try {
             List<FileItem> formItems = upload.parseRequest(req);
             if (formItems != null && formItems.size() > 0) {
                 for (FileItem item : formItems) {
@@ -110,8 +118,31 @@ public class CarController {
             car.setGearShift(new GearShift(Integer.parseInt(req.getAttribute("gear-shift").toString())));
         } catch (Exception ex) {
             ex.getStackTrace();
+        }*/
+        if (!file.isEmpty()) {
+            FileOutputStream out = null;
+            try {
+                String fileName = new File(file.getName()).getName();
+                String filePath = uploadPath + File.separator + fileName;
+                File storeFile = new File(fullPath + File.separator + fileName);
+                out = new FileOutputStream(storeFile);
+                byte[] bytes = file.getBytes();
+                out.write(bytes);
+                out.flush();
+                car.setPicturePath(filePath);
+                repositoryData.save(car);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
-        repositoryData.save(car);
         return "createCar";
     }
 

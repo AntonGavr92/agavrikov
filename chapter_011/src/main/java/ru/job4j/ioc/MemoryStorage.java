@@ -10,7 +10,7 @@ import java.util.LinkedList;
 @Component
 public class MemoryStorage implements Storage{
 
-    private final LinkedList<User> storage = new LinkedList<>();
+    private final LinkedList<User> storage = new LinkedList<User>();
 
     @Override
     public void add(User user) {

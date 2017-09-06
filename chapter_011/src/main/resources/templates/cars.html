@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Cars shop</title>
+</head>
+<body>
+    <table class="cars-list">
+        <tr>
+            <form method="post" th:action="@{/cars}">
+                <td><input type="text" name="filter_name"/></td>
+                <td>
+                    <select name="filter_transmission">
+                            <option th:each="transmission : ${transmissions}" th:value="${transmission.id}" th:text="${transmission.name}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select name="filter_engine">
+                            <option th:each="engine : ${engines}" th:value="${engine.id}" th:text="${engine.name}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select name="filter_gear_shift">
+                            <option th:each="gearShift : ${gearShifts}" th:value="${gearShift.id}" th:text="${gearShift.name}"></option>
+                    </select>
+                </td>
+                <td><input type="submit" value="Apply filters"/></td>
+            </form>
+        </tr>
+        <tr class="row">
+            <td>Name car</td>
+            <td>Transmission</td>
+            <td>Engine</td>
+            <td>Gear shift</td>
+            <td>Picture</td>
+        </tr>
+            <tr th:each="car : ${cars}">
+                <td th:text="${car.name}">${car.name}</td>
+                <td th:text="${car.transmission.name}">${car.transmission.name}</td>
+                <td th:text="${car.engine.name}">${car.engine.name}</td>
+                <td th:text="${car.gearShift.name}">${car.gearShift.name}</td>
+                <td><img style="max-height:50px;" th:src="${car.picturePath}"/></td>
+            </tr>
+    </table>
+<a th:href="@{/create_car}">Create car</a>
+</body>
+</html>

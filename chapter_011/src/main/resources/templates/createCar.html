@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Create car</title>
+</head>
+<body>
+    <form th:action="@{/create_car}" method="post" enctype="multipart/form-data">
+        Name:<input type="text" name="name"/>
+        User_id:<input type="text" name="user" value="1"/>
+        <select name="transmission">
+                <option th:each="transmission : ${transmissions}" th:value="${transmission.id}" th:text="${transmission.name}"></option>
+        </select>
+        <select name="engine">
+            <option th:each="engine : ${engines}" th:value="${engine.id}" th:text="${engine.name}"></option>
+        </select>
+        <select name="gear-shift">
+            <option th:each="gearShift : ${gearShifts}" th:value="${gearShift.id}" th:text="${gearShift.name}"></option>
+        </select>
+        <input type="submit" value="Create"/>
+        Picture: <input type="file" name="picture"/>
+    </form>
+</body>
+</html>
