@@ -130,7 +130,6 @@ public class CarController {
                 out.write(bytes);
                 out.flush();
                 car.setPicturePath(filePath);
-                repositoryData.save(car);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -142,7 +141,10 @@ public class CarController {
                     }
                 }
             }
+        } else {
+            car.setPicturePath("none");
         }
+        repositoryData.save(car);
         return "createCar";
     }
 

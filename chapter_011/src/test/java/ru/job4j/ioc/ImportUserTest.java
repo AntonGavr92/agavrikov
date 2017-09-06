@@ -1,4 +1,4 @@
-/*package ru.job4j.ioc;
+package ru.job4j.ioc;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Created by gavrikov.a on 31/08/2017.
  */
-/*public class ImportUserTest {
+public class ImportUserTest {
     @Test
     public void whenUserAddInStructureThenStructureHasSameUser() {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
@@ -17,4 +17,4 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
         importUser.addUser(user);
     }
 
-}*/
+}
