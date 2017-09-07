@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>chapter_011</artifactId>
+    <artifactId>task_module</artifactId>
     <version>2.0</version>
     <packaging>war</packaging>
     <!--<parent>-->
@@ -103,6 +103,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>1.5.6.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
 
 
 
@@ -175,12 +180,8 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>2.4.0</version>
-            <scope>test</scope>
         </dependency>
 
-    </dependencies>
 
-    <modules>
-        <module>task_module</module>
-    </modules>
+    </dependencies>
 </project>
